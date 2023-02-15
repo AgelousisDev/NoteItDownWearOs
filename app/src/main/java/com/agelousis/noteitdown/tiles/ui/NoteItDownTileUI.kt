@@ -8,7 +8,6 @@ import androidx.glance.*
 import androidx.glance.action.actionParametersOf
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.action.actionRunCallback
-import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.items
 import androidx.glance.layout.*
 import androidx.glance.text.FontWeight
@@ -39,27 +38,23 @@ fun NoteItDownTileLayout() {
             PreferencesStoreHelper.NOTE_DATA_DATA_KEY
     ]?.takeIf {
         it.isNotEmpty()
-    }?.toModelList<NoteDataModel>()
-    LazyColumn(
+    }?.toModelList<NoteDataModel>() ?: listOf()
+    Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = noteItDownAppWidgetGlanceModifier
+        modifier = GlanceModifier
+            .fillMaxSize()
     ) {
-        if (noteDataModelList.isNullOrEmpty())
-            item {
-                Text(
-                    text = context.resources.getString(
-                        R.string.key_empty_notes_label
-                    ),
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                )
-            }
-        items(
-            items = noteDataModelList
-                ?: listOf()
-        ) { noteDataModel ->
+        if (noteDataModelList.isEmpty())
+            Text(
+                text = context.resources.getString(
+                    R.string.key_empty_notes_label
+                ),
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                ),
+            )
+        for (noteDataModel in noteDataModelList)
             Text(
                 text = noteDataModel.note
                     ?: "",
@@ -67,8 +62,8 @@ fun NoteItDownTileLayout() {
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium
                 ),
+                modifier = noteItDownAppWidgetGlanceModifier
             )
-        }
     }
 }
 

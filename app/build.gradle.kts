@@ -6,7 +6,7 @@ plugins {
 }
 
 val composeVersion = "1.4.0-beta01"
-val composeActivityVersion = "1.8.0-alpha01"
+val composeActivityVersion = "1.7.0-alpha03"
 val coreKtxVersion = "1.10.0-alpha02"
 val googlePlayServicesWearableVersion = "18.0.0"
 val percentLayoutVersion = "1.0.0"
@@ -74,9 +74,11 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:$dataStorePreferenceVersion")
     //implementation("androidx.percentlayout:percentlayout:$percentLayoutVersion")
     implementation("androidx.compose.ui:ui:$composeVersion")
-    implementation("androidx.compose.material:material:$composeVersion")
+    //implementation("androidx.compose.material:material:$composeVersion")
+    implementation("androidx.compose.material:material-icons-extended:$composeVersion")
     implementation("androidx.wear.compose:compose-material:$wearComposeVersion")
     implementation("androidx.wear.compose:compose-foundation:$wearComposeVersion")
+    implementation("androidx.wear:wear-input:1.2.0-alpha02")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0-beta01")
     implementation("androidx.activity:activity-compose:$composeActivityVersion")
