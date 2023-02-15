@@ -30,6 +30,17 @@ class PreferencesStoreHelper(private val context: Context) {
         }
     }
 
+    suspend infix fun removeNote(
+        noteDataModel: NoteDataModel
+    ) {
+        val noteDataModelArrayList = ArrayList(noteDataModelList.firstOrNull() ?: listOf())
+        noteDataModelArrayList.remove(noteDataModel)
+        context.dataStore.edit { mutablePreferences ->
+            mutablePreferences[NOTE_DATA_DATA_KEY] = noteDataModelArrayList.jsonString
+                ?: ""
+        }
+    }
+
     val noteDataModelList
         get() = context.dataStore.data.map { preferences ->
             preferences[NOTE_DATA_DATA_KEY]?.takeIf { it.isNotEmpty() }?.toModelList<NoteDataModel>()

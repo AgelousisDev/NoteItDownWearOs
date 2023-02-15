@@ -12,7 +12,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import com.agelousis.noteitdown.noteItDown.ui.NoteItDownActivityLayout
+import com.agelousis.noteitdown.noteItDown.ui.NoteItDownActivityNavigationControllerLayout
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 
 class NoteItDownActivity: ComponentActivity() {
@@ -20,7 +20,7 @@ class NoteItDownActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NoteItDownTheme {
-                NoteItDownActivityLayout()
+                NoteItDownActivityNavigationControllerLayout()
             }
         }
     }
@@ -30,5 +30,5 @@ class NoteItDownActivity: ComponentActivity() {
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    NoteItDownActivityLayout()
+    NoteItDownActivityNavigationControllerLayout()
 }
