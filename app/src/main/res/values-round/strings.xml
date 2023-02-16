@@ -3,4 +3,6 @@
     <string name="key_add_note_label">Enter note here…</string>
     <string name="key_empty_notes_label">No notes added yet…</string>
     <string name="key_add_tag_here">Enter tag here…</string>
+    <string name="key_notes_label">Notes</string>
+    <string name="key_tag_label">TAG</string>
 </resources>

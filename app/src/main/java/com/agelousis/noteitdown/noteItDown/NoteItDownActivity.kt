@@ -6,21 +6,59 @@
 
 package com.agelousis.noteitdown.noteItDown
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import com.agelousis.noteitdown.noteItDown.navigation.NoteItDownNavigationScreen
 import com.agelousis.noteitdown.noteItDown.ui.NoteItDownActivityNavigationControllerLayout
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 
 class NoteItDownActivity: ComponentActivity() {
+
+    companion object {
+
+        private const val NOTE_IT_DOWN_NAVIGATION_SCREEN_EXTRA = "NoteItDownActivity=noteItDownNavigationExtra"
+
+        fun show(
+            context: Context,
+            noteItDownNavigationScreen: NoteItDownNavigationScreen,
+            flags: Int? = null
+        ) {
+            context.startActivity(
+                Intent(
+                    context,
+                    NoteItDownActivity::class.java
+                ).also { intent ->
+                    if (flags != null)
+                        intent.flags = flags
+                    intent.putExtra(
+                        NOTE_IT_DOWN_NAVIGATION_SCREEN_EXTRA,
+                        noteItDownNavigationScreen.route
+                    )
+                }
+            )
+        }
+
+    }
+
+    private val noteItDownNavigationScreen by lazy {
+        NoteItDownNavigationScreen fromRoute intent?.extras?.getString(
+            NOTE_IT_DOWN_NAVIGATION_SCREEN_EXTRA
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             NoteItDownTheme {
-                NoteItDownActivityNavigationControllerLayout()
+                NoteItDownActivityNavigationControllerLayout(
+                    noteItDownNavigationScreen = noteItDownNavigationScreen
+                )
             }
         }
     }

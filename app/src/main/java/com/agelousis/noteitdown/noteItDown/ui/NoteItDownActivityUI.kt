@@ -9,11 +9,26 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.wear.compose.material.*
-import com.agelousis.noteitdown.noteItDown.navigation.NoteIdDownNavigationScreen
+import com.agelousis.noteitdown.noteItDown.navigation.NoteItDownNavigationScreen
+import kotlinx.coroutines.delay
 
 @Composable
-fun NoteItDownActivityNavigationControllerLayout() {
+fun NoteItDownActivityNavigationControllerLayout(
+    noteItDownNavigationScreen: NoteItDownNavigationScreen? = null
+) {
     val navController = rememberNavController()
+    LaunchedEffect(
+        key1 = noteItDownNavigationScreen
+    ) {
+        if (noteItDownNavigationScreen == null)
+            return@LaunchedEffect
+        delay(
+            timeMillis = 1000
+        )
+        navController.navigate(
+            NoteItDownNavigationScreen.NotesListScreen.route
+        )
+    }
     Scaffold(
         timeText = {
             TimeText(
@@ -31,19 +46,19 @@ fun NoteItDownActivityNavigationControllerLayout() {
     ) {
         NavHost(
             navController = navController,
-            startDestination = NoteIdDownNavigationScreen.AddNoteScreen.route
+            startDestination = NoteItDownNavigationScreen.AddNoteScreen.route
         ) {
             composable(
-                route = NoteIdDownNavigationScreen.AddNoteScreen.route
+                route = NoteItDownNavigationScreen.AddNoteScreen.route
             ) {
                 AddNoteScreenLayout {
                     navController.navigate(
-                        NoteIdDownNavigationScreen.NotesListScreen.route
+                        NoteItDownNavigationScreen.NotesListScreen.route
                     )
                 }
             }
             composable(
-                route = NoteIdDownNavigationScreen.NotesListScreen.route
+                route = NoteItDownNavigationScreen.NotesListScreen.route
             ) {
                 NotesListScreenLayout {
                     navController.navigateUp()

@@ -87,7 +87,7 @@ fun AddNoteScreenLayout(
                 text = stringResource(
                     id = R.string.app_name
                 ),
-                style = Typography.body1
+                style = MaterialTheme.typography.body1
             )
         }
         item {
@@ -103,7 +103,7 @@ fun AddNoteScreenLayout(
                             text = tag ?: stringResource(
                                 id = R.string.key_add_tag_here
                             ),
-                            style = Typography.caption2
+                            style = MaterialTheme.typography.caption2
                         )
 
                     },
@@ -126,7 +126,7 @@ fun AddNoteScreenLayout(
                             text = note ?: stringResource(
                                 id = R.string.key_add_note_label
                             ),
-                            style = Typography.caption2
+                            style = MaterialTheme.typography.caption2
                         )
 
                     },

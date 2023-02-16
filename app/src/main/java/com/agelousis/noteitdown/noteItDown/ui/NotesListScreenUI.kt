@@ -1,5 +1,6 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,7 +25,9 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.*
 import com.agelousis.noteitdown.models.NoteDataModel
-import com.agelousis.noteitdown.ui.theme.Typography
+import com.agelousis.noteitdown.ui.composableView.LinkText
+import com.agelousis.noteitdown.ui.composableView.LinkTextData
+import com.agelousis.noteitdown.ui.theme.Purple700
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import kotlinx.coroutines.launch
 
@@ -81,7 +85,7 @@ fun NotesListScreenLayout(
                 horizontal = 8.dp
             ),
             verticalArrangement = Arrangement.spacedBy(
-                space = 16.dp
+                space = 8.dp
             ),
             state = rememberScalingLazyListState(),
         ) {
@@ -125,8 +129,8 @@ private fun NoteRowLayout(
                 .weight(
                     weight = 0.8f
                 )
-                .padding(
-                    top = 10.dp
+                .height(
+                    height = 50.dp
                 ),
             icon = {
                 Icon(
@@ -136,20 +140,39 @@ private fun NoteRowLayout(
                         .size(
                             size = 24.dp
                         )
-                        .wrapContentSize(align = Alignment.Center),
+                        .wrapContentSize(
+                            align = Alignment.Center
+                        ),
                 )
             },
             label = {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colors.onPrimary,
-                    text = "${noteDataModel.tag} → ${noteDataModel.note}",
-                    style = Typography.caption2
+                LinkText(
+                    linkTextData = arrayOf(
+                        noteDataModel.tag?.let {
+                            "$it\n"
+                        } ?: "",
+                        noteDataModel.note
+                            ?: ""
+                    ).mapIndexed { index, s ->
+                          LinkTextData(
+                              text = s,
+                              textColor = if (index == 0) Color(color = 0xFF949aa1) else Color.White,
+                              fontWeight = if (index == 0) FontWeight.Light else FontWeight.Medium
+                          )
+                    },
+                    style = MaterialTheme.typography.caption3
                 )
             },
-            onClick = {
-
-            }
+            colors = ChipDefaults.chipColors(
+                backgroundColor = Color.Transparent
+            ),
+            border = ChipDefaults.chipBorder(
+                borderStroke = BorderStroke(
+                    width = 1.dp,
+                    color = Purple700
+                )
+            ),
+            onClick = {}
         )
         Button(
             onClick = {
@@ -168,7 +191,11 @@ private fun NoteRowLayout(
             Icon(
                 imageVector = Icons.Filled.Delete,
                 contentDescription = null,
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colors.primary,
+                modifier = Modifier
+                    .size(
+                        size = 15.dp
+                    )
             )
         }
     }
