@@ -28,7 +28,6 @@ import androidx.wear.input.RemoteInputIntentHelper
 import androidx.wear.input.wearableExtender
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.NoteDataModel
-import com.agelousis.noteitdown.ui.theme.Typography
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import kotlinx.coroutines.launch
 
@@ -161,6 +160,7 @@ fun AddNoteScreenLayout(
                             note = null
                         }
                     },
+                    enabled = !tag.isNullOrEmpty() && !note.isNullOrEmpty(),
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color.Transparent
                     )

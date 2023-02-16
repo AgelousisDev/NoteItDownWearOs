@@ -9,6 +9,7 @@ import com.agelousis.noteitdown.utils.extensions.jsonString
 import com.agelousis.noteitdown.utils.extensions.toModelList
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import java.util.Collections
 
 class PreferencesStoreHelper(private val context: Context) {
 
@@ -26,6 +27,21 @@ class PreferencesStoreHelper(private val context: Context) {
         noteDataModelArrayList.add(noteDataModel)
         context.dataStore.edit { mutablePreferences ->
             mutablePreferences[NOTE_DATA_DATA_KEY] = noteDataModelArrayList.jsonString
+                ?: ""
+        }
+    }
+
+    suspend infix fun setNoteAsFirst(
+        noteDataModel: NoteDataModel
+    ) {
+        val noteDataModelList = noteDataModelList.firstOrNull() ?: listOf()
+        Collections.swap(
+            noteDataModelList,
+            noteDataModelList.indexOf(noteDataModel),
+            0
+        )
+        context.dataStore.edit { mutablePreferences ->
+            mutablePreferences[NOTE_DATA_DATA_KEY] = noteDataModelList.jsonString
                 ?: ""
         }
     }

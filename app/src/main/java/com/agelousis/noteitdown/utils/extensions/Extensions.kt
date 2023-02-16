@@ -1,9 +1,11 @@
 package com.agelousis.noteitdown.utils.extensions
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
 import androidx.core.os.BuildCompat
+import com.agelousis.noteitdown.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -50,3 +52,17 @@ inline fun <reified T: java.io.Serializable> Intent.getSerializable(
     extras?.getSerializable(key, T::class.java)
 else
     extras?.getSerializable(key) as? T
+
+infix fun Context.shareText(
+    text: String
+) {
+    startActivity(
+        Intent.createChooser(
+            Intent(Intent.ACTION_SEND).also { intent ->
+                intent.type = "text/plain"
+                intent.putExtra(Intent.EXTRA_TEXT, text)
+            },
+            resources.getString(R.string.key_share_via_label)
+        )
+    )
+}
