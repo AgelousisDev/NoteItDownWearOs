@@ -5,10 +5,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.wear.compose.material.*
+import androidx.wear.compose.navigation.SwipeDismissableNavHost
+import androidx.wear.compose.navigation.composable
+import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.agelousis.noteitdown.noteItDown.navigation.NoteItDownNavigationScreen
 import kotlinx.coroutines.delay
 
@@ -16,7 +16,7 @@ import kotlinx.coroutines.delay
 fun NoteItDownActivityNavigationControllerLayout(
     noteItDownNavigationScreen: NoteItDownNavigationScreen? = null
 ) {
-    val navController = rememberNavController()
+    val navController = rememberSwipeDismissableNavController()
     LaunchedEffect(
         key1 = noteItDownNavigationScreen
     ) {
@@ -44,7 +44,7 @@ fun NoteItDownActivityNavigationControllerLayout(
             )
         }
     ) {
-        NavHost(
+        SwipeDismissableNavHost(
             navController = navController,
             startDestination = NoteItDownNavigationScreen.AddNoteScreen.route
         ) {

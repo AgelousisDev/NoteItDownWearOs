@@ -12,10 +12,7 @@ val googlePlayServicesWearableVersion = "18.0.0"
 val percentLayoutVersion = "1.0.0"
 val wearComposeVersion = "1.2.0-alpha04"
 val liveDataViewModelVersion = "2.6.0-beta01"
-val playServicesMapsVersion = "18.1.0"
-val playServicesLocationVersion = "21.0.1"
 val dataStorePreferenceVersion = "1.0.0"
-val navVersion = "2.6.0-alpha05"
 val constraintLayoutComposeVersion = "1.1.0-alpha07"
 
 android {
@@ -69,7 +66,7 @@ android {
 dependencies {
 
     implementation("androidx.core:core-ktx:$coreKtxVersion")
-    implementation("com.google.android.gms:play-services-wearable:$googlePlayServicesWearableVersion")
+    //implementation("com.google.android.gms:play-services-wearable:$googlePlayServicesWearableVersion")
     // Datastore
     implementation("androidx.datastore:datastore-preferences:$dataStorePreferenceVersion")
     //implementation("androidx.percentlayout:percentlayout:$percentLayoutVersion")
@@ -85,18 +82,14 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$liveDataViewModelVersion")
     implementation("androidx.constraintlayout:constraintlayout-compose:$constraintLayoutComposeVersion")
     implementation("androidx.compose.runtime:runtime-livedata:$composeVersion")
-    implementation("io.coil-kt:coil-compose:2.2.2")
-    implementation("androidx.glance:glance-appwidget:1.0.0-alpha05")
+    //implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("androidx.glance:glance-wear-tiles:1.0.0-alpha05")
     // Navigation
-    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
-    implementation("androidx.navigation:navigation-compose:$navVersion")
-    // Google Maps
-    implementation("com.google.android.gms:play-services-location:$playServicesLocationVersion")
-    implementation("com.google.maps.android:maps-compose:2.10.0")
+    implementation("androidx.wear.compose:compose-navigation:$wearComposeVersion")
+
     // Retrofit & OkHttp
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.8")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")
