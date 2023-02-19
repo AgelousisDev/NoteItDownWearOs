@@ -9,13 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
@@ -26,8 +23,7 @@ import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 
 @Composable
 fun NotesListScreenLayout(
-    noteDataModelListForPreview: List<NoteDataModel>? = null,
-    backButtonBlock: ButtonBlock
+    noteDataModelListForPreview: List<NoteDataModel>? = null
 ) {
     val context = LocalContext.current
     val preferencesStoreHelper = PreferencesStoreHelper(
@@ -36,71 +32,40 @@ fun NotesListScreenLayout(
     val noteDataModelList by preferencesStoreHelper.noteDataModelList.collectAsState(
         initial = noteDataModelListForPreview ?: listOf()
     )
-    ConstraintLayout(
+    ScalingLazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .border(
-                width = 1.dp,
+                width = 2.dp,
                 color = MaterialTheme.colors.primaryVariant,
                 shape = CircleShape
-            )
+            ),
+        contentPadding = PaddingValues(
+            horizontal = 8.dp
+        ),
+        verticalArrangement = Arrangement.spacedBy(
+            space = 8.dp
+        ),
+        state = rememberScalingLazyListState(),
     ) {
-        val (backButtonConstrainedReference, scalingLazyColumnConstrainedReference) =
-            createRefs()
-        Button(
-            onClick = backButtonBlock,
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.Transparent
-            ),
-            modifier = Modifier
-                .constrainAs(backButtonConstrainedReference) {
-                    start.linkTo(parent.start, 24.dp)
-                    top.linkTo(parent.top, 24.dp)
-                }
-        ) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBackIosNew,
-                contentDescription = null,
-                tint = MaterialTheme.colors.primary
-            )
-        }
-        ScalingLazyColumn(
-            modifier = Modifier
-                .constrainAs(scalingLazyColumnConstrainedReference) {
-                    start.linkTo(parent.start)
-                    top.linkTo(backButtonConstrainedReference.bottom)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                    width = Dimension.fillToConstraints
-                    height = Dimension.fillToConstraints
-                },
-            contentPadding = PaddingValues(
-                horizontal = 8.dp
-            ),
-            verticalArrangement = Arrangement.spacedBy(
-                space = 8.dp
-            ),
-            state = rememberScalingLazyListState(),
-        ) {
-            if (noteDataModelList.isNullOrEmpty())
-                item {
-                    Icon(
-                        imageVector = Icons.Filled.Image,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(
-                                size = 50.dp
-                            )
-                    )
-                }
-            items(
-                items = noteDataModelList
-                    ?: listOf()
-            ) { noteDataModel ->
-                NoteRowLayout(
-                    noteDataModel = noteDataModel
+        if (noteDataModelList.isNullOrEmpty())
+            item {
+                Icon(
+                    imageVector = Icons.Filled.Image,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(
+                            size = 50.dp
+                        )
                 )
             }
+        items(
+            items = noteDataModelList
+                ?: listOf()
+        ) { noteDataModel ->
+            NoteRowLayout(
+                noteDataModel = noteDataModel
+            )
         }
     }
 }
@@ -115,5 +80,5 @@ fun NotesListScreenLayoutPreview() {
                 note = "Sample Note"
             )
         )
-    ) {}
+    )
 }

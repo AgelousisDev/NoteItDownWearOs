@@ -68,7 +68,7 @@ fun AddNoteScreenLayout(
         modifier = Modifier
             .fillMaxSize()
             .border(
-                width = 1.dp,
+                width = 2.dp,
                 color = MaterialTheme.colors.primaryVariant,
                 shape = CircleShape
             ),

@@ -60,9 +60,7 @@ fun NoteItDownActivityNavigationControllerLayout(
             composable(
                 route = NoteItDownNavigationScreen.NotesListScreen.route
             ) {
-                NotesListScreenLayout {
-                    navController.navigateUp()
-                }
+                NotesListScreenLayout()
             }
         }
     }
