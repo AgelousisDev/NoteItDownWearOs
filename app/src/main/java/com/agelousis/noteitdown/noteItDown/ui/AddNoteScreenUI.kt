@@ -77,7 +77,7 @@ fun AddNoteScreenLayout(
             horizontal = 8.dp
         ),
         verticalArrangement = Arrangement.spacedBy(
-            space = 24.dp
+            space = 8.dp
         ),
         state = rememberScalingLazyListState(),
     ) {
@@ -94,7 +94,11 @@ fun AddNoteScreenLayout(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(
                     space = 8.dp
-                )
+                ),
+                modifier = Modifier
+                    .padding(
+                        top = 16.dp
+                    )
             ) {
                 Chip(
                     label = {
