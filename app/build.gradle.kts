@@ -6,15 +6,15 @@ plugins {
     id("com.github.ben-manes.versions") version "0.45.0"
 }
 
-val composeVersion = "1.4.0-beta01"
+val composeVersion = "1.5.0-alpha01"
 val composeActivityVersion = "1.7.0-alpha03"
 val coreKtxVersion = "1.10.0-alpha02"
 val googlePlayServicesWearableVersion = "18.0.0"
 val percentLayoutVersion = "1.0.0"
-val wearComposeVersion = "1.2.0-alpha04"
-val liveDataViewModelVersion = "2.6.0-beta01"
+val wearComposeVersion = "1.2.0-alpha07"
+val liveDataViewModelVersion = "2.6.1"
 val dataStorePreferenceVersion = "1.0.0"
-val constraintLayoutComposeVersion = "1.1.0-alpha07"
+val constraintLayoutComposeVersion = "1.1.0-alpha09"
 
 android {
     namespace = "com.agelousis.noteitdown"
@@ -55,7 +55,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
+        kotlinCompilerExtensionVersion = "1.4.4"
     }
     packagingOptions {
         resources {
@@ -78,7 +78,7 @@ dependencies {
     implementation("androidx.wear.compose:compose-foundation:$wearComposeVersion")
     implementation("androidx.wear:wear-input:1.2.0-alpha02")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:$composeActivityVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$liveDataViewModelVersion")
     implementation("androidx.constraintlayout:constraintlayout-compose:$constraintLayoutComposeVersion")
