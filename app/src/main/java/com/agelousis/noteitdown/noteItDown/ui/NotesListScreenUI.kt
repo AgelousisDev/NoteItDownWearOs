@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
@@ -19,6 +20,7 @@ import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.*
 import com.agelousis.noteitdown.models.NoteDataModel
 import com.agelousis.noteitdown.noteItDown.ui.rows.NoteRowLayout
+import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 
 @Composable
@@ -41,10 +43,12 @@ fun NotesListScreenLayout(
                 shape = CircleShape
             ),
         contentPadding = PaddingValues(
+            vertical = 32.dp,
             horizontal = 8.dp
         ),
         verticalArrangement = Arrangement.spacedBy(
-            space = 8.dp
+            space = 8.dp,
+            alignment = Alignment.Bottom
         ),
         state = rememberScalingLazyListState(),
     ) {
@@ -73,12 +77,22 @@ fun NotesListScreenLayout(
 @Preview(device = Devices.WEAR_OS_LARGE_ROUND, showSystemUi = true)
 @Composable
 fun NotesListScreenLayoutPreview() {
-    NotesListScreenLayout(
-        noteDataModelListForPreview = listOf(
-            NoteDataModel(
-                tag = "Sample Tag",
-                note = "Sample Note"
+    NoteItDownTheme {
+        NotesListScreenLayout(
+            noteDataModelListForPreview = listOf(
+                NoteDataModel(
+                    tag = "First Tag",
+                    note = "First Note"
+                ),
+                NoteDataModel(
+                    tag = "Second Tag",
+                    note = "Second Note"
+                ),
+                NoteDataModel(
+                    tag = "Third Tag",
+                    note = "Third Note"
+                )
             )
         )
-    )
+    }
 }

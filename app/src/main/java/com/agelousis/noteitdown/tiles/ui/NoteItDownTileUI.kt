@@ -47,7 +47,7 @@ fun NoteItDownTileLayout() {
         NotesListTileLayout(
             modifier = GlanceModifier
                 .padding(
-                    top = 24.dp
+                    top = 16.dp
                 ),
             noteDataModelList = noteDataModelList
         )
@@ -59,11 +59,13 @@ private fun NotesListTileLayout(
     modifier: GlanceModifier,
     noteDataModelList: List<NoteDataModel>
 ) {
-    val context = LocalContext.current
-    GlanceTopTile(
-        modifier = modifier,
-        title = context.resources.getString(R.string.app_name),
-        subtitle = context.resources.getString(R.string.key_notes_label)
+    Image(
+        provider = ImageProvider(R.drawable.ic_notes),
+        contentDescription = null,
+        modifier = modifier
+            .size(
+                size = 40.dp
+            )
     )
     GlanceVerticalSpacer(
         height = 8.dp
@@ -72,7 +74,11 @@ private fun NotesListTileLayout(
         n = 2
     )) {
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = GlanceModifier
+                .padding(
+                    top = 8.dp
+                )
         ) {
             GlanceCircleBox(
                 value = 500,

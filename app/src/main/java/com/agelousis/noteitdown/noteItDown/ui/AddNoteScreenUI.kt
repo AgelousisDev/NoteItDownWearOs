@@ -28,6 +28,7 @@ import androidx.wear.input.RemoteInputIntentHelper
 import androidx.wear.input.wearableExtender
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.NoteDataModel
+import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import kotlinx.coroutines.launch
 
@@ -212,5 +213,7 @@ private fun getRemoteIntentInput(
 @Preview(device = Devices.WEAR_OS_LARGE_ROUND, showSystemUi = true)
 @Composable
 fun AddNoteScreenLayoutPreview() {
-    AddNoteScreenLayout {}
+    NoteItDownTheme {
+        AddNoteScreenLayout {}
+    }
 }
