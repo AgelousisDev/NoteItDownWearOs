@@ -39,6 +39,7 @@ typealias ButtonBlock = () -> Unit
 
 @Composable
 fun AddNoteScreenLayout(
+    scalingLazyColumnState: androidx.wear.compose.foundation.lazy.ScalingLazyListState,
     buttonBlock: ButtonBlock
 ) {
     val context = LocalContext.current
@@ -80,7 +81,7 @@ fun AddNoteScreenLayout(
         verticalArrangement = Arrangement.spacedBy(
             space = 8.dp
         ),
-        state = rememberScalingLazyListState(),
+        state = scalingLazyColumnState,
     ) {
         item {
             Text(
@@ -214,6 +215,8 @@ private fun getRemoteIntentInput(
 @Composable
 fun AddNoteScreenLayoutPreview() {
     NoteItDownTheme {
-        AddNoteScreenLayout {}
+        AddNoteScreenLayout(
+            scalingLazyColumnState = rememberScalingLazyListState()
+        ) {}
     }
 }

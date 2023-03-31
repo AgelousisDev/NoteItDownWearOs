@@ -3,12 +3,12 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.parcelize")
-    id("com.github.ben-manes.versions") version "0.45.0"
+    id("com.github.ben-manes.versions") version "0.46.0"
 }
 
 val composeVersion = "1.5.0-alpha01"
-val composeActivityVersion = "1.7.0-alpha03"
-val coreKtxVersion = "1.10.0-alpha02"
+val composeActivityVersion = "1.8.0-alpha02"
+val coreKtxVersion = "1.12.0-alpha01"
 val googlePlayServicesWearableVersion = "18.0.0"
 val percentLayoutVersion = "1.0.0"
 val wearComposeVersion = "1.2.0-alpha07"
@@ -18,12 +18,12 @@ val constraintLayoutComposeVersion = "1.1.0-alpha09"
 
 android {
     namespace = "com.agelousis.noteitdown"
-    compileSdk = 33
+    compileSdkPreview = "UpsideDownCake"
 
     defaultConfig {
         applicationId = "com.agelousis.noteitdown"
         minSdk = 28
-        targetSdk = 33
+        targetSdkPreview = "UpsideDownCake"
         versionCode = 1
         versionName = "1.0"
 
@@ -88,6 +88,8 @@ dependencies {
     // Navigation
     implementation("androidx.wear.compose:compose-navigation:$wearComposeVersion")
 
+    // ZXING
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     // Retrofit & OkHttp
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.8")

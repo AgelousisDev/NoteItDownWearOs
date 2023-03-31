@@ -11,4 +11,8 @@
     <string name="key_notes_label">Notes</string>
     <string name="key_tag_label">TAG</string>
     <string name="key_share_via_label">Share via…</string>
+    <string-array name="key_qr_code_types">
+        <item>Driving license front</item>
+        <item>Driving license back</item>
+    </string-array>
 </resources>

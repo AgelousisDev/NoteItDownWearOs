@@ -1,14 +1,15 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.QrCode
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -16,27 +17,23 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.material.*
+import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
+import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.MaterialTheme
 import com.agelousis.noteitdown.models.NoteDataModel
+import com.agelousis.noteitdown.noteItDown.enumerations.QrCodeType
 import com.agelousis.noteitdown.noteItDown.ui.rows.NoteRowLayout
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
-import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
-import kotlinx.coroutines.launch
 
 @Composable
-fun NotesListScreenLayout(
-    scalingLazyColumnState: androidx.wear.compose.foundation.lazy.ScalingLazyListState,
+fun QrCodesListScreenLayout(
+    scalingLazyColumnState: ScalingLazyListState,
     noteDataModelListForPreview: List<NoteDataModel>? = null
 ) {
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
-    val preferencesStoreHelper = PreferencesStoreHelper(
-        context = context
-    )
-    val noteDataModelList by preferencesStoreHelper.noteDataModelList.collectAsState(
-        initial = noteDataModelListForPreview ?: listOf()
-    )
+    val noteDataModelList = QrCodeType getNoteDataModelList context
     ScalingLazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -55,7 +52,7 @@ fun NotesListScreenLayout(
         ),
         state = scalingLazyColumnState,
     ) {
-        if (noteDataModelList.isNullOrEmpty())
+        if (noteDataModelList.isEmpty())
             item {
                 Icon(
                     imageVector = Icons.Filled.Image,
@@ -68,19 +65,14 @@ fun NotesListScreenLayout(
             }
         items(
             items = noteDataModelList
-                ?: listOf()
         ) { noteDataModel ->
             NoteRowLayout(
                 noteDataModel = noteDataModel,
                 noteDataModelBlock = {
-                    coroutineScope.launch {
-                        preferencesStoreHelper setNoteAsFirst noteDataModel
-                    }
+
                 },
                 noteDataRemovalBlock = {
-                    coroutineScope.launch {
-                        preferencesStoreHelper removeNote noteDataModel
-                    }
+
                 }
             )
         }
@@ -89,24 +81,17 @@ fun NotesListScreenLayout(
 
 @Preview(device = Devices.WEAR_OS_LARGE_ROUND, showSystemUi = true)
 @Composable
-fun NotesListScreenLayoutPreview() {
+fun QrCodesListScreenUIPreview() {
     NoteItDownTheme {
-        NotesListScreenLayout(
-            scalingLazyColumnState = androidx.wear.compose.foundation.lazy.rememberScalingLazyListState(),
-            noteDataModelListForPreview = listOf(
+        QrCodesListScreenLayout(
+            scalingLazyColumnState = rememberScalingLazyListState(),
+            noteDataModelListForPreview = QrCodeType.values().map { qrCodeType ->
                 NoteDataModel(
-                    tag = "First Tag",
-                    note = "First Note"
-                ),
-                NoteDataModel(
-                    tag = "Second Tag",
-                    note = "Second Note"
-                ),
-                NoteDataModel(
-                    tag = "Third Tag",
-                    note = "Third Note"
+                    icon = Icons.Filled.QrCode,
+                    tag = qrCodeType.name,
+                    note = qrCodeType getLabelWith LocalContext.current
                 )
-            )
+            }
         )
     }
 }

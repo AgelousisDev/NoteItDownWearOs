@@ -4,10 +4,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Note
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,18 +19,16 @@ import com.agelousis.noteitdown.ui.composableView.LinkText
 import com.agelousis.noteitdown.ui.composableView.LinkTextData
 import com.agelousis.noteitdown.ui.theme.Purple700
 import com.agelousis.noteitdown.utils.extensions.shareText
-import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
-import kotlinx.coroutines.launch
+
+typealias NoteDataModelBlock = (NoteDataModel) -> Unit
 
 @Composable
 fun NoteRowLayout(
-    noteDataModel: NoteDataModel
+    noteDataModel: NoteDataModel,
+    noteDataModelBlock: NoteDataModelBlock,
+    noteDataRemovalBlock: NoteDataModelBlock
 ) {
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
-    val preferencesStoreHelper = PreferencesStoreHelper(
-        context = context
-    )
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -46,7 +42,7 @@ fun NoteRowLayout(
                 ),
             icon = {
                 Icon(
-                    imageVector = Icons.Filled.Note,
+                    imageVector = noteDataModel.icon,
                     contentDescription = null,
                     modifier = Modifier
                         .size(
@@ -85,9 +81,7 @@ fun NoteRowLayout(
                 )
             ),
             onClick = {
-                coroutineScope.launch {
-                    preferencesStoreHelper setNoteAsFirst noteDataModel
-                }
+                noteDataModelBlock(noteDataModel)
             }
         )
         Column(
@@ -99,9 +93,7 @@ fun NoteRowLayout(
         ) {
             Button(
                 onClick = {
-                    coroutineScope.launch {
-                        preferencesStoreHelper removeNote noteDataModel
-                    }
+                    noteDataRemovalBlock(noteDataModel)
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Transparent
@@ -154,6 +146,8 @@ fun NoteRowLayoutPreview() {
         noteDataModel = NoteDataModel(
             tag = "Sample Tag",
             note = "Sample Note"
-        )
+        ),
+        noteDataModelBlock = {},
+        noteDataRemovalBlock = {}
     )
 }

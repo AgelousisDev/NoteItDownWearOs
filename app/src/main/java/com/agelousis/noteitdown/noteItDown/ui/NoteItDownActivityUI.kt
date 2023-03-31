@@ -1,7 +1,7 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,12 +29,13 @@ fun NoteItDownActivityNavigationControllerLayout(
             NoteItDownNavigationScreen.NotesListScreen.route
         )
     }
+    val scalingLazyColumnState = androidx.wear.compose.foundation.lazy.rememberScalingLazyListState()
     Scaffold(
         timeText = {
             TimeText(
                 modifier = Modifier
                     .scrollAway(
-                        scrollState = rememberScrollState()
+                        scrollState = scalingLazyColumnState
                     )
             )
         },
@@ -51,7 +52,9 @@ fun NoteItDownActivityNavigationControllerLayout(
             composable(
                 route = NoteItDownNavigationScreen.AddNoteScreen.route
             ) {
-                AddNoteScreenLayout {
+                AddNoteScreenLayout(
+                    scalingLazyColumnState = scalingLazyColumnState
+                ) {
                     navController.navigate(
                         NoteItDownNavigationScreen.NotesListScreen.route
                     )
@@ -60,7 +63,16 @@ fun NoteItDownActivityNavigationControllerLayout(
             composable(
                 route = NoteItDownNavigationScreen.NotesListScreen.route
             ) {
-                NotesListScreenLayout()
+                NotesListScreenLayout(
+                    scalingLazyColumnState = scalingLazyColumnState
+                )
+            }
+            composable(
+                route = NoteItDownNavigationScreen.QrCodesListScreen.route
+            ) {
+                QrCodesListScreenLayout(
+                    scalingLazyColumnState = scalingLazyColumnState
+                )
             }
         }
     }

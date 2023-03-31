@@ -22,4 +22,8 @@ sealed class NoteItDownNavigationScreen(
         route = "NotesListScreen"
     )
 
+    object QrCodesListScreen: NoteItDownNavigationScreen(
+        route = "QrCodesListScreen"
+    )
+
 }
