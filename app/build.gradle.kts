@@ -6,12 +6,12 @@ plugins {
     id("com.github.ben-manes.versions") version "0.46.0"
 }
 
-val composeVersion = "1.5.0-alpha01"
-val composeActivityVersion = "1.8.0-alpha02"
-val coreKtxVersion = "1.12.0-alpha01"
+val composeVersion = "1.5.0-alpha02"
+val composeActivityVersion = "1.8.0-alpha03"
+val coreKtxVersion = "1.12.0-alpha03"
 val googlePlayServicesWearableVersion = "18.0.0"
 val percentLayoutVersion = "1.0.0"
-val wearComposeVersion = "1.2.0-alpha07"
+val wearComposeVersion = "1.2.0-alpha08"
 val liveDataViewModelVersion = "2.6.1"
 val dataStorePreferenceVersion = "1.0.0"
 val constraintLayoutComposeVersion = "1.1.0-alpha09"
