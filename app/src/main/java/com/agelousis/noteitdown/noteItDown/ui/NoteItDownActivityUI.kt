@@ -53,12 +53,18 @@ fun NoteItDownActivityNavigationControllerLayout(
                 route = NoteItDownNavigationScreen.AddNoteScreen.route
             ) {
                 AddNoteScreenLayout(
-                    scalingLazyColumnState = scalingLazyColumnState
-                ) {
-                    navController.navigate(
-                        NoteItDownNavigationScreen.NotesListScreen.route
-                    )
-                }
+                    scalingLazyColumnState = scalingLazyColumnState,
+                    notesListBlock = {
+                        navController.navigate(
+                            NoteItDownNavigationScreen.NotesListScreen.route
+                        )
+                    },
+                    methodOfThreeBlock = {
+                        navController.navigate(
+                            NoteItDownNavigationScreen.MethodOfThreeScreen.route
+                        )
+                    }
+                )
             }
             composable(
                 route = NoteItDownNavigationScreen.NotesListScreen.route
@@ -68,9 +74,9 @@ fun NoteItDownActivityNavigationControllerLayout(
                 )
             }
             composable(
-                route = NoteItDownNavigationScreen.QrCodesListScreen.route
+                route = NoteItDownNavigationScreen.MethodOfThreeScreen.route
             ) {
-                QrCodesListScreenLayout(
+                MethodOfThreeLayout(
                     scalingLazyColumnState = scalingLazyColumnState
                 )
             }

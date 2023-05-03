@@ -7,8 +7,8 @@ plugins {
 }
 
 val composeVersion = "1.5.0-alpha03"
-val composeActivityVersion = "1.8.0-alpha03"
-val coreKtxVersion = "1.12.0-alpha03"
+val composeActivityVersion = "1.7.0-alpha03"
+val coreKtxVersion = "1.10.0-alpha02"
 val googlePlayServicesWearableVersion = "18.0.0"
 val percentLayoutVersion = "1.0.0"
 val wearComposeVersion = "1.2.0-alpha09"
@@ -18,12 +18,12 @@ val constraintLayoutComposeVersion = "1.1.0-alpha09"
 
 android {
     namespace = "com.agelousis.noteitdown"
-    compileSdkPreview = "UpsideDownCake"
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.agelousis.noteitdown"
         minSdk = 28
-        targetSdkPreview = "UpsideDownCake"
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 

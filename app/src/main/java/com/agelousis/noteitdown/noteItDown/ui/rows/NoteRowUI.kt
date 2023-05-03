@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Note
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,7 +43,7 @@ fun NoteRowLayout(
                 ),
             icon = {
                 Icon(
-                    imageVector = noteDataModel.icon,
+                    imageVector = Icons.Filled.Note,
                     contentDescription = null,
                     modifier = Modifier
                         .size(

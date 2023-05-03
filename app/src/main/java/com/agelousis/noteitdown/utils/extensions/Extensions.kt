@@ -64,3 +64,6 @@ infix fun Context.shareText(
         )
     )
 }
+
+val Float.asIntValue
+    get() = if (rem(1f).equals(0.0f)) toInt().toString() else toString()

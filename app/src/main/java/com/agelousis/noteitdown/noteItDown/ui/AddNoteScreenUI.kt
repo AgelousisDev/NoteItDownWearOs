@@ -10,6 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.runtime.*
@@ -40,7 +41,8 @@ typealias ButtonBlock = () -> Unit
 @Composable
 fun AddNoteScreenLayout(
     scalingLazyColumnState: androidx.wear.compose.foundation.lazy.ScalingLazyListState,
-    buttonBlock: ButtonBlock
+    notesListBlock: ButtonBlock,
+    methodOfThreeBlock: ButtonBlock
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -133,7 +135,6 @@ fun AddNoteScreenLayout(
                             ),
                             style = MaterialTheme.typography.caption2
                         )
-
                     },
                     onClick = {
                         launcher.launch(
@@ -178,13 +179,25 @@ fun AddNoteScreenLayout(
                     )
                 }
                 Button(
-                    onClick = buttonBlock,
+                    onClick = notesListBlock,
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color.Transparent
                     )
                 ) {
                     Icon(
                         imageVector = Icons.Filled.List,
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.primary
+                    )
+                }
+                Button(
+                    onClick = methodOfThreeBlock,
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Transparent
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Calculate,
                         contentDescription = null,
                         tint = MaterialTheme.colors.primary
                     )
@@ -216,7 +229,9 @@ private fun getRemoteIntentInput(
 fun AddNoteScreenLayoutPreview() {
     NoteItDownTheme {
         AddNoteScreenLayout(
-            scalingLazyColumnState = rememberScalingLazyListState()
-        ) {}
+            scalingLazyColumnState = rememberScalingLazyListState(),
+            notesListBlock = {},
+            methodOfThreeBlock = {}
+        )
     }
 }
