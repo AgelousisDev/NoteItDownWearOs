@@ -1,10 +1,9 @@
 package com.agelousis.noteitdown.utils.extensions
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Parcelable
-import androidx.core.os.BuildCompat
 import com.agelousis.noteitdown.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -36,8 +35,7 @@ val <T>T.jsonString
     }
 
 val isAndroid13
-    @SuppressLint("UnsafeOptInUsageError")
-    get() = BuildCompat.isAtLeastT()
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
 inline fun <reified T: Parcelable> Intent.getParcelable(
     key: String
