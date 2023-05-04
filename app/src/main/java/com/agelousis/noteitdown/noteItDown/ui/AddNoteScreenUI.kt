@@ -77,7 +77,6 @@ fun AddNoteScreenLayout(
                 shape = CircleShape
             ),
         contentPadding = PaddingValues(
-            vertical = 8.dp,
             horizontal = 8.dp
         ),
         verticalArrangement = Arrangement.spacedBy(
