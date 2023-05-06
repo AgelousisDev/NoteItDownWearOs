@@ -46,6 +46,7 @@ fun NotesListScreenLayout(
                 shape = CircleShape
             ),
         contentPadding = PaddingValues(
+            vertical = 16.dp,
             horizontal = 8.dp
         ),
         verticalArrangement = Arrangement.spacedBy(

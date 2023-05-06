@@ -1,33 +1,25 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,8 +32,10 @@ import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.agelousis.noteitdown.R
+import com.agelousis.noteitdown.ui.composableView.BorderedTextField
+import com.agelousis.noteitdown.ui.composableView.BorderedTextFieldValueChangedBlock
+import com.agelousis.noteitdown.ui.properties.randomColor
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
-import com.agelousis.noteitdown.ui.theme.Purple700
 import com.agelousis.noteitdown.utils.extensions.asIntValue
 
 @Composable
@@ -52,6 +46,7 @@ fun MethodOfThreeLayout(
         modifier = Modifier
             .fillMaxSize(),
         contentPadding = PaddingValues(
+            vertical = 16.dp,
             horizontal = 8.dp
         ),
         verticalArrangement = Arrangement.spacedBy(
@@ -75,12 +70,14 @@ fun MethodOfThreeLayout(
 
 @Composable
 private fun MethodOfThreeProcessLayout() {
+    val startingPointBorderColor = randomColor
     var startingPointValue by remember {
         mutableStateOf(value = "100")
     }
     var startingPointTargetValue by remember {
         mutableStateOf(value = "50")
     }
+    val endingPointColor = randomColor
     var endingPointValue by remember {
         mutableStateOf(value = "200")
     }
@@ -99,19 +96,21 @@ private fun MethodOfThreeProcessLayout() {
             // Starting point value
             PointChipValue(
                 rowScope = this,
+                borderColor = startingPointBorderColor,
                 label = "x =",
                 value = startingPointValue,
-                valueBlock = {
-                    startingPointValue = it
+                borderedTextFieldValueChangedBlock = newValue@ {
+                    startingPointValue = this@newValue
                 }
             )
             // Starting point target value
             PointChipValue(
                 rowScope = this,
+                borderColor = startingPointBorderColor,
                 label = "y =",
                 value = startingPointTargetValue,
-                valueBlock = {
-                    startingPointTargetValue = it
+                borderedTextFieldValueChangedBlock = newValue@ {
+                    startingPointTargetValue = this@newValue
                 }
             )
         }
@@ -124,15 +123,17 @@ private fun MethodOfThreeProcessLayout() {
             // Ending point value
             PointChipValue(
                 rowScope = this,
+                borderColor = endingPointColor,
                 label = "z = ",
                 value = endingPointValue,
-                valueBlock = {
-                    endingPointValue = it
+                borderedTextFieldValueChangedBlock = newValue@ {
+                    endingPointValue = this@newValue
                 }
             )
             // Ending point target value
             ResultChipValue(
                 rowScope = this,
+                backgroundColor = endingPointColor,
                 result = getMethodOfThreeResult(
                     startingPointValue = startingPointValue.toFloatOrNull(),
                     startingPointTargetValue = startingPointTargetValue.toFloatOrNull(),
@@ -147,18 +148,14 @@ private fun MethodOfThreeProcessLayout() {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun PointChipValue(
     rowScope: RowScope,
+    borderColor: Color,
     label: String,
     value: String,
-    valueBlock: (String) -> Unit
+    borderedTextFieldValueChangedBlock: BorderedTextFieldValueChangedBlock
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    var onDoneState by remember {
-        mutableStateOf(value = false)
-    }
     rowScope.apply {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -174,43 +171,15 @@ private fun PointChipValue(
                 text = label,
                 style = MaterialTheme.typography.caption2
             )
-            Box(
+            BorderedTextField(
                 modifier = Modifier
                     .height(
                         height = 50.dp
-                    )
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colors.primaryVariant,
-                        shape = CircleShape
                     ),
-                contentAlignment = Alignment.Center
-            ) {
-                BasicTextField(
-                    value = value,
-                    onValueChange = {
-                        if (!onDoneState)
-                            valueBlock(it)
-                        onDoneState = false
-                    },
-                    textStyle = MaterialTheme.typography.caption2.merge(
-                        other = TextStyle(
-                            color = Color.White,
-                            textAlign = TextAlign.Center
-                        )
-                    ),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            onDoneState = true
-                            keyboardController?.hide()
-                        }
-                    )
-                )
-            }
+                customBorderColor = borderColor,
+                value = value,
+                borderedTextFieldValueChangedBlock = borderedTextFieldValueChangedBlock
+            )
         }
     }
 }
@@ -218,6 +187,7 @@ private fun PointChipValue(
 @Composable
 private fun ResultChipValue(
     rowScope: RowScope,
+    backgroundColor: Color,
     result: String
 ) {
     rowScope.apply {
@@ -246,17 +216,23 @@ private fun ResultChipValue(
                 label = {
                     Text(
                         text = result,
-                        style = MaterialTheme.typography.caption2,
-                        textAlign = TextAlign.Center
+                        style = MaterialTheme.typography.caption2.merge(
+                            other = TextStyle(
+                                fontWeight = FontWeight.Bold
+                            )
+                        ),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
                     )
                 },
                 colors = ChipDefaults.chipColors(
-                    backgroundColor = MaterialTheme.colors.primaryVariant
+                    backgroundColor = backgroundColor
                 ),
                 border = ChipDefaults.chipBorder(
                     borderStroke = BorderStroke(
                         width = 1.dp,
-                        color = Purple700
+                        color = Color.White
                     )
                 ),
                 onClick = {}
