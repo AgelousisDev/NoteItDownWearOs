@@ -6,15 +6,15 @@ plugins {
     id("com.github.ben-manes.versions") version "0.46.0"
 }
 
-val composeVersion = "1.5.0-alpha04"
+val composeVersion = "1.5.0-beta01"
 val composeActivityVersion = "1.7.0-alpha03"
 val coreKtxVersion = "1.10.0-alpha02"
 val googlePlayServicesWearableVersion = "18.0.0"
 val percentLayoutVersion = "1.0.0"
-val wearComposeVersion = "1.2.0-alpha10"
+val wearComposeVersion = "1.2.0-beta01"
 val liveDataViewModelVersion = "2.6.1"
 val dataStorePreferenceVersion = "1.0.0"
-val constraintLayoutComposeVersion = "1.1.0-alpha09"
+val constraintLayoutComposeVersion = "1.1.0-alpha10"
 
 android {
     namespace = "com.agelousis.noteitdown"
