@@ -15,6 +15,7 @@ object Versions {
     const val glanceWearTitleVersion = "1.0.0-alpha05"
     const val retrofit2ConverterGsonVersion = "2.9.0"
     const val http3LoggingInterceptorVersion = "5.0.0-alpha.8"
+    const val kotlinCompilerExtensionVersion = "1.4.7"
 }
 object ConfigData {
     const val compileSdkVersion = 33
@@ -22,4 +23,5 @@ object ConfigData {
     const val targetSdkVersion = 33
     const val versionCodeVersion = 1
     const val versionNameVersion = "1.0"
+    const val packageName = "com.agelousis.noteitdown"
 }

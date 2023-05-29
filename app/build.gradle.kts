@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.agelousis.noteitdown"
+    namespace = ConfigData.packageName
     compileSdk = ConfigData.compileSdkVersion
 
     defaultConfig {
@@ -45,7 +45,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtensionVersion
     }
     packagingOptions {
         resources {
