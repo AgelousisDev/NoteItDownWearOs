@@ -18,9 +18,9 @@ object Versions {
     const val kotlinCompilerExtensionVersion = "1.4.7"
 }
 object ConfigData {
-    const val compileSdkVersion = 33
+    const val compileSdkVersion = 34
     const val minSdkVersion = 28
-    const val targetSdkVersion = 33
+    const val targetSdkVersion = 34
     const val versionCodeVersion = 1
     const val versionNameVersion = "1.0"
     const val packageName = "com.agelousis.noteitdown"
