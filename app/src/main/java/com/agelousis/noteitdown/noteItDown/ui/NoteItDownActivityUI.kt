@@ -26,7 +26,7 @@ fun NoteItDownActivityNavigationControllerLayout(
             timeMillis = 1000
         )
         navController.navigate(
-            NoteItDownNavigationScreen.NotesListScreen.route
+            noteItDownNavigationScreen.route
         )
     }
     val scalingLazyColumnState = androidx.wear.compose.foundation.lazy.rememberScalingLazyListState()
@@ -61,7 +61,7 @@ fun NoteItDownActivityNavigationControllerLayout(
                     },
                     methodOfThreeBlock = {
                         navController.navigate(
-                            NoteItDownNavigationScreen.MethodOfThreeScreen.route
+                            NoteItDownNavigationScreen.RuleOfThreeScreen.route
                         )
                     }
                 )
@@ -74,9 +74,9 @@ fun NoteItDownActivityNavigationControllerLayout(
                 )
             }
             composable(
-                route = NoteItDownNavigationScreen.MethodOfThreeScreen.route
+                route = NoteItDownNavigationScreen.RuleOfThreeScreen.route
             ) {
-                MethodOfThreeLayout(
+                RuleOfThreeLayout(
                     scalingLazyColumnState = scalingLazyColumnState
                 )
             }

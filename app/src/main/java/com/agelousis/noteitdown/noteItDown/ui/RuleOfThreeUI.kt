@@ -34,12 +34,11 @@ import androidx.wear.compose.material.Text
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.ui.composableView.BorderedTextField
 import com.agelousis.noteitdown.ui.composableView.BorderedTextFieldValueChangedBlock
-import com.agelousis.noteitdown.ui.properties.randomColor
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.utils.extensions.asIntValue
 
 @Composable
-fun MethodOfThreeLayout(
+fun RuleOfThreeLayout(
     scalingLazyColumnState: ScalingLazyListState
 ) {
     ScalingLazyColumn(
@@ -57,27 +56,25 @@ fun MethodOfThreeLayout(
         item {
             Text(
                 text = stringResource(
-                    id = R.string.key_method_of_three_label
+                    id = R.string.key_rule_of_three_label
                 ),
                 style = MaterialTheme.typography.body1
             )
         }
         item {
-            MethodOfThreeProcessLayout()
+            RuleOfThreeProcessLayout()
         }
     }
 }
 
 @Composable
-private fun MethodOfThreeProcessLayout() {
-    val startingPointBorderColor = randomColor
+private fun RuleOfThreeProcessLayout() {
     var startingPointValue by remember {
         mutableStateOf(value = "100")
     }
     var startingPointTargetValue by remember {
         mutableStateOf(value = "50")
     }
-    val endingPointColor = randomColor
     var endingPointValue by remember {
         mutableStateOf(value = "200")
     }
@@ -96,7 +93,6 @@ private fun MethodOfThreeProcessLayout() {
             // Starting point value
             PointChipValue(
                 rowScope = this,
-                borderColor = startingPointBorderColor,
                 label = "x =",
                 value = startingPointValue,
                 borderedTextFieldValueChangedBlock = newValue@ {
@@ -106,7 +102,6 @@ private fun MethodOfThreeProcessLayout() {
             // Starting point target value
             PointChipValue(
                 rowScope = this,
-                borderColor = startingPointBorderColor,
                 label = "y =",
                 value = startingPointTargetValue,
                 borderedTextFieldValueChangedBlock = newValue@ {
@@ -123,7 +118,6 @@ private fun MethodOfThreeProcessLayout() {
             // Ending point value
             PointChipValue(
                 rowScope = this,
-                borderColor = endingPointColor,
                 label = "z = ",
                 value = endingPointValue,
                 borderedTextFieldValueChangedBlock = newValue@ {
@@ -133,8 +127,7 @@ private fun MethodOfThreeProcessLayout() {
             // Ending point target value
             ResultChipValue(
                 rowScope = this,
-                backgroundColor = endingPointColor,
-                result = getMethodOfThreeResult(
+                result = getRuleOfThreeResult(
                     startingPointValue = startingPointValue.toFloatOrNull(),
                     startingPointTargetValue = startingPointTargetValue.toFloatOrNull(),
                     endingPointValue = endingPointValue.toFloatOrNull()
@@ -151,7 +144,6 @@ private fun MethodOfThreeProcessLayout() {
 @Composable
 private fun PointChipValue(
     rowScope: RowScope,
-    borderColor: Color,
     label: String,
     value: String,
     borderedTextFieldValueChangedBlock: BorderedTextFieldValueChangedBlock
@@ -176,7 +168,6 @@ private fun PointChipValue(
                     .height(
                         height = 50.dp
                     ),
-                customBorderColor = borderColor,
                 value = value,
                 borderedTextFieldValueChangedBlock = borderedTextFieldValueChangedBlock
             )
@@ -187,7 +178,6 @@ private fun PointChipValue(
 @Composable
 private fun ResultChipValue(
     rowScope: RowScope,
-    backgroundColor: Color,
     result: String
 ) {
     rowScope.apply {
@@ -227,7 +217,7 @@ private fun ResultChipValue(
                     )
                 },
                 colors = ChipDefaults.chipColors(
-                    backgroundColor = backgroundColor
+                    backgroundColor = MaterialTheme.colors.primaryVariant
                 ),
                 border = ChipDefaults.chipBorder(
                     borderStroke = BorderStroke(
@@ -241,7 +231,7 @@ private fun ResultChipValue(
     }
 }
 
-private fun getMethodOfThreeResult(
+private fun getRuleOfThreeResult(
     startingPointValue: Float?,
     startingPointTargetValue: Float?,
     endingPointValue: Float?
@@ -259,9 +249,9 @@ private fun getMethodOfThreeResult(
 
 @Preview(device = Devices.WEAR_OS_LARGE_ROUND, showSystemUi = true)
 @Composable
-fun MethodOfThreeLayoutPreview() {
+fun RuleOfThreeLayoutPreview() {
     NoteItDownTheme {
-        MethodOfThreeLayout(
+        RuleOfThreeLayout(
             scalingLazyColumnState = rememberScalingLazyListState()
         )
     }

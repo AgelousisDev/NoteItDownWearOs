@@ -7,7 +7,7 @@ import androidx.glance.wear.tiles.action.ActionCallback
 import com.agelousis.noteitdown.noteItDown.NoteItDownActivity
 import com.agelousis.noteitdown.noteItDown.navigation.NoteItDownNavigationScreen
 
-class NoteItDownTileActionCallback: ActionCallback {
+class NotesListTileActionCallback: ActionCallback {
 
     override suspend fun onAction(context: Context, glanceId: GlanceId) {
         NoteItDownActivity.show(

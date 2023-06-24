@@ -17,21 +17,21 @@ import androidx.glance.unit.ColorProvider
 import androidx.glance.wear.tiles.action.actionRunCallback
 import androidx.glance.wear.tiles.curved.*
 import com.agelousis.noteitdown.models.NoteDataModel
-import com.agelousis.noteitdown.tiles.actionCallback.NoteItDownTileActionCallback
+import com.agelousis.noteitdown.tiles.actionCallback.NotesListTileActionCallback
 import com.agelousis.noteitdown.utils.extensions.toModelList
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.ui.theme.Purple500
 import com.agelousis.noteitdown.ui.theme.Purple700
 
-private val noteItDownAppWidgetGlanceModifier =
+private val notesListAppWidgetGlanceModifier =
     GlanceModifier
         .clickable(
-            onClick = actionRunCallback<NoteItDownTileActionCallback>()
+            onClick = actionRunCallback<NotesListTileActionCallback>()
         )
 
 @Composable
-fun NoteItDownTileLayout() {
+fun NotesListTileLayout() {
     val preferences = currentState<Preferences>()
     val noteDataModelList = preferences[
             PreferencesStoreHelper.NOTE_DATA_DATA_KEY
@@ -40,7 +40,7 @@ fun NoteItDownTileLayout() {
     }?.toModelList<NoteDataModel>() ?: listOf()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = noteItDownAppWidgetGlanceModifier
+        modifier = notesListAppWidgetGlanceModifier
             .fillMaxSize()
 
     ) {
@@ -203,7 +203,7 @@ private fun GlanceHorizontalSpacer(width: Dp) {
 }
 
 @Composable
-private fun GlanceTopTile(
+fun GlanceTopTile(
     modifier: GlanceModifier = GlanceModifier,
     title: String,
     subtitle: String
@@ -230,5 +230,5 @@ private fun GlanceTopTile(
 @Preview
 @Composable
 private fun NoteItDownTileLayoutPreview() {
-    NoteItDownTileLayout()
+    NotesListTileLayout()
 }

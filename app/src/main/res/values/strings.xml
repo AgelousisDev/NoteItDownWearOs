@@ -15,5 +15,5 @@
         <item>Driving license front</item>
         <item>Driving license back</item>
     </string-array>
-    <string name="key_method_of_three_label">Method of Three</string>
+    <string name="key_rule_of_three_label">Rule of Three</string>
 </resources>

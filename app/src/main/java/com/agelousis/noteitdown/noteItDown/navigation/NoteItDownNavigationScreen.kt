@@ -22,8 +22,8 @@ sealed class NoteItDownNavigationScreen(
         route = "NotesListScreen"
     )
 
-    object MethodOfThreeScreen: NoteItDownNavigationScreen(
-        route = "MethodOfThreeScreen"
+    object RuleOfThreeScreen: NoteItDownNavigationScreen(
+        route = "RuleOfThreeScreen"
     )
 
 }
