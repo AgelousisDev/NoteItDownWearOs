@@ -15,7 +15,12 @@ object Dependencies {
     val lifecycleViewModelCompose by lazy { "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.liveDataViewModelVersion}" }
     val constraintLayoutCompose by lazy { "androidx.constraintlayout:constraintlayout-compose:${Versions.constraintLayoutComposeVersion}" }
     val composeRuntimeLiveData by lazy { "androidx.compose.runtime:runtime-livedata:${Versions.composeVersion}" }
-    val glanceWearTiles by lazy { "androidx.glance:glance-wear-tiles:${Versions.glanceWearTitleVersion}" }
+    // For Glance support
+    val glance by lazy { "androidx.glance:glance:${Versions.glanceVersion}" }
+    // For AppWidgets support
+    val glanceAppWidget by lazy { "androidx.glance:glance-appwidget:${Versions.glanceAppWidgetVersion}" }
+    // For Wear-Tiles support
+    val glanceWearTiles by lazy { "androidx.glance:glance-wear-tiles:${Versions.glanceWearTileVersion}" }
     val wearComposeNavigation by lazy { "androidx.wear.compose:compose-navigation:${Versions.wearComposeVersion}" }
     val retrofit2ConverterGson by lazy { "com.squareup.retrofit2:converter-gson:${Versions.retrofit2ConverterGsonVersion}" }
     val http3LoggingInterceptor by lazy { "com.squareup.okhttp3:logging-interceptor:${Versions.http3LoggingInterceptorVersion}" }

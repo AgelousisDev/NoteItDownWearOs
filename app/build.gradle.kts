@@ -68,6 +68,8 @@ dependencies {
     implementation(Dependencies.lifecycleViewModelCompose)
     implementation(Dependencies.constraintLayoutCompose)
     implementation(Dependencies.composeRuntimeLiveData)
+    implementation(Dependencies.glance)
+    //implementation(Dependencies.glanceAppWidget)
     implementation(Dependencies.glanceWearTiles)
     implementation(Dependencies.wearComposeNavigation)
     implementation(Dependencies.retrofit2ConverterGson)

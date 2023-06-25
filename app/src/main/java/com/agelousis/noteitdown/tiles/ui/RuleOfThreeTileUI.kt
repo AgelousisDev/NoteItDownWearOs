@@ -45,11 +45,18 @@ fun RuleOfThreeTileLayout() {
             provider = ImageProvider(
                 resId = R.drawable.ic_math
             ),
-            contentDescription = null,
+            contentDescription = "",
             modifier = GlanceModifier
+                .padding(
+                    top = 8.dp
+                )
                 .size(
                     size = 80.dp
                 )
+        )
+        Text(
+            text = "(z * y) / x = ?",
+            modifier = GlanceModifier
                 .padding(
                     top = 8.dp
                 )

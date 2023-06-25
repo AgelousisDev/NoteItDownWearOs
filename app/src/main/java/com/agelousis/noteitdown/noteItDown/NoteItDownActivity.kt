@@ -15,14 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.agelousis.noteitdown.noteItDown.navigation.NoteItDownNavigationScreen
-import com.agelousis.noteitdown.noteItDown.ui.NoteItDownActivityNavigationControllerLayout
+import com.agelousis.noteitdown.noteItDown.ui.NoteItDownActivityLayout
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 
 class NoteItDownActivity: ComponentActivity() {
 
     companion object {
 
-        private const val NOTE_IT_DOWN_NAVIGATION_SCREEN_EXTRA = "NoteItDownActivity=noteItDownNavigationExtra"
+        const val NOTE_IT_DOWN_NAVIGATION_SCREEN_EXTRA = "NoteItDownActivity=noteItDownNavigationExtra"
 
         fun show(
             context: Context,
@@ -46,19 +46,11 @@ class NoteItDownActivity: ComponentActivity() {
 
     }
 
-    private val noteItDownNavigationScreen by lazy {
-        NoteItDownNavigationScreen fromRoute intent?.extras?.getString(
-            NOTE_IT_DOWN_NAVIGATION_SCREEN_EXTRA
-        )
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             NoteItDownTheme {
-                NoteItDownActivityNavigationControllerLayout(
-                    noteItDownNavigationScreen = noteItDownNavigationScreen
-                )
+                NoteItDownActivityLayout()
             }
         }
     }
@@ -68,5 +60,5 @@ class NoteItDownActivity: ComponentActivity() {
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    NoteItDownActivityNavigationControllerLayout()
+    NoteItDownActivityLayout()
 }

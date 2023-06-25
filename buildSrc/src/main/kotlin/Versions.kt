@@ -12,10 +12,12 @@ object Versions {
     const val dataStorePreferenceVersion = "1.0.0"
     const val constraintLayoutComposeVersion = "1.1.0-alpha10"
     const val lifecycleRuntimeKtxVersion = "2.6.1"
-    const val glanceWearTitleVersion = "1.0.0-alpha05"
+    const val glanceWearTileVersion = "1.0.0-alpha05"
     const val retrofit2ConverterGsonVersion = "2.9.0"
     const val http3LoggingInterceptorVersion = "5.0.0-alpha.8"
     const val kotlinCompilerExtensionVersion = "1.4.7"
+    const val glanceVersion = "1.0.0-alpha05"
+    const val glanceAppWidgetVersion = "1.0.0-beta01"
 }
 object ConfigData {
     const val compileSdkVersion = 34
