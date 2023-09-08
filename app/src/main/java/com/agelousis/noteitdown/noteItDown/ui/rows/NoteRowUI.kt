@@ -3,6 +3,7 @@ package com.agelousis.noteitdown.noteItDown.ui.rows
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Note
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Note
 import androidx.compose.material.icons.filled.Share
@@ -43,7 +44,7 @@ fun NoteRowLayout(
                 ),
             icon = {
                 Icon(
-                    imageVector = Icons.Filled.Note,
+                    imageVector = Icons.AutoMirrored.Filled.Note,
                     contentDescription = null,
                     modifier = Modifier
                         .size(

@@ -10,6 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Save
@@ -184,7 +185,7 @@ fun AddNoteScreenLayout(
                     )
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.List,
+                        imageVector = Icons.AutoMirrored.Filled.List,
                         contentDescription = null,
                         tint = MaterialTheme.colors.primary
                     )
