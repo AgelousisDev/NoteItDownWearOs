@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Note
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Note
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +18,8 @@ import androidx.wear.compose.material.*
 import com.agelousis.noteitdown.models.NoteDataModel
 import com.agelousis.noteitdown.ui.composableView.LinkText
 import com.agelousis.noteitdown.ui.composableView.LinkTextData
+import com.agelousis.noteitdown.ui.extensions.whiteRoundedBackgroundModifier
+import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.ui.theme.Purple700
 import com.agelousis.noteitdown.utils.extensions.shareText
 
@@ -26,12 +27,14 @@ typealias NoteDataModelBlock = (NoteDataModel) -> Unit
 
 @Composable
 fun NoteRowLayout(
+    modifier: Modifier = Modifier,
     noteDataModel: NoteDataModel,
     noteDataModelBlock: NoteDataModelBlock,
     noteDataRemovalBlock: NoteDataModelBlock
 ) {
     val context = LocalContext.current
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Chip(
@@ -144,12 +147,23 @@ fun NoteRowLayout(
 @Preview
 @Composable
 fun NoteRowLayoutPreview() {
-    NoteRowLayout(
-        noteDataModel = NoteDataModel(
-            tag = "Sample Tag",
-            note = "Sample Note"
-        ),
-        noteDataModelBlock = {},
-        noteDataRemovalBlock = {}
-    )
+    NoteItDownTheme {
+        Box(
+            modifier = Modifier
+                .whiteRoundedBackgroundModifier
+        ) {
+            NoteRowLayout(
+                modifier = Modifier
+                    .padding(
+                        all = 16.dp
+                    ),
+                noteDataModel = NoteDataModel(
+                    tag = "Sample Tag",
+                    note = "Sample Note"
+                ),
+                noteDataModelBlock = {},
+                noteDataRemovalBlock = {}
+            )
+        }
+    }
 }

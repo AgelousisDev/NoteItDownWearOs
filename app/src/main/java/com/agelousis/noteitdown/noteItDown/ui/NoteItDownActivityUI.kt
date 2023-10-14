@@ -2,16 +2,15 @@ package com.agelousis.noteitdown.noteItDown.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.wear.compose.foundation.lazy.ScalingLazyListState
-import androidx.wear.compose.material.*
-import androidx.wear.compose.navigation.SwipeDismissableNavHost
-import androidx.wear.compose.navigation.composable
-import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import androidx.wear.compose.material.Scaffold
+import androidx.wear.compose.material.TimeText
+import androidx.wear.compose.material.Vignette
+import androidx.wear.compose.material.VignettePosition
+import androidx.wear.compose.material.scrollAway
 import androidx.wear.tooling.preview.devices.WearDevices
-import com.agelousis.noteitdown.noteItDown.NoteItDownActivity
-import com.agelousis.noteitdown.noteItDown.navigation.NoteItDownNavigationScreen
+import com.agelousis.noteitdown.noteItDown.NoteItDownActivityNavigation
+import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 
 @Composable
 fun NoteItDownActivityLayout() {
@@ -31,60 +30,16 @@ fun NoteItDownActivityLayout() {
             )
         }
     ) {
-        NoteItDownActivityNavigationLayout(
+        NoteItDownActivityNavigation(
             scalingLazyColumnState = scalingLazyColumnState
         )
-    }
-}
-
-@Composable
-fun NoteItDownActivityNavigationLayout(
-    scalingLazyColumnState: ScalingLazyListState
-) {
-    val context = LocalContext.current
-    val navController = rememberSwipeDismissableNavController()
-    SwipeDismissableNavHost(
-        navController = navController,
-        startDestination = (context as? NoteItDownActivity)?.intent?.extras?.getString(
-            NoteItDownActivity.NOTE_IT_DOWN_NAVIGATION_SCREEN_EXTRA
-        ) ?: NoteItDownNavigationScreen.AddNoteScreen.route
-    ) {
-        composable(
-            route = NoteItDownNavigationScreen.AddNoteScreen.route
-        ) {
-            AddNoteScreenLayout(
-                scalingLazyColumnState = scalingLazyColumnState,
-                notesListBlock = {
-                    navController.navigate(
-                        NoteItDownNavigationScreen.NotesListScreen.route
-                    )
-                },
-                methodOfThreeBlock = {
-                    navController.navigate(
-                        NoteItDownNavigationScreen.RuleOfThreeScreen.route
-                    )
-                }
-            )
-        }
-        composable(
-            route = NoteItDownNavigationScreen.NotesListScreen.route
-        ) {
-            NotesListScreenLayout(
-                scalingLazyColumnState = scalingLazyColumnState
-            )
-        }
-        composable(
-            route = NoteItDownNavigationScreen.RuleOfThreeScreen.route
-        ) {
-            RuleOfThreeLayout(
-                scalingLazyColumnState = scalingLazyColumnState
-            )
-        }
     }
 }
 
 @Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
 fun NoteItDownActivityLayoutPreview() {
-    NoteItDownActivityLayout()
+    NoteItDownTheme {
+        NoteItDownActivityLayout()
+    }
 }

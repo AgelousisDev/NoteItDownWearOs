@@ -14,15 +14,15 @@ sealed class NoteItDownNavigationScreen(
 
     }
 
-    object AddNoteScreen: NoteItDownNavigationScreen(
+    data object AddNoteScreen: NoteItDownNavigationScreen(
         route = "AddNoteScreen"
     )
 
-    object NotesListScreen: NoteItDownNavigationScreen(
+    data object NotesListScreen: NoteItDownNavigationScreen(
         route = "NotesListScreen"
     )
 
-    object RuleOfThreeScreen: NoteItDownNavigationScreen(
+    data object RuleOfThreeScreen: NoteItDownNavigationScreen(
         route = "RuleOfThreeScreen"
     )
 
