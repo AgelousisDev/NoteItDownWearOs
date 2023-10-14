@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
@@ -31,6 +30,7 @@ import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
+import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.ui.composableView.BorderedTextField
 import com.agelousis.noteitdown.ui.composableView.BorderedTextFieldValueChangedBlock
@@ -247,7 +247,7 @@ private fun getRuleOfThreeResult(
     ((values[2] * values[1]) / values[0]).asIntValue
 } ?: ""
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, showSystemUi = true)
+@Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
 fun RuleOfThreeLayoutPreview() {
     NoteItDownTheme {

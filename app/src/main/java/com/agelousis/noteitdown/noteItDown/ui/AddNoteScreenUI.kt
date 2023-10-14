@@ -12,7 +12,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Calculate
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
@@ -28,6 +26,7 @@ import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.*
 import androidx.wear.input.RemoteInputIntentHelper
 import androidx.wear.input.wearableExtender
+import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.NoteDataModel
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
@@ -224,7 +223,7 @@ private fun getRemoteIntentInput(
     return intent
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, showSystemUi = true)
+@Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
 fun AddNoteScreenLayoutPreview() {
     NoteItDownTheme {

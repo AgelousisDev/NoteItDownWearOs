@@ -31,4 +31,5 @@ object Dependencies {
     //implementation("androidx.percentlayout:percentlayout:$percentLayoutVersion")
     //implementation("androidx.compose.material:material:$composeVersion")
     //implementation("io.coil-kt:coil-compose:2.2.2")
+    val wearToolingPreviewDevices by lazy { "androidx.wear:wear-tooling-preview:${Versions.wearToolingPreviewDevicesVersion}" }
 }

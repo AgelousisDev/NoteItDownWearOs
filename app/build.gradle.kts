@@ -3,7 +3,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.parcelize")
-    id("com.github.ben-manes.versions") version "0.48.0"
+    id("com.github.ben-manes.versions") version Versions.githubBanesVersion
 }
 
 android {
@@ -71,6 +71,7 @@ dependencies {
     implementation(Dependencies.glance)
     //implementation(Dependencies.glanceAppWidget)
     implementation(Dependencies.glanceWearTiles)
+    implementation(Dependencies.wearToolingPreviewDevices)
     implementation(Dependencies.wearComposeNavigation)
     implementation(Dependencies.retrofit2ConverterGson)
     implementation(Dependencies.http3LoggingInterceptor)

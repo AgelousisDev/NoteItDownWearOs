@@ -12,12 +12,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.*
+import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.models.NoteDataModel
 import com.agelousis.noteitdown.noteItDown.ui.rows.NoteRowLayout
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
@@ -87,7 +87,7 @@ fun NotesListScreenLayout(
     }
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, showSystemUi = true)
+@Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
 fun NotesListScreenLayoutPreview() {
     NoteItDownTheme {

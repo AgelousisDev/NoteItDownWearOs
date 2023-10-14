@@ -3,13 +3,13 @@ package com.agelousis.noteitdown.noteItDown.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.material.*
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.noteItDown.NoteItDownActivity
 import com.agelousis.noteitdown.noteItDown.navigation.NoteItDownNavigationScreen
 
@@ -83,7 +83,7 @@ fun NoteItDownActivityNavigationLayout(
     }
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, showSystemUi = true)
+@Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
 fun NoteItDownActivityLayoutPreview() {
     NoteItDownActivityLayout()
