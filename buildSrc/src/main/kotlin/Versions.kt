@@ -3,7 +3,7 @@ object Versions {
     const val kotlinVersion = "1.9.10"
     const val composeVersion = "1.6.0-alpha08"
     const val composeActivityVersion = "1.8.0-rc01"
-    const val coreKtxVersion = "1.12.0-rc01"
+    const val coreKtxVersion = "1.13.0-alpha01"
     const val googlePlayServicesWearableVersion = "18.0.0"
     const val percentLayoutVersion = "1.0.0"
     const val wearComposeVersion = "1.3.0-alpha08"
