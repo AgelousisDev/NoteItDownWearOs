@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.filled.MonitorWeight
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -38,11 +39,13 @@ private const val TAG_EXTRAS_KEY = "tagKey"
 
 typealias ButtonBlock = () -> Unit
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AddNoteScreenLayout(
     scalingLazyColumnState: androidx.wear.compose.foundation.lazy.ScalingLazyListState,
     notesListBlock: ButtonBlock,
-    methodOfThreeBlock: ButtonBlock
+    methodOfThreeBlock: ButtonBlock,
+    productsWithQuantityBlock: ButtonBlock
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -154,7 +157,7 @@ fun AddNoteScreenLayout(
             }
         }
         item {
-            Row {
+            FlowRow {
                 Button(
                     onClick = {
                         coroutineScope.launch {
@@ -201,6 +204,18 @@ fun AddNoteScreenLayout(
                         tint = MaterialTheme.colors.primary
                     )
                 }
+                Button(
+                    onClick = productsWithQuantityBlock,
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Transparent
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.MonitorWeight,
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.primary
+                    )
+                }
             }
         }
     }
@@ -230,7 +245,8 @@ fun AddNoteScreenLayoutPreview() {
         AddNoteScreenLayout(
             scalingLazyColumnState = rememberScalingLazyListState(),
             notesListBlock = {},
-            methodOfThreeBlock = {}
+            methodOfThreeBlock = {},
+            productsWithQuantityBlock = {}
         )
     }
 }

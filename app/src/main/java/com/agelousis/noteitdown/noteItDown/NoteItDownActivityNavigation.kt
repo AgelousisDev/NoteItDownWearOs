@@ -9,6 +9,7 @@ import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.agelousis.noteitdown.noteItDown.navigation.NoteItDownNavigationScreen
 import com.agelousis.noteitdown.noteItDown.ui.AddNoteScreenLayout
 import com.agelousis.noteitdown.noteItDown.ui.NotesListScreenLayout
+import com.agelousis.noteitdown.noteItDown.ui.ProductsWithQuantityScreenLayout
 import com.agelousis.noteitdown.noteItDown.ui.RuleOfThreeLayout
 
 @Composable
@@ -30,12 +31,17 @@ fun NoteItDownActivityNavigation(
                 scalingLazyColumnState = scalingLazyColumnState,
                 notesListBlock = {
                     navController.navigate(
-                        NoteItDownNavigationScreen.NotesListScreen.route
+                        route = NoteItDownNavigationScreen.NotesListScreen.route
                     )
                 },
                 methodOfThreeBlock = {
                     navController.navigate(
-                        NoteItDownNavigationScreen.RuleOfThreeScreen.route
+                        route = NoteItDownNavigationScreen.RuleOfThreeScreen.route
+                    )
+                },
+                productsWithQuantityBlock = {
+                    navController.navigate(
+                        route = NoteItDownNavigationScreen.ProductsWithQuantityScreen.route
                     )
                 }
             )
@@ -51,6 +57,13 @@ fun NoteItDownActivityNavigation(
             route = NoteItDownNavigationScreen.RuleOfThreeScreen.route
         ) {
             RuleOfThreeLayout(
+                scalingLazyColumnState = scalingLazyColumnState
+            )
+        }
+        composable(
+            route = NoteItDownNavigationScreen.ProductsWithQuantityScreen.route
+        ) {
+            ProductsWithQuantityScreenLayout(
                 scalingLazyColumnState = scalingLazyColumnState
             )
         }

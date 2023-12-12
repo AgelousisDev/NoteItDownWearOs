@@ -26,4 +26,8 @@ sealed class NoteItDownNavigationScreen(
         route = "RuleOfThreeScreen"
     )
 
+    data object ProductsWithQuantityScreen: NoteItDownNavigationScreen(
+        route = "ProductsWithQuantityScreen"
+    )
+
 }

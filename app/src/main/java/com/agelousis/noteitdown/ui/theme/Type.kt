@@ -7,6 +7,7 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Typography
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
 import com.agelousis.noteitdown.R
 
 private val fonts = FontFamily(
@@ -42,6 +43,14 @@ val TextStyle.bold
             fontWeight = FontWeight.Bold
         )
     )
+
+infix fun TextStyle.withTextAlign(
+    textAlign: TextAlign
+) = merge(
+    other = TextStyle(
+        textAlign = textAlign
+    )
+)
 
 // Set of Material typography styles to start with
 val Typography = Typography(

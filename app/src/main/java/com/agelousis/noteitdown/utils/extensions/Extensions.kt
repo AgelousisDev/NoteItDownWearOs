@@ -8,6 +8,8 @@ import com.agelousis.noteitdown.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
+typealias CompletionBlock<T> = T.() -> Unit
+
 inline fun <reified T> String.toModel(): T? {
     return try {
         Gson().fromJson(this, T::class.java)
@@ -67,3 +69,17 @@ infix fun Context.shareText(
 
 val Float.asIntValue
     get() = if (rem(1f).equals(0.0f)) toInt().toString() else toString()
+
+val Double.decimalPlaces
+    get() = with(
+        receiver = this.toString()
+    ) {
+        split(".").takeIf {
+            it.size == 2
+        }?.let {
+            if (it[1].toIntOrNull() == 0)
+                0
+            else
+                it[1].length
+        } ?: 0
+    }
