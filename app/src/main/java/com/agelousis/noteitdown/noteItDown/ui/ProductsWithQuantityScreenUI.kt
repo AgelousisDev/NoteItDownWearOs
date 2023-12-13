@@ -8,6 +8,7 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.rounded.FoodBank
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.items
+import androidx.wear.compose.foundation.lazy.itemsIndexed
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.CompactButton
 import androidx.wear.compose.material.Icon
@@ -43,7 +45,7 @@ fun ProductsWithQuantityScreenLayout(
     }
     val productDataModelStateList = preferencesStoreHelper.productDataModelList.collectAsState(
         initial = productDataModelListForPreview ?: listOf()
-    ).value?.toMutableStateList()
+    ).value?.toMutableStateList() ?: mutableStateListOf()
     ScalingLazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -56,13 +58,12 @@ fun ProductsWithQuantityScreenLayout(
         ),
         state = scalingLazyColumnState,
     ) {
-        items(
-            items = productDataModelStateList ?: listOf(),
-            key = { productDataModel ->
-                productDataModel.productLabel
-                    ?: ""
+        itemsIndexed(
+            items = productDataModelStateList,
+            key = { index, _ ->
+                index
             }
-        ) { productDataModel ->
+        ) { _, productDataModel ->
             ProductView(
                 productDataModel = productDataModel,
                 saveBlock = ProductDataModel@ {
@@ -80,7 +81,7 @@ fun ProductsWithQuantityScreenLayout(
         ) {
             CompactButton(
                 onClick = {
-                    productDataModelStateList?.add(
+                    productDataModelStateList.add(
                         ProductDataModel.empty
                     )
                 }

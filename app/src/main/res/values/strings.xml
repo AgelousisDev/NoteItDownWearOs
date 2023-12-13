@@ -16,4 +16,5 @@
         <item>Driving license back</item>
     </string-array>
     <string name="key_rule_of_three_label">Rule of Three</string>
+    <string name="key_product_name_here_label">Product name here…</string>
 </resources>

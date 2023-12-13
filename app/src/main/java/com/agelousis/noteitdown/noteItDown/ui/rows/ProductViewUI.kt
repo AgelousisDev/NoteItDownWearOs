@@ -2,6 +2,8 @@ package com.agelousis.noteitdown.noteItDown.ui.rows
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -15,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -25,13 +28,14 @@ import androidx.wear.compose.material.CompactButton
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
+import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.ProductDataModel
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
+import com.agelousis.noteitdown.ui.theme.light
 import com.agelousis.noteitdown.ui.theme.medium
 import com.agelousis.noteitdown.ui.theme.withTextAlign
 import com.agelousis.noteitdown.utils.extensions.CompletionBlock
-import com.agelousis.noteitdown.utils.extensions.decimalPlaces
 
 @Composable
 fun ProductView(
@@ -45,10 +49,7 @@ fun ProductView(
     }
     val (productQuantity, onProductQuantity) = remember {
         mutableStateOf(
-            value = "%.${productDataModel.productQuantity?.decimalPlaces ?: 0}f%s".format(
-                productDataModel.productQuantity,
-                productDataModel.productQuantityType.code
-            )
+            value = productDataModel.productQuantity.toString()
         )
     }
     val (doneState, onDoneState) = remember {
@@ -92,10 +93,7 @@ fun ProductView(
                     onValueChange = { value ->
                         if (!doneState)
                             onProductQuantity(
-                                "%.${value.toDouble().decimalPlaces}f%s".format(
-                                    value.toDouble(),
-                                    productDataModel.productQuantityType?.code
-                                )
+                                value
                             )
                         onDoneState(false)
                     },
@@ -110,7 +108,21 @@ fun ProductView(
                             onDoneState(true)
                             keyboardController?.hide()
                         }
-                    )
+                    ),
+                    decorationBox =
+                    if (productLabel.isNullOrEmpty()) {
+                        @Composable {
+                            Text(
+                                text = stringResource(id = R.string.key_product_name_here_label),
+                                style = MaterialTheme.typography.caption3
+                            )
+                        }
+                    }
+                    else @Composable { innerTextField -> innerTextField() }
+                )
+                Text(
+                    text = productDataModel.productQuantityType.code,
+                    style = MaterialTheme.typography.caption3.light
                 )
             },
             icon = {
@@ -131,7 +143,7 @@ fun ProductView(
                         productQuantity = productQuantity.replace(
                             oldValue = productDataModel.productQuantityType.code,
                             newValue = ""
-                        ).toDoubleOrNull()
+                        ).toDoubleOrNull() ?: 0.0
                     )
                 )
             }
@@ -149,6 +161,10 @@ fun ProductView(
 fun ProductViewPreview() {
     NoteItDownTheme {
         ProductView(
+            modifier = Modifier
+                .width(
+                    width = 200.dp
+                ),
             productDataModel = ProductDataModel(
                 productLabel = "Banana",
                 productIcon = Icons.Rounded.FoodBank,

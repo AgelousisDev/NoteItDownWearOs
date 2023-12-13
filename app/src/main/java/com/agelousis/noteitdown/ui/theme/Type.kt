@@ -30,6 +30,13 @@ val textViewHeaderFont = TextStyle(
     fontSize = 24.sp
 )
 
+val TextStyle.light
+    get() = merge(
+        other = TextStyle(
+            fontWeight = FontWeight.Light
+        )
+    )
+
 val TextStyle.medium
     get() = merge(
         other = TextStyle(
