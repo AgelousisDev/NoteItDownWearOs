@@ -4,7 +4,7 @@ enum class ProductQuantityType(
     val code: String
 ) {
     GRAM(
-        code = "g"
+        code = "gram/s"
     ),
     MILLITER(
         code = "ml"

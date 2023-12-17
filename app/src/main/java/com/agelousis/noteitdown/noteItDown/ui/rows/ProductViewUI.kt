@@ -1,8 +1,11 @@
 package com.agelousis.noteitdown.noteItDown.ui.rows
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -10,13 +13,13 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.rounded.FoodBank
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -32,7 +35,6 @@ import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.ProductDataModel
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
-import com.agelousis.noteitdown.ui.theme.light
 import com.agelousis.noteitdown.ui.theme.medium
 import com.agelousis.noteitdown.ui.theme.withTextAlign
 import com.agelousis.noteitdown.utils.extensions.CompletionBlock
@@ -49,7 +51,9 @@ fun ProductView(
     }
     val (productQuantity, onProductQuantity) = remember {
         mutableStateOf(
-            value = productDataModel.productQuantity.toString()
+            value = productDataModel.productQuantity.takeIf {
+                it > 0.0
+            }?.toString() ?: ""
         )
     }
     val (doneState, onDoneState) = remember {
@@ -66,6 +70,8 @@ fun ProductView(
             onClick = {},
             label = {
                 BasicTextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     value = productLabel
                         ?: "",
                     onValueChange = { value ->
@@ -84,11 +90,22 @@ fun ProductView(
                             onDoneState(true)
                             keyboardController?.hide()
                         }
-                    )
+                    ),
+                    decorationBox = { innerTextField ->
+                        if (productLabel.isNullOrEmpty())
+                            Text(
+                                text = stringResource(id = R.string.key_product_name_here_label),
+                                style = MaterialTheme.typography.caption3
+                                        withTextAlign TextAlign.Center
+                            )
+                        innerTextField()
+                    }
                 )
             },
             secondaryLabel = {
                 BasicTextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     value = productQuantity,
                     onValueChange = { value ->
                         if (!doneState)
@@ -109,25 +126,28 @@ fun ProductView(
                             keyboardController?.hide()
                         }
                     ),
-                    decorationBox =
-                    if (productLabel.isNullOrEmpty()) {
-                        @Composable {
-                            Text(
-                                text = stringResource(id = R.string.key_product_name_here_label),
-                                style = MaterialTheme.typography.caption3
-                            )
-                        }
+                    decorationBox = { innerTextField ->
+                        Text(
+                            modifier = Modifier
+                                .padding(
+                                    top = 16.dp
+                                )
+                                .fillMaxWidth(),
+                            text = productDataModel.productQuantityType.code,
+                            style = MaterialTheme.typography.caption3
+                                    withTextAlign TextAlign.Center
+                        )
+                        innerTextField()
                     }
-                    else @Composable { innerTextField -> innerTextField() }
-                )
-                Text(
-                    text = productDataModel.productQuantityType.code,
-                    style = MaterialTheme.typography.caption3.light
                 )
             },
             icon = {
-                Icon(
-                    imageVector = productDataModel.productIcon,
+                Image(
+                    modifier = Modifier
+                        .size(
+                            size = 28.dp
+                        ),
+                    painter = painterResource(id = R.drawable.ic_food_drink),
                     contentDescription = null
                 )
             },
@@ -167,7 +187,6 @@ fun ProductViewPreview() {
                 ),
             productDataModel = ProductDataModel(
                 productLabel = "Banana",
-                productIcon = Icons.Rounded.FoodBank,
                 productQuantity = 100.0,
                 productQuantityType = ProductQuantityType.GRAM
             ),

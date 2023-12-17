@@ -1,5 +1,11 @@
 package com.agelousis.noteitdown.ui.composableView
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +15,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.MaterialTheme
+import kotlinx.coroutines.delay
 
 typealias BorderedTextFieldValueChangedBlock = String.() -> Unit
 
@@ -80,6 +88,36 @@ fun BorderedTextField(
             modifier = Modifier
                 .fillMaxWidth()
         )
+    }
+}
+
+@Composable
+fun AnimatedLayout(
+    index: Int? = null,
+    initialState: Boolean = false,
+    state: Boolean = true,
+    enter: EnterTransition = slideInHorizontally { it },
+    exit: ExitTransition = slideOutHorizontally { -it },
+    content: @Composable AnimatedVisibilityScope.() -> Unit
+) {
+    var visibleState by remember {
+        mutableStateOf(
+            value = initialState
+        )
+    }
+    AnimatedVisibility(
+        visible = visibleState,
+        enter = enter,
+        exit = exit,
+        content = content
+    )
+    LaunchedEffect(
+        key1 = state
+    ) {
+        delay(
+            timeMillis = (index ?: 1) * 200L
+        )
+        visibleState = state
     }
 }
 

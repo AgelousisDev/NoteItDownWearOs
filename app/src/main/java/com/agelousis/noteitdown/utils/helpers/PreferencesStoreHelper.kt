@@ -77,7 +77,6 @@ class PreferencesStoreHelper(private val context: Context) {
         }?.apply ProductDataModel@ {
             this@ProductDataModel.productQuantity = productDataModel.productQuantity
             this@ProductDataModel.productQuantityType = productDataModel.productQuantityType
-            this@ProductDataModel.productIcon = productDataModel.productIcon
         } ?: productDataModelList.add(productDataModel)
         context.dataStore.edit { mutablePreferences ->
             mutablePreferences[PRODUCT_DATA_KEY] = productDataModelList.jsonString
@@ -90,10 +89,12 @@ class PreferencesStoreHelper(private val context: Context) {
     ) {
         val productDataModelList = this.productDataModelList.firstOrNull()?.toMutableList()
             ?: mutableListOf()
-        productDataModelList.remove(productDataModel)
+        productDataModelList.removeIf {
+            it.productLabel?.lowercase() == productDataModel.productLabel?.lowercase()
+        }
 
         context.dataStore.edit { mutablePreferences ->
-            mutablePreferences[NOTE_DATA_DATA_KEY] = productDataModelList.jsonString
+            mutablePreferences[PRODUCT_DATA_KEY] = productDataModelList.jsonString
                 ?: ""
         }
     }
