@@ -1,8 +1,6 @@
 package com.agelousis.noteitdown.noteItDown.ui.rows
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -11,12 +9,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -27,8 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Chip
-import androidx.wear.compose.material.CompactButton
-import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.agelousis.noteitdown.R
@@ -56,124 +49,106 @@ fun ProductView(
             }?.toString() ?: ""
         )
     }
-    val (doneState, onDoneState) = remember {
-        mutableStateOf(value = false)
-    }
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(
-            space = 8.dp
-        )
-    ) {
-        Chip(
-            modifier = modifier,
-            onClick = {},
-            label = {
-                BasicTextField(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    value = productLabel
-                        ?: "",
-                    onValueChange = { value ->
-                        if (!doneState)
-                            onProductLabel(value)
-                        onDoneState(false)
-                    },
-                    textStyle = MaterialTheme.typography.body1.medium
-                            withTextAlign TextAlign.Center,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            onDoneState(true)
-                            keyboardController?.hide()
-                        }
-                    ),
-                    decorationBox = { innerTextField ->
-                        if (productLabel.isNullOrEmpty())
-                            Text(
-                                text = stringResource(id = R.string.key_product_name_here_label),
-                                style = MaterialTheme.typography.caption3
-                                        withTextAlign TextAlign.Center
-                            )
-                        innerTextField()
+    Chip(
+        modifier = modifier,
+        onClick = {},
+        label = {
+            BasicTextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                value = productLabel
+                    ?: "",
+                onValueChange = { value ->
+                    onProductLabel(value)
+                },
+                textStyle = MaterialTheme.typography.body1.medium
+                        withTextAlign TextAlign.Center,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
                     }
-                )
-            },
-            secondaryLabel = {
-                BasicTextField(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    value = productQuantity,
-                    onValueChange = { value ->
-                        if (!doneState)
-                            onProductQuantity(
-                                value
-                            )
-                        onDoneState(false)
-                    },
-                    textStyle = MaterialTheme.typography.caption2
-                            withTextAlign TextAlign.Center,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Decimal,
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            onDoneState(true)
-                            keyboardController?.hide()
-                        }
-                    ),
-                    decorationBox = { innerTextField ->
+                ),
+                decorationBox = { innerTextField ->
+                    if (productLabel.isNullOrEmpty())
                         Text(
-                            modifier = Modifier
-                                .padding(
-                                    top = 16.dp
-                                )
-                                .fillMaxWidth(),
-                            text = productDataModel.productQuantityType.code,
+                            text = stringResource(id = R.string.key_product_name_here_label),
                             style = MaterialTheme.typography.caption3
                                     withTextAlign TextAlign.Center
                         )
-                        innerTextField()
-                    }
-                )
-            },
-            icon = {
-                Image(
-                    modifier = Modifier
-                        .size(
-                            size = 28.dp
-                        ),
-                    painter = painterResource(id = R.drawable.ic_food_drink),
-                    contentDescription = null
-                )
-            },
-            shape = RoundedCornerShape(
-                size = 16.dp
+                    innerTextField()
+                }
             )
-        )
-        CompactButton(
-            onClick = {
-                saveBlock(
-                    ProductDataModel(
-                        productLabel = productLabel,
-                        productQuantity = productQuantity.replace(
-                            oldValue = productDataModel.productQuantityType.code,
-                            newValue = ""
-                        ).toDoubleOrNull() ?: 0.0
+        },
+        secondaryLabel = {
+            BasicTextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                value = productQuantity,
+                onValueChange = { value ->
+                    onProductQuantity(
+                        value
                     )
-                )
-            }
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Check,
+                },
+                enabled = !productLabel.isNullOrEmpty(),
+                textStyle = MaterialTheme.typography.caption2
+                        withTextAlign TextAlign.Center,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                        if ((productQuantity.replace(
+                                oldValue = productDataModel.productQuantityType.code,
+                                newValue = ""
+                            ).toDoubleOrNull() ?: 0.0) > 0.0
+                        )
+                            saveBlock(
+                                ProductDataModel(
+                                    id = productDataModel.id,
+                                    productLabel = productLabel,
+                                    productQuantity = productQuantity.replace(
+                                        oldValue = productDataModel.productQuantityType.code,
+                                        newValue = ""
+                                    ).toDoubleOrNull() ?: 0.0
+                                )
+                            )
+                    }
+                ),
+                decorationBox = { innerTextField ->
+                    Text(
+                        modifier = Modifier
+                            .padding(
+                                top = 16.dp
+                            )
+                            .fillMaxWidth(),
+                        text = productDataModel.productQuantityType.code,
+                        style = MaterialTheme.typography.caption3
+                                withTextAlign TextAlign.Center
+                    )
+                    innerTextField()
+                }
+            )
+        },
+        icon = {
+            Image(
+                modifier = Modifier
+                    .size(
+                        size = 28.dp
+                    ),
+                painter = painterResource(id = R.drawable.ic_food_drink),
                 contentDescription = null
             )
-        }
-    }
+        },
+        shape = RoundedCornerShape(
+            size = 16.dp
+        )
+    )
 }
 
 @Preview
@@ -186,6 +161,7 @@ fun ProductViewPreview() {
                     width = 200.dp
                 ),
             productDataModel = ProductDataModel(
+                id = 0,
                 productLabel = "Banana",
                 productQuantity = 100.0,
                 productQuantityType = ProductQuantityType.GRAM

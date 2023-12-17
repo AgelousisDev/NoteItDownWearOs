@@ -73,11 +73,16 @@ class PreferencesStoreHelper(private val context: Context) {
         val productDataModelList = this.productDataModelList.firstOrNull()?.toMutableList()
             ?: mutableListOf()
         productDataModelList.firstOrNull {
-            it.productLabel == productDataModel.productLabel
-        }?.apply ProductDataModel@ {
-            this@ProductDataModel.productQuantity = productDataModel.productQuantity
-            this@ProductDataModel.productQuantityType = productDataModel.productQuantityType
-        } ?: productDataModelList.add(productDataModel)
+            it.id == productDataModel.id
+        }?.update(
+            productLabel = productDataModel.productLabel,
+            productQuantity = productDataModel.productQuantity,
+            productQuantityType = productDataModel.productQuantityType
+        ) ?: productDataModelList.add(
+            productDataModel withId ((productDataModelList.mapNotNull(
+                transform = ProductDataModel::id
+            ).maxOrNull() ?: 0) + 1)
+        )
         context.dataStore.edit { mutablePreferences ->
             mutablePreferences[PRODUCT_DATA_KEY] = productDataModelList.jsonString
                 ?: ""
@@ -90,9 +95,8 @@ class PreferencesStoreHelper(private val context: Context) {
         val productDataModelList = this.productDataModelList.firstOrNull()?.toMutableList()
             ?: mutableListOf()
         productDataModelList.removeIf {
-            it.productLabel?.lowercase() == productDataModel.productLabel?.lowercase()
+            it.id == productDataModel.id
         }
-
         context.dataStore.edit { mutablePreferences ->
             mutablePreferences[PRODUCT_DATA_KEY] = productDataModelList.jsonString
                 ?: ""
