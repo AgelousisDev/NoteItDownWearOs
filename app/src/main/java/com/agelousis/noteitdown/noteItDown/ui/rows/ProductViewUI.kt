@@ -66,7 +66,14 @@ fun ProductView(
     }
     RequestProductImage(
         viewModel = viewModel,
-        productLabel = productLabel,
+        productLabel =
+            if ((productQuantity.replace(
+                    oldValue = productDataModel.productQuantityType.code,
+                    newValue = ""
+            ).toDoubleOrNull() ?: 0.0) > 0.0)
+                productLabel
+            else
+                null,
         successBlock = ProductImageUrl@ {
             onProductImageUrl(
                 this@ProductImageUrl
@@ -135,7 +142,6 @@ fun ProductView(
                             saveBlock(
                                 ProductDataModel(
                                     id = productDataModel.id,
-                                    productImageUrl = productImageUrl,
                                     productLabel = productLabel,
                                     productQuantity = productQuantity.replace(
                                         oldValue = productDataModel.productQuantityType.code,

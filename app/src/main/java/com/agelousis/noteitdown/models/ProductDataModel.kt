@@ -4,7 +4,6 @@ import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
 
 data class ProductDataModel(
     var id: Int? = null,
-    var productImageUrl: String? = null,
     var productLabel: String? = null,
     var productQuantity: Double = 0.0,
     var productQuantityType: ProductQuantityType = ProductQuantityType.GRAM
