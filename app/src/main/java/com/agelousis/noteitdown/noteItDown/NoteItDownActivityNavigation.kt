@@ -11,9 +11,11 @@ import com.agelousis.noteitdown.noteItDown.ui.AddNoteScreenLayout
 import com.agelousis.noteitdown.noteItDown.ui.NotesListScreenLayout
 import com.agelousis.noteitdown.noteItDown.ui.ProductsWithQuantityScreenLayout
 import com.agelousis.noteitdown.noteItDown.ui.RuleOfThreeLayout
+import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 
 @Composable
 fun NoteItDownActivityNavigation(
+    viewModel: NoteItDownBaseViewModel,
     scalingLazyColumnState: ScalingLazyListState
 ) {
     val context = LocalContext.current
@@ -64,6 +66,7 @@ fun NoteItDownActivityNavigation(
             route = NoteItDownNavigationScreen.ProductsWithQuantityScreen.route
         ) {
             ProductsWithQuantityScreenLayout(
+                viewModel = viewModel,
                 scalingLazyColumnState = scalingLazyColumnState
             )
         }

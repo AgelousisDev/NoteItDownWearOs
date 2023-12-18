@@ -28,4 +28,5 @@ object Dependencies {
     val composeUiTooling by lazy { "androidx.compose.ui:ui-tooling:${Versions.composeVersion}" }
     val composeUiTestManifest by lazy { "androidx.compose.ui:ui-test-manifest:${Versions.composeVersion}" }
     val wearToolingPreviewDevices by lazy { "androidx.wear:wear-tooling-preview:${Versions.wearToolingPreviewDevicesVersion}" }
+    val coilCompose by lazy { "io.coil-kt:coil-compose:${Versions.coilComposeVersion}" }
 }

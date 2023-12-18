@@ -23,6 +23,7 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs.getByName(name = "debug")
             isDebuggable = true
+            buildConfigField(type = "String", name = "WIKIPEDIA_IMAGE_SEARCH_BASE_URL", value = "\"https://en.wikipedia.org/w/api.php/\"")
         }
         release {
             isMinifyEnabled = false
@@ -32,6 +33,7 @@ android {
                 ),
                 "proguard-rules.pro"
             )
+            buildConfigField(type = "String", name = "WIKIPEDIA_IMAGE_SEARCH_BASE_URL", value = "\"https://en.wikipedia.org/w/api.php/\"")
         }
     }
     compileOptions {
@@ -69,6 +71,7 @@ dependencies {
     implementation(Dependencies.constraintLayoutCompose)
     implementation(Dependencies.composeRuntimeLiveData)
     implementation(Dependencies.glance)
+    implementation(Dependencies.coilCompose)
     //implementation(Dependencies.glanceAppWidget)
     implementation(Dependencies.glanceWearTiles)
     implementation(Dependencies.wearToolingPreviewDevices)

@@ -5,14 +5,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -21,23 +26,30 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
+import coil.compose.AsyncImage
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.ProductDataModel
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
+import com.agelousis.noteitdown.network.SuccessBlock
+import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.ui.theme.medium
 import com.agelousis.noteitdown.ui.theme.withTextAlign
 import com.agelousis.noteitdown.utils.extensions.CompletionBlock
+import com.agelousis.noteitdown.utils.extensions.imageRequest
 
 @Composable
 fun ProductView(
     modifier: Modifier = Modifier,
+    viewModel: NoteItDownBaseViewModel,
     productDataModel: ProductDataModel,
     saveBlock: CompletionBlock<ProductDataModel>
 ) {
+    val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val (productLabel, onProductLabel) = remember {
         mutableStateOf(value = productDataModel.productLabel)
@@ -49,6 +61,18 @@ fun ProductView(
             }?.toString() ?: ""
         )
     }
+    val (productImageUrl, onProductImageUrl) = remember {
+        mutableStateOf<String?>(value = null)
+    }
+    RequestProductImage(
+        viewModel = viewModel,
+        productLabel = productLabel,
+        successBlock = ProductImageUrl@ {
+            onProductImageUrl(
+                this@ProductImageUrl
+            )
+        }
+    )
     Chip(
         modifier = modifier,
         onClick = {},
@@ -111,6 +135,7 @@ fun ProductView(
                             saveBlock(
                                 ProductDataModel(
                                     id = productDataModel.id,
+                                    productImageUrl = productImageUrl,
                                     productLabel = productLabel,
                                     productQuantity = productQuantity.replace(
                                         oldValue = productDataModel.productQuantityType.code,
@@ -136,19 +161,50 @@ fun ProductView(
             )
         },
         icon = {
-            Image(
-                modifier = Modifier
-                    .size(
-                        size = 28.dp
-                    ),
-                painter = painterResource(id = R.drawable.ic_food_drink),
-                contentDescription = null
-            )
+            if (!productImageUrl.isNullOrEmpty())
+                AsyncImage(
+                    modifier = Modifier
+                        .clip(
+                            shape = CircleShape
+                        )
+                        .size(
+                            size = 28.dp
+                        ),
+                    model = context imageRequest productImageUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
+            else
+                Image(
+                    modifier = Modifier
+                        .size(
+                            size = 28.dp
+                        ),
+                    painter = painterResource(id = R.drawable.ic_food_drink),
+                    contentDescription = null
+                )
         },
         shape = RoundedCornerShape(
             size = 16.dp
         )
     )
+}
+
+@Composable
+private fun RequestProductImage(
+    viewModel: NoteItDownBaseViewModel,
+    productLabel: String?,
+    successBlock: SuccessBlock<String>
+) {
+    LaunchedEffect(
+        key1 = productLabel
+    ) {
+        if (!productLabel.isNullOrEmpty())
+            viewModel.requestProductImage(
+                product = productLabel,
+                successBlock = successBlock
+            )
+    }
 }
 
 @Preview
@@ -160,6 +216,7 @@ fun ProductViewPreview() {
                 .width(
                     width = 200.dp
                 ),
+            viewModel = viewModel(),
             productDataModel = ProductDataModel(
                 id = 0,
                 productLabel = "Banana",

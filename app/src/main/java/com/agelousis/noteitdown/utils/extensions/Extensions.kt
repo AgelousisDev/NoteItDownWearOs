@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Parcelable
+import coil.request.ImageRequest
 import com.agelousis.noteitdown.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -83,3 +84,19 @@ val Double.decimalPlaces
                 it[1].length
         } ?: 0
     }
+
+infix fun Context.imageRequest(
+    data: Any?
+) = data?.let {
+    ImageRequest
+        .Builder(
+            context = this
+        )
+        .data(
+            data = it
+        )
+        .crossfade(
+            enable = true
+        )
+        .build()
+}

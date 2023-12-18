@@ -18,6 +18,7 @@ object Versions {
     const val glanceAppWidgetVersion = "1.0.0-rc01"
     const val githubBanesVersion = "0.50.0"
     const val wearToolingPreviewDevicesVersion = "1.0.0-rc01"
+    const val coilComposeVersion = "2.0.0-alpha09"
 }
 object ConfigData {
     const val compileSdkVersion = 34
