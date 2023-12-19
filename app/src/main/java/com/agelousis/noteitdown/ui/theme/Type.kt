@@ -1,5 +1,6 @@
 package com.agelousis.noteitdown.ui.theme
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -56,6 +57,14 @@ infix fun TextStyle.withTextAlign(
 ) = merge(
     other = TextStyle(
         textAlign = textAlign
+    )
+)
+
+infix fun TextStyle.withColor(
+    color: Color
+) = merge(
+    other = TextStyle(
+        color = color
     )
 )
 

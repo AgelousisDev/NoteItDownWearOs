@@ -5,8 +5,21 @@ import kotlin.random.Random
 
 val randomColor
     get() = Color(
-        red = Random.nextFloat(),
-        green = Random.nextFloat(),
-        blue = Random.nextFloat()
+        red = Random.nextDouble(
+            from = 0.26,
+            until = 0.35
+        ).toFloat(),
+        green = Random.nextDouble(
+            from = 0.26,
+            until = 0.35
+        ).toFloat(),
+        blue = Random.nextDouble(
+            from = 0.26,
+            until = 0.35
+        ).toFloat(),
+        alpha = Random.nextDouble(
+            from = 0.5,
+            until = 1.0
+        ).toFloat()
     )
 

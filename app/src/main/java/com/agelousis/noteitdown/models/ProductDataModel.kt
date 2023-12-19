@@ -1,6 +1,7 @@
 package com.agelousis.noteitdown.models
 
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
+import com.agelousis.noteitdown.ui.properties.randomColor
 
 data class ProductDataModel(
     var id: Int? = null,
@@ -12,6 +13,10 @@ data class ProductDataModel(
     companion object {
         val empty
             get() = ProductDataModel()
+    }
+
+    val backgroundColor by lazy {
+        randomColor
     }
 
     val isEmpty

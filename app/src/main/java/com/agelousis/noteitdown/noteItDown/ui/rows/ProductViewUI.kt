@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -28,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import coil.compose.AsyncImage
@@ -36,8 +38,10 @@ import com.agelousis.noteitdown.models.ProductDataModel
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
 import com.agelousis.noteitdown.network.SuccessBlock
 import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
+import com.agelousis.noteitdown.ui.properties.randomColor
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.ui.theme.medium
+import com.agelousis.noteitdown.ui.theme.withColor
 import com.agelousis.noteitdown.ui.theme.withTextAlign
 import com.agelousis.noteitdown.utils.extensions.CompletionBlock
 import com.agelousis.noteitdown.utils.extensions.imageRequest
@@ -93,7 +97,8 @@ fun ProductView(
                     onProductLabel(value)
                 },
                 textStyle = MaterialTheme.typography.body1.medium
-                        withTextAlign TextAlign.Center,
+                        withTextAlign TextAlign.Center
+                        withColor Color.White,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
@@ -126,7 +131,8 @@ fun ProductView(
                 },
                 enabled = !productLabel.isNullOrEmpty(),
                 textStyle = MaterialTheme.typography.caption2
-                        withTextAlign TextAlign.Center,
+                        withTextAlign TextAlign.Center
+                        withColor Color.White,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Done
@@ -192,6 +198,9 @@ fun ProductView(
         },
         shape = RoundedCornerShape(
             size = 16.dp
+        ),
+        colors = ChipDefaults.chipColors(
+            backgroundColor = productDataModel.backgroundColor
         )
     )
 }
