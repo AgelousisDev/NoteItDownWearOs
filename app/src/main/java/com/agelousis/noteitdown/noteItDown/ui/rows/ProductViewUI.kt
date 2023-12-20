@@ -14,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -38,7 +40,6 @@ import com.agelousis.noteitdown.models.ProductDataModel
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
 import com.agelousis.noteitdown.network.SuccessBlock
 import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
-import com.agelousis.noteitdown.ui.properties.randomColor
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.ui.theme.medium
 import com.agelousis.noteitdown.ui.theme.withColor
@@ -65,13 +66,14 @@ fun ProductView(
             }?.toString() ?: ""
         )
     }
-    val (productImageUrl, onProductImageUrl) = remember {
-        mutableStateOf<String?>(value = null)
+    val (productImageUrl, onProductImageUrl) = rememberSaveable {
+        mutableStateOf(value = productDataModel.productImageUrl)
     }
     RequestProductImage(
         viewModel = viewModel,
         productLabel =
-            if ((productQuantity.replace(
+            if (productImageUrl == null
+                && (productQuantity.replace(
                     oldValue = productDataModel.productQuantityType.code,
                     newValue = ""
             ).toDoubleOrNull() ?: 0.0) > 0.0)
@@ -79,6 +81,8 @@ fun ProductView(
             else
                 null,
         successBlock = ProductImageUrl@ {
+            productDataModel.productImageUrl =
+                this@ProductImageUrl
             onProductImageUrl(
                 this@ProductImageUrl
             )
@@ -116,7 +120,10 @@ fun ProductView(
                                     withTextAlign TextAlign.Center
                         )
                     innerTextField()
-                }
+                },
+                cursorBrush = SolidColor(
+                    value = Color.White
+                )
             )
         },
         secondaryLabel = {
@@ -149,6 +156,7 @@ fun ProductView(
                                 ProductDataModel(
                                     id = productDataModel.id,
                                     productLabel = productLabel,
+                                    productImageUrl = productImageUrl,
                                     productQuantity = productQuantity.replace(
                                         oldValue = productDataModel.productQuantityType.code,
                                         newValue = ""
@@ -169,7 +177,10 @@ fun ProductView(
                                 withTextAlign TextAlign.Center
                     )
                     innerTextField()
-                }
+                },
+                cursorBrush = SolidColor(
+                    value = Color.White
+                )
             )
         },
         icon = {

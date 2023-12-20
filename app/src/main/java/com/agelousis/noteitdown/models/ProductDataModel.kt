@@ -6,6 +6,7 @@ import com.agelousis.noteitdown.ui.properties.randomColor
 data class ProductDataModel(
     var id: Int? = null,
     var productLabel: String? = null,
+    var productImageUrl: String? = null,
     var productQuantity: Double = 0.0,
     var productQuantityType: ProductQuantityType = ProductQuantityType.GRAM
 ) {
@@ -15,9 +16,8 @@ data class ProductDataModel(
             get() = ProductDataModel()
     }
 
-    val backgroundColor by lazy {
-        randomColor
-    }
+    @Transient
+    var backgroundColor = randomColor
 
     val isEmpty
         get() = productLabel.isNullOrEmpty()
