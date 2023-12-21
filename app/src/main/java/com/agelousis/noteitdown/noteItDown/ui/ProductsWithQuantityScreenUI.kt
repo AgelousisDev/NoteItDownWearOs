@@ -1,33 +1,42 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
+import androidx.wear.compose.foundation.lazy.AutoCenteringParams
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.itemsIndexed
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
-import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
-import androidx.wear.compose.material.SwipeToDismissBox
+import androidx.wear.compose.foundation.rememberRevealState
+import androidx.wear.compose.material.ExperimentalWearMaterialApi
+import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.SwipeToRevealChip
+import androidx.wear.compose.material.SwipeToRevealDefaults
+import androidx.wear.compose.material.SwipeToRevealPrimaryAction
+import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
+import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.ProductDataModel
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
 import com.agelousis.noteitdown.noteItDown.ui.rows.ProductView
@@ -37,6 +46,7 @@ import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalWearFoundationApi::class, ExperimentalWearMaterialApi::class)
 @Composable
 fun ProductsWithQuantityScreenLayout(
     viewModel: NoteItDownBaseViewModel,
@@ -70,22 +80,89 @@ fun ProductsWithQuantityScreenLayout(
     ScalingLazyColumn(
         modifier = Modifier
             .fillMaxSize(),
-        contentPadding = PaddingValues(
-            vertical = 16.dp,
-            horizontal = 8.dp
-        ),
+        state = scalingLazyColumnState,
         verticalArrangement = Arrangement.spacedBy(
-            space = 8.dp,
-            alignment = Alignment.CenterVertically
+            space = 8.dp
         ),
         horizontalAlignment = Alignment.CenterHorizontally,
-        state = scalingLazyColumnState,
+        autoCentering = AutoCenteringParams(
+            itemIndex = 1
+        )
     ) {
         itemsIndexed(
             items = if (isOnPreview) (productDataModelListForPreview
                 ?: listOf()) else productDataModelStateList
         ) { index, productDataModel ->
-            val state = rememberSwipeToDismissBoxState()
+            key(
+                productDataModelStateList
+            ) {
+                val revealState = rememberRevealState()
+                SwipeToRevealChip(
+                    revealState = revealState,
+                    modifier = Modifier
+                        // Use edgeSwipeToDismiss to allow SwipeToDismissBox to capture swipe events
+                        .semantics {
+                            // Use custom actions to make the primary and secondary actions accessible
+                            customActions = listOf(
+                                CustomAccessibilityAction(
+                                    label = context.resources.getString(R.string.key_delete_label),
+                                    action = { true }
+                                )
+                            )
+                        },
+                    primaryAction = {
+                        SwipeToRevealPrimaryAction(
+                            revealState = revealState,
+                            icon = {
+                                Icon(
+                                    imageVector = SwipeToRevealDefaults.Delete,
+                                    contentDescription = null
+                                )
+                            },
+                            label = {
+                                Text(
+                                    text = stringResource(id = R.string.key_delete_label)
+                                )
+                            },
+                            onClick = {
+                                coroutineScope.launch {
+                                    removeProductData(
+                                        preferencesStoreHelper = preferencesStoreHelper,
+                                        productDataModel = productDataModel
+                                    )
+                                }
+                            }
+                        )
+                    },
+                    onFullSwipe = {
+                        coroutineScope.launch {
+                            removeProductData(
+                                preferencesStoreHelper = preferencesStoreHelper,
+                                productDataModel = productDataModel
+                            )
+                        }
+                    }
+                ) {
+                    AnimatedLayout(
+                        index = index,
+                        initialState = isOnPreview
+                    ) {
+                        ProductView(
+                            viewModel = viewModel,
+                            productDataModel = productDataModel,
+                            saveBlock = ProductDataModel@ {
+                                coroutineScope.launch {
+                                    saveProductData(
+                                        preferencesStoreHelper = preferencesStoreHelper,
+                                        productDataModel = this@ProductDataModel
+                                    )
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+            /*val state = rememberSwipeToDismissBoxState()
             SwipeToDismissBox(
                 modifier = Modifier
                     .fillMaxWidth(
@@ -126,7 +203,7 @@ fun ProductsWithQuantityScreenLayout(
                             }
                         )
                     }
-            }
+            }*/
         }
     }
 }
