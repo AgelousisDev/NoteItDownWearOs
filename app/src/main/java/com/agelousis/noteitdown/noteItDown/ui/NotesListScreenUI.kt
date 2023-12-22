@@ -1,8 +1,6 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
@@ -39,12 +37,7 @@ fun NotesListScreenLayout(
     )
     ScalingLazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .border(
-                width = 2.dp,
-                color = MaterialTheme.colors.primaryVariant,
-                shape = CircleShape
-            ),
+            .fillMaxSize(),
         contentPadding = PaddingValues(
             vertical = 16.dp,
             horizontal = 8.dp

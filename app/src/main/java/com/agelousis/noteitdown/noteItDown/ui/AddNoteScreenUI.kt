@@ -6,9 +6,7 @@ import android.content.Intent
 import android.view.inputmethod.EditorInfo
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Calculate
@@ -73,12 +71,7 @@ fun AddNoteScreenLayout(
     }
     ScalingLazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .border(
-                width = 2.dp,
-                color = MaterialTheme.colors.primaryVariant,
-                shape = CircleShape
-            ),
+            .fillMaxSize(),
         contentPadding = PaddingValues(
             horizontal = 8.dp
         ),
@@ -169,15 +162,11 @@ fun AddNoteScreenLayout(
                             note = null
                         }
                     },
-                    enabled = !tag.isNullOrEmpty() && !note.isNullOrEmpty(),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent
-                    )
+                    enabled = !tag.isNullOrEmpty() && !note.isNullOrEmpty()
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Save,
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.primary
+                        contentDescription = null
                     )
                 }
                 Button(
@@ -188,8 +177,7 @@ fun AddNoteScreenLayout(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.List,
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.primary
+                        contentDescription = null
                     )
                 }
                 Button(
@@ -200,8 +188,7 @@ fun AddNoteScreenLayout(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Calculate,
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.primary
+                        contentDescription = null
                     )
                 }
                 Button(
@@ -212,8 +199,7 @@ fun AddNoteScreenLayout(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.MonitorWeight,
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.primary
+                        contentDescription = null
                     )
                 }
             }

@@ -28,7 +28,8 @@
         <activity
             android:name=".noteItDown.NoteItDownActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.DeviceDefault">
+            android:theme="@android:style/Theme.DeviceDefault"
+            android:taskAffinity=".noteItDown.NoteItDownActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

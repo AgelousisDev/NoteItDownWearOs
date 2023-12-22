@@ -21,8 +21,8 @@ import com.agelousis.noteitdown.tiles.actionCallback.NotesListTileActionCallback
 import com.agelousis.noteitdown.utils.extensions.toModelList
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import com.agelousis.noteitdown.R
-import com.agelousis.noteitdown.ui.theme.Purple500
-import com.agelousis.noteitdown.ui.theme.Purple700
+import com.agelousis.noteitdown.ui.theme.Primary
+import com.agelousis.noteitdown.ui.theme.PrimaryVariant
 
 private val notesListAppWidgetGlanceModifier =
     GlanceModifier
@@ -130,7 +130,7 @@ private fun GlanceCircleBox(value: Int, text: String, target: Int) {
         CurvedRow {
             curvedLine(
                 color = ColorProvider(
-                    color = Purple500
+                    color = Primary
                 ),
                 curvedModifier = GlanceCurvedModifier
                     .sweepAngleDegrees(
@@ -148,7 +148,7 @@ private fun GlanceCircleBox(value: Int, text: String, target: Int) {
         ) {
             curvedLine(
                 color = ColorProvider(
-                    color = Purple700
+                    color = PrimaryVariant
                 ),
                 curvedModifier = GlanceCurvedModifier
                     .sweepAngleDegrees(
