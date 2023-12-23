@@ -3,6 +3,7 @@ package com.agelousis.noteitdown.noteItDown.ui
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -96,6 +97,9 @@ fun ProductsWithQuantityScreenLayout(
             horizontalAlignment = Alignment.CenterHorizontally,
             autoCentering = AutoCenteringParams(
                 itemIndex = 1
+            ),
+            contentPadding = PaddingValues(
+                vertical = 16.dp,
             )
         ) {
             items(

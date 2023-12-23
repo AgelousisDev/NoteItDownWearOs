@@ -10,4 +10,5 @@
     <string name="key_product_name_here_label">Product name here…</string>
     <string name="key_delete_label">Delete</string>
     <string name="key_undo_label">Undo</string>
+    <string name="key_products_with_quantity_label">Products with Quantity</string>
 </resources>
