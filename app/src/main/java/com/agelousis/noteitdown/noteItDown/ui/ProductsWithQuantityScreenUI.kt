@@ -1,21 +1,17 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
@@ -52,9 +48,7 @@ import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 import com.agelousis.noteitdown.ui.composableView.AnimatedLayout
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalWearFoundationApi::class, ExperimentalWearMaterialApi::class)
 @Composable
