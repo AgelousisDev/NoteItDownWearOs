@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,19 +26,22 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.wear.compose.foundation.BasicSwipeToDismissBox
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
+import androidx.wear.compose.foundation.edgeSwipeToDismiss
 import androidx.wear.compose.foundation.lazy.AutoCenteringParams
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.rememberRevealState
+import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
-import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material.SwipeToRevealChip
 import androidx.wear.compose.material.SwipeToRevealDefaults
 import androidx.wear.compose.material.SwipeToRevealPrimaryAction
-import androidx.wear.compose.material.Text
+import androidx.wear.compose.material3.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.ProductDataModel
@@ -106,8 +108,14 @@ fun ProductsWithQuantityScreenLayout(
                 items = if (isOnPreview) (productDataModelListForPreview
                     ?: listOf()) else productDataModelStateList
             ) { productDataModel ->
-                key(
-                    productDataModelStateList
+                val swipeToDismissBoxState = rememberSwipeToDismissBoxState()
+                BasicSwipeToDismissBox(
+                    state = swipeToDismissBoxState,
+                    userSwipeEnabled = false,
+                    contentKey = productDataModel,
+                    onDismissed = {
+
+                    }
                 ) {
                     val revealState = rememberRevealState()
                     SwipeToRevealChip(
@@ -118,6 +126,9 @@ fun ProductsWithQuantityScreenLayout(
                                 align = Alignment.CenterHorizontally
                             )
                             // Use edgeSwipeToDismiss to allow SwipeToDismissBox to capture swipe events
+                            .edgeSwipeToDismiss(
+                                swipeToDismissBoxState = swipeToDismissBoxState
+                            )
                             .semantics {
                                 // Use custom actions to make the primary and secondary actions accessible
                                 customActions = listOf(

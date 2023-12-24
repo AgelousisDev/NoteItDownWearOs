@@ -7,6 +7,7 @@ object Dependencies {
     val compose by lazy { "androidx.compose.ui:ui:${Versions.composeVersion}" }
     val composeMaterialIconsExtended by lazy { "androidx.compose.material:material-icons-extended:${Versions.composeVersion}" }
     val wearComposeMaterial by lazy { "androidx.wear.compose:compose-material:${Versions.wearComposeVersion}" }
+    val wearComposeMaterialThree by lazy { "androidx.wear.compose:compose-material3:${Versions.wearComposeMaterialThreeVersion}" }
     val wearComposeFoundation by lazy { "androidx.wear.compose:compose-foundation:${Versions.wearComposeVersion}" }
     val wearInput by lazy { "androidx.wear:wear-input:${Versions.wearInputVersion}" }
     val composeUiToolingPreview by lazy { "androidx.compose.ui:ui-tooling-preview:${Versions.composeVersion}" }

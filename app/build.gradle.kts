@@ -62,6 +62,7 @@ dependencies {
     implementation(Dependencies.compose)
     implementation(Dependencies.composeMaterialIconsExtended)
     implementation(Dependencies.wearComposeMaterial)
+    implementation(Dependencies.wearComposeMaterialThree)
     implementation(Dependencies.wearComposeFoundation)
     implementation(Dependencies.wearInput)
     implementation(Dependencies.composeUiToolingPreview)
