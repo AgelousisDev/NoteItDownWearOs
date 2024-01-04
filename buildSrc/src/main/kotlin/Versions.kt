@@ -1,5 +1,5 @@
 object Versions {
-    const val gradlePlugin = "8.2.0"
+    const val gradlePlugin = "8.2.1"
     const val kotlinVersion = "1.9.21"
     const val composeVersion = "1.6.0-beta03"
     const val composeActivityVersion = "1.9.0-alpha01"
@@ -13,7 +13,7 @@ object Versions {
     const val glanceWearTileVersion = "1.0.0-alpha05"
     const val retrofit2ConverterGsonVersion = "2.9.0"
     const val http3LoggingInterceptorVersion = "5.0.0-alpha.8"
-    const val kotlinCompilerExtensionVersion = "1.5.6"
+    const val kotlinCompilerExtensionVersion = "1.5.7"
     const val glanceVersion = "1.0.0-alpha05"
     const val glanceAppWidgetVersion = "1.0.0-alpha05"
     const val githubBanesVersion = "0.50.0"

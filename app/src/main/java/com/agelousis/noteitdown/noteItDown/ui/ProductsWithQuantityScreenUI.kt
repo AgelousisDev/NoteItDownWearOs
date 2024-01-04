@@ -2,7 +2,9 @@ package com.agelousis.noteitdown.noteItDown.ui
 
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
@@ -29,7 +32,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.foundation.BasicSwipeToDismissBox
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
 import androidx.wear.compose.foundation.edgeSwipeToDismiss
-import androidx.wear.compose.foundation.lazy.AutoCenteringParams
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.items
@@ -37,6 +39,7 @@ import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.rememberRevealState
 import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
+import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material.SwipeToRevealChip
 import androidx.wear.compose.material.SwipeToRevealDefaults
@@ -74,7 +77,7 @@ fun ProductsWithQuantityScreenLayout(
     val productDataModelStateList by remember {
         derivedStateOf {
             (productDataModelList?.toMutableStateList()
-                ?: mutableStateListOf()).apply ProductDataModelList@{
+                ?: mutableStateListOf()).apply ProductDataModelList@ {
                 if (productDataModelList.isNullOrEmpty()
                     || this@ProductDataModelList.none(predicate = ProductDataModel::isEmpty)
                 )
@@ -91,15 +94,15 @@ fun ProductsWithQuantityScreenLayout(
     ) {
         ScalingLazyColumn(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(
+                    color = MaterialTheme.colors.background
+                ),
             state = scalingLazyColumnState,
             verticalArrangement = Arrangement.spacedBy(
                 space = 8.dp
             ),
             horizontalAlignment = Alignment.CenterHorizontally,
-            autoCentering = AutoCenteringParams(
-                itemIndex = 1
-            ),
             contentPadding = PaddingValues(
                 vertical = 16.dp,
             )
@@ -112,77 +115,81 @@ fun ProductsWithQuantityScreenLayout(
                 BasicSwipeToDismissBox(
                     state = swipeToDismissBoxState,
                     userSwipeEnabled = false,
-                    contentKey = productDataModel,
-                    onDismissed = {
-
-                    }
-                ) {
-                    val revealState = rememberRevealState()
-                    SwipeToRevealChip(
-                        revealState = revealState,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentWidth(
-                                align = Alignment.CenterHorizontally
-                            )
-                            // Use edgeSwipeToDismiss to allow SwipeToDismissBox to capture swipe events
-                            .edgeSwipeToDismiss(
-                                swipeToDismissBoxState = swipeToDismissBoxState
-                            )
-                            .semantics {
-                                // Use custom actions to make the primary and secondary actions accessible
-                                customActions = listOf(
-                                    CustomAccessibilityAction(
-                                        label = context.resources.getString(R.string.key_delete_label),
-                                        action = { true }
+                    backgroundKey = productDataModel,
+                    contentKey = productDataModel
+                ) { isBackground ->
+                    if (isBackground)
+                        Box(
+                            modifier = Modifier
+                        )
+                    else {
+                        val revealState = rememberRevealState()
+                        SwipeToRevealChip(
+                            revealState = revealState,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentWidth(
+                                    align = Alignment.CenterHorizontally
+                                )
+                                // Use edgeSwipeToDismiss to allow SwipeToDismissBox to capture swipe events
+                                .edgeSwipeToDismiss(
+                                    swipeToDismissBoxState = swipeToDismissBoxState
+                                )
+                                .semantics {
+                                    // Use custom actions to make the primary and secondary actions accessible
+                                    customActions = listOf(
+                                        CustomAccessibilityAction(
+                                            label = context.resources.getString(R.string.key_delete_label),
+                                            action = { true }
+                                        )
                                     )
+                                },
+                            primaryAction = {
+                                SwipeToRevealPrimaryAction(
+                                    revealState = revealState,
+                                    icon = {
+                                        Icon(
+                                            imageVector = SwipeToRevealDefaults.Delete,
+                                            contentDescription = null
+                                        )
+                                    },
+                                    label = {
+                                        Text(
+                                            text = stringResource(id = R.string.key_delete_label)
+                                        )
+                                    },
+                                    onClick = {
+                                        coroutineScope.launch {
+                                            removeProductData(
+                                                preferencesStoreHelper = preferencesStoreHelper,
+                                                productDataModel = productDataModel
+                                            )
+                                        }
+                                    }
                                 )
                             },
-                        primaryAction = {
-                            SwipeToRevealPrimaryAction(
-                                revealState = revealState,
-                                icon = {
-                                    Icon(
-                                        imageVector = SwipeToRevealDefaults.Delete,
-                                        contentDescription = null
+                            onFullSwipe = {
+                                coroutineScope.launch {
+                                    removeProductData(
+                                        preferencesStoreHelper = preferencesStoreHelper,
+                                        productDataModel = productDataModel
                                     )
-                                },
-                                label = {
-                                    Text(
-                                        text = stringResource(id = R.string.key_delete_label)
-                                    )
-                                },
-                                onClick = {
+                                }
+                            }
+                        ) {
+                            ProductView(
+                                viewModel = viewModel,
+                                productDataModel = productDataModel,
+                                saveBlock = ProductDataModel@ {
                                     coroutineScope.launch {
-                                        removeProductData(
+                                        saveProductData(
                                             preferencesStoreHelper = preferencesStoreHelper,
-                                            productDataModel = productDataModel
+                                            productDataModel = this@ProductDataModel
                                         )
                                     }
                                 }
                             )
-                        },
-                        onFullSwipe = {
-                            coroutineScope.launch {
-                                removeProductData(
-                                    preferencesStoreHelper = preferencesStoreHelper,
-                                    productDataModel = productDataModel
-                                )
-                            }
                         }
-                    ) {
-                        ProductView(
-                            viewModel = viewModel,
-                            productDataModel = productDataModel,
-                            saveBlock = ProductDataModel@ {
-                                coroutineScope.launch {
-                                    saveProductData(
-                                        preferencesStoreHelper = preferencesStoreHelper,
-                                        productDataModel = this@ProductDataModel
-                                    )
-                                }
-                            }
-                        )
                     }
                 }
             }
