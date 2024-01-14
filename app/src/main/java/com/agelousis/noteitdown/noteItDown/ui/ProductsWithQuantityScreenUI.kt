@@ -19,7 +19,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
@@ -33,6 +32,7 @@ import androidx.wear.compose.foundation.BasicSwipeToDismissBox
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
 import androidx.wear.compose.foundation.edgeSwipeToDismiss
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.ScalingLazyListAnchorType
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
@@ -105,7 +105,8 @@ fun ProductsWithQuantityScreenLayout(
             horizontalAlignment = Alignment.CenterHorizontally,
             contentPadding = PaddingValues(
                 vertical = 16.dp,
-            )
+            ),
+            anchorType = ScalingLazyListAnchorType.ItemStart
         ) {
             items(
                 items = if (isOnPreview) (productDataModelListForPreview
@@ -229,6 +230,18 @@ fun ProductsWithQuantityScreenLayoutPreview() {
                     id = 1,
                     productLabel = "Carrot",
                     productQuantity = 76.5,
+                    productQuantityType = ProductQuantityType.GRAM
+                ),
+                ProductDataModel(
+                    id = 2,
+                    productLabel = "Avocado",
+                    productQuantity = 120.0,
+                    productQuantityType = ProductQuantityType.GRAM
+                ),
+                ProductDataModel(
+                    id = 3,
+                    productLabel = "Bread",
+                    productQuantity = 40.0,
                     productQuantityType = ProductQuantityType.GRAM
                 ),
                 ProductDataModel.empty

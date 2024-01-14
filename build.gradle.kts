@@ -1,8 +1,7 @@
 buildscript {
-    /*ext {
-        compose_version = '1.4.0-alpha01'
-        wear_compose_version = '1.1.0-beta01'
-    }*/
+    val agpVersion by extra(
+        initialValue = Versions.gradlePlugin
+    )
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     id("com.android.application") version Versions.gradlePlugin apply false
