@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
-import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material3.MaterialTheme
 import coil.compose.AsyncImage
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.ProductDataModel
@@ -100,7 +100,7 @@ fun ProductView(
                 onValueChange = { value ->
                     onProductLabel(value)
                 },
-                textStyle = MaterialTheme.typography.body1.medium
+                textStyle = MaterialTheme.typography.bodyLarge.medium
                         withTextAlign TextAlign.Center
                         withColor Color.White,
                 keyboardOptions = KeyboardOptions(
@@ -116,7 +116,7 @@ fun ProductView(
                     if (productLabel.isNullOrEmpty())
                         Text(
                             text = stringResource(id = R.string.key_product_name_here_label),
-                            style = MaterialTheme.typography.caption3
+                            style = MaterialTheme.typography.labelSmall
                                     withTextAlign TextAlign.Center
                         )
                     innerTextField()
@@ -137,7 +137,7 @@ fun ProductView(
                     )
                 },
                 enabled = !productLabel.isNullOrEmpty(),
-                textStyle = MaterialTheme.typography.caption2
+                textStyle = MaterialTheme.typography.labelMedium
                         withTextAlign TextAlign.Center
                         withColor Color.White,
                 keyboardOptions = KeyboardOptions(
@@ -173,7 +173,7 @@ fun ProductView(
                             )
                             .fillMaxWidth(),
                         text = productDataModel.productQuantityType.code,
-                        style = MaterialTheme.typography.caption3
+                        style = MaterialTheme.typography.labelSmall
                                 withTextAlign TextAlign.Center
                     )
                     innerTextField()

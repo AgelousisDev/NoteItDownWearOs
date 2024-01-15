@@ -1,26 +1,26 @@
 package com.agelousis.noteitdown.ui.theme
 
 import androidx.compose.ui.graphics.Color
-import androidx.wear.compose.material.Colors
+import androidx.wear.compose.material3.ColorScheme
 
 val Primary = Color(
     color = 0xFF90DFAA
 )
-val PrimaryVariant = Color(
+val PrimaryContainer = Color(
     color = 0xFF90DFCC
 )
 val Secondary = Color(
     color = 0xFF9CDBF3
 )
-val SecondaryVariant = Color(
+val SecondaryContainer = Color(
     color = 0xFF9CDBCC
 )
 val Red400 = Color(0xFFCF6679)
 
-internal val wearColorPalette: Colors = Colors(
+internal val wearColorPalette = ColorScheme(
     primary = Primary,
-    primaryVariant = PrimaryVariant,
+    primaryContainer = PrimaryContainer,
     secondary = Secondary,
-    secondaryVariant = SecondaryVariant,
+    secondaryContainer = SecondaryContainer,
     error = Red400
 )

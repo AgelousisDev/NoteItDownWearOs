@@ -28,13 +28,14 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
-import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.ui.composableView.BorderedTextField
 import com.agelousis.noteitdown.ui.composableView.BorderedTextFieldValueChangedBlock
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
+import com.agelousis.noteitdown.ui.theme.bold
 import com.agelousis.noteitdown.utils.extensions.asIntValue
 
 @Composable
@@ -58,7 +59,7 @@ fun RuleOfThreeLayout(
                 text = stringResource(
                     id = R.string.key_rule_of_three_label
                 ),
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.bodyLarge
             )
         }
         item {
@@ -136,7 +137,7 @@ private fun RuleOfThreeProcessLayout() {
         }
         Text(
             text = "(z * y) / x = ?",
-            style = MaterialTheme.typography.caption3
+            style = MaterialTheme.typography.labelSmall
         )
     }
 }
@@ -161,7 +162,7 @@ private fun PointChipValue(
         ) {
             Text(
                 text = label,
-                style = MaterialTheme.typography.caption2
+                style = MaterialTheme.typography.labelMedium
             )
             BorderedTextField(
                 modifier = Modifier
@@ -193,7 +194,7 @@ private fun ResultChipValue(
         ) {
             Text(
                 text = "? =",
-                style = MaterialTheme.typography.caption2
+                style = MaterialTheme.typography.labelMedium
             )
             Chip(
                 modifier = Modifier
@@ -206,18 +207,14 @@ private fun ResultChipValue(
                 label = {
                     Text(
                         text = result,
-                        style = MaterialTheme.typography.caption2.merge(
-                            other = TextStyle(
-                                fontWeight = FontWeight.Bold
-                            )
-                        ),
+                        style = MaterialTheme.typography.labelMedium.bold,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .fillMaxWidth()
                     )
                 },
                 colors = ChipDefaults.chipColors(
-                    backgroundColor = MaterialTheme.colors.primaryVariant
+                    backgroundColor = MaterialTheme.colorScheme.primaryContainer
                 ),
                 border = ChipDefaults.chipBorder(
                     borderStroke = BorderStroke(

@@ -32,7 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material3.MaterialTheme
 import kotlinx.coroutines.delay
 
 typealias BorderedTextFieldValueChangedBlock = String.() -> Unit
@@ -41,7 +41,7 @@ typealias BorderedTextFieldValueChangedBlock = String.() -> Unit
 fun BorderedTextField(
     modifier: Modifier = Modifier,
     customShape: Shape = CircleShape,
-    customBorderColor: Color = MaterialTheme.colors.primaryVariant,
+    customBorderColor: Color = MaterialTheme.colorScheme.primaryContainer,
     value: String,
     borderedTextFieldValueChangedBlock: BorderedTextFieldValueChangedBlock
 ) {
@@ -68,7 +68,7 @@ fun BorderedTextField(
                     borderedTextFieldValueChangedBlock(it)
                 onDoneState = false
             },
-            textStyle = MaterialTheme.typography.caption2.merge(
+            textStyle = MaterialTheme.typography.labelMedium.merge(
                 other = TextStyle(
                     color = Color.White,
                     textAlign = TextAlign.Center,
@@ -130,7 +130,7 @@ fun BorderedTextFieldPreview() {
                 width = 300.dp,
                 height = 50.dp
             ),
-        customBorderColor = MaterialTheme.colors.secondary,
+        customBorderColor = MaterialTheme.colorScheme.secondary,
         value = "BorderedTextField",
         borderedTextFieldValueChangedBlock = {}
     )

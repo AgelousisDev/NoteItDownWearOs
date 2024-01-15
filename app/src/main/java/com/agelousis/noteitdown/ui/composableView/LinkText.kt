@@ -8,7 +8,7 @@ import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.TextUnit
-import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material3.MaterialTheme
 
 data class LinkTextData(
     val text: String,
@@ -65,7 +65,7 @@ private fun createAnnotatedString(
             )
             withStyle(
                 style = SpanStyle(
-                    color = MaterialTheme.colors.primary,
+                    color = MaterialTheme.colorScheme.primary,
                     textDecoration = TextDecoration.Underline,
                     fontWeight = linkTextData.fontWeight,
                     fontSize = linkTextData.fontSize ?: TextUnit.Unspecified

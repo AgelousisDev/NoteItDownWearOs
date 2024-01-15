@@ -20,7 +20,7 @@ import com.agelousis.noteitdown.ui.composableView.LinkText
 import com.agelousis.noteitdown.ui.composableView.LinkTextData
 import com.agelousis.noteitdown.ui.extensions.whiteRoundedBackgroundModifier
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
-import com.agelousis.noteitdown.ui.theme.PrimaryVariant
+import com.agelousis.noteitdown.ui.theme.PrimaryContainer
 import com.agelousis.noteitdown.utils.extensions.shareText
 
 typealias NoteDataModelBlock = (NoteDataModel) -> Unit
@@ -82,7 +82,7 @@ fun NoteRowLayout(
             border = ChipDefaults.chipBorder(
                 borderStroke = BorderStroke(
                     width = 1.dp,
-                    color = PrimaryVariant
+                    color = PrimaryContainer
                 )
             ),
             onClick = {

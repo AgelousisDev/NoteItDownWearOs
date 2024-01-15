@@ -22,7 +22,7 @@ import com.agelousis.noteitdown.utils.extensions.toModelList
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.ui.theme.Primary
-import com.agelousis.noteitdown.ui.theme.PrimaryVariant
+import com.agelousis.noteitdown.ui.theme.PrimaryContainer
 
 private val notesListAppWidgetGlanceModifier =
     GlanceModifier
@@ -148,7 +148,7 @@ private fun GlanceCircleBox(value: Int, text: String, target: Int) {
         ) {
             curvedLine(
                 color = ColorProvider(
-                    color = PrimaryVariant
+                    color = PrimaryContainer
                 ),
                 curvedModifier = GlanceCurvedModifier
                     .sweepAngleDegrees(

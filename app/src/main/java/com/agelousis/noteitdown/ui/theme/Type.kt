@@ -5,10 +5,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.wear.compose.material.Typography
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.wear.compose.material3.Typography
 import com.agelousis.noteitdown.R
 
 private val fonts = FontFamily(
@@ -70,42 +70,42 @@ infix fun TextStyle.withColor(
 
 // Set of Material typography styles to start with
 val Typography = Typography(
-    body1 = TextStyle(
+    bodyLarge = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
-    display1 = TextStyle(
+    displayLarge = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         fontSize = 20.sp
     ),
-    body2 = TextStyle(
+    bodyMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Light,
         fontSize = 14.sp
     ),
-    display2 = TextStyle(
+    displayMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Thin,
         fontSize = 16.sp
     ),
-    display3 = TextStyle(
+    displaySmall = TextStyle(
         fontFamily = fonts,
         fontStyle = FontStyle.Normal,
         fontSize = 14.sp
     ),
-    caption1 = TextStyle(
+    labelLarge = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         fontSize= 14.sp
     ),
-    caption2 = TextStyle(
+    labelMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Light,
         fontSize= 12.sp
     ),
-    caption3 = TextStyle(
+    labelSmall = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Light,
         fontSize= 10.sp

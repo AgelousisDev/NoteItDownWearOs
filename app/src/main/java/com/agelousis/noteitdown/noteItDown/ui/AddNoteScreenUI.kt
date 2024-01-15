@@ -6,7 +6,14 @@ import android.content.Intent
 import android.view.inputmethod.EditorInfo
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Calculate
@@ -21,14 +28,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
-import androidx.wear.compose.material.*
+import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
+import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.IconButton
+import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.Text
 import androidx.wear.input.RemoteInputIntentHelper
 import androidx.wear.input.wearableExtender
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.NoteDataModel
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
+import com.agelousis.noteitdown.ui.theme.bold
+import com.agelousis.noteitdown.ui.theme.withColor
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import kotlinx.coroutines.launch
 
@@ -40,7 +57,7 @@ typealias ButtonBlock = () -> Unit
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AddNoteScreenLayout(
-    scalingLazyColumnState: androidx.wear.compose.foundation.lazy.ScalingLazyListState,
+    scalingLazyColumnState: ScalingLazyListState,
     notesListBlock: ButtonBlock,
     methodOfThreeBlock: ButtonBlock,
     productsWithQuantityBlock: ButtonBlock
@@ -85,7 +102,7 @@ fun AddNoteScreenLayout(
                 text = stringResource(
                     id = R.string.app_name
                 ),
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.bodyLarge.bold
             )
         }
         item {
@@ -105,7 +122,8 @@ fun AddNoteScreenLayout(
                             text = tag ?: stringResource(
                                 id = R.string.key_add_tag_here
                             ),
-                            style = MaterialTheme.typography.caption2
+                            style = MaterialTheme.typography.labelMedium
+                                withColor Color.Black
                         )
 
                     },
@@ -128,7 +146,8 @@ fun AddNoteScreenLayout(
                             text = note ?: stringResource(
                                 id = R.string.key_add_note_label
                             ),
-                            style = MaterialTheme.typography.caption2
+                            style = MaterialTheme.typography.labelMedium
+                                withColor Color.Black
                         )
                     },
                     onClick = {
@@ -140,7 +159,7 @@ fun AddNoteScreenLayout(
                         )
                     },
                     colors = ChipDefaults.chipColors(
-                        backgroundColor = MaterialTheme.colors.primaryVariant
+                        backgroundColor = MaterialTheme.colorScheme.secondary
                     ),
                     modifier = Modifier
                         .height(
@@ -151,7 +170,7 @@ fun AddNoteScreenLayout(
         }
         item {
             FlowRow {
-                Button(
+                IconButton(
                     onClick = {
                         coroutineScope.launch {
                             preferencesStorageHelper addNote NoteDataModel(
@@ -162,44 +181,47 @@ fun AddNoteScreenLayout(
                             note = null
                         }
                     },
-                    enabled = !tag.isNullOrEmpty() && !note.isNullOrEmpty()
+                    enabled = !tag.isNullOrEmpty() && !note.isNullOrEmpty(),
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Save,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = Color.Green.copy(
+                            alpha = 0.5f
+                        )
                     )
                 }
-                Button(
-                    onClick = notesListBlock,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent
-                    )
+                IconButton(
+                    onClick = notesListBlock
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.List,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = Color.Yellow.copy(
+                            alpha = 0.5f
+                        )
                     )
                 }
-                Button(
-                    onClick = methodOfThreeBlock,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent
-                    )
+                IconButton(
+                    onClick = methodOfThreeBlock
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Calculate,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = Color.Cyan.copy(
+                            alpha = 0.5f
+                        )
                     )
                 }
-                Button(
-                    onClick = productsWithQuantityBlock,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent
-                    )
+                IconButton(
+                    onClick = productsWithQuantityBlock
                 ) {
                     Icon(
                         imageVector = Icons.Filled.MonitorWeight,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = Color.Red.copy(
+                            alpha = 0.5f
+                        )
                     )
                 }
             }

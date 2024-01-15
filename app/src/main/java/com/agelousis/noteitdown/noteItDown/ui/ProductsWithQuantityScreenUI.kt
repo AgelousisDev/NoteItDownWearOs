@@ -39,11 +39,11 @@ import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.rememberRevealState
 import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
-import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material.SwipeToRevealChip
 import androidx.wear.compose.material.SwipeToRevealDefaults
 import androidx.wear.compose.material.SwipeToRevealPrimaryAction
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.R
@@ -96,7 +96,7 @@ fun ProductsWithQuantityScreenLayout(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    color = MaterialTheme.colors.background
+                    color = MaterialTheme.colorScheme.background
                 ),
             state = scalingLazyColumnState,
             verticalArrangement = Arrangement.spacedBy(
