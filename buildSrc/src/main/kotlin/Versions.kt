@@ -1,10 +1,10 @@
 object Versions {
     const val gradlePlugin = "8.2.2"
     const val kotlinVersion = "1.9.22"
-    const val composeVersion = "1.7.0-alpha01"
-    const val composeActivityVersion = "1.9.0-alpha02"
-    const val coreKtxVersion = "1.13.0-alpha04"
-    const val wearComposeVersion = "1.4.0-alpha01"
+    const val composeVersion = "1.7.0-alpha02"
+    const val composeActivityVersion = "1.9.0-alpha03"
+    const val coreKtxVersion = "1.13.0-alpha05"
+    const val wearComposeVersion = "1.4.0-alpha02"
     const val wearInputVersion = "1.2.0-alpha02"
     const val liveDataViewModelVersion = "2.8.0-alpha01"
     const val dataStorePreferenceVersion = "1.1.0-beta01"
@@ -13,13 +13,13 @@ object Versions {
     const val glanceWearTileVersion = "1.0.0-alpha05"
     const val retrofit2ConverterGsonVersion = "2.9.0"
     const val http3LoggingInterceptorVersion = "5.0.0-alpha.8"
-    const val kotlinCompilerExtensionVersion = "1.5.8"
+    const val kotlinCompilerExtensionVersion = "1.5.9"
     const val glanceVersion = "1.0.0-alpha05"
     const val glanceAppWidgetVersion = "1.0.0-alpha05"
     const val githubBanesVersion = "0.51.0"
     const val wearToolingPreviewDevicesVersion = "1.0.0-rc01"
     const val coilComposeVersion = "2.5.0"
-    const val wearComposeMaterialThreeVersion = "1.0.0-alpha16"
+    const val wearComposeMaterialThreeVersion = "1.0.0-alpha17"
 }
 object ConfigData {
     const val compileSdkVersion = 34
