@@ -3,19 +3,19 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.parcelize")
-    id("com.github.ben-manes.versions") version Versions.githubBanesVersion
+    id("com.github.ben-manes.versions") version Versions.GITHUB_BANES_VERSION
 }
 
 android {
-    namespace = ConfigData.packageName
-    compileSdk = ConfigData.compileSdkVersion
+    namespace = ConfigData.PACKAGE_NAME
+    compileSdk = ConfigData.COMPILE_SDK_VERSION
 
     defaultConfig {
         applicationId = "com.agelousis.noteitdown"
-        minSdk = ConfigData.minSdkVersion
-        targetSdk = ConfigData.targetSdkVersion
-        versionCode = ConfigData.versionCodeVersion
-        versionName = ConfigData.versionNameVersion
+        minSdk = ConfigData.MIN_SDK_VERSION
+        targetSdk = ConfigData.TARGET_SDK_VERSION
+        versionCode = ConfigData.VERSION_CODE
+        versionName = ConfigData.VERSION_NAME
 
     }
 
@@ -48,7 +48,7 @@ android {
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtensionVersion
+        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION_VERSION
     }
     packaging {
         resources {
