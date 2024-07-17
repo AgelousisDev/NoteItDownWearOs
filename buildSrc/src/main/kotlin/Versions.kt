@@ -1,7 +1,7 @@
 object Versions {
-    const val GRADLE_PLUGIN = "8.4.1"
-    const val KOTLIN_VERSION = "1.9.23"
-    const val COMPOSE_VERSION = "1.7.0-beta04"
+    const val GRADLE_PLUGIN = "8.5.0"
+    const val KOTLIN_VERSION = "1.9.24"
+    const val COMPOSE_VERSION = "1.7.0-beta05"
     const val COMPOSE_ACTIVITY_VERSION = "1.9.0"
     const val CORE_KTX_VERSION = "1.15.0-alpha01"
     const val WEAR_COMPOSE_VERSION = "1.4.0-beta03"
@@ -15,7 +15,7 @@ object Versions {
     const val HTTP_LOGGING_INTERCEPTOR_VERSION = "5.0.0-alpha.14"
 
     const val KOTLIN_COMPILER_EXTENSION_VERSION = "1.5.14"
-    const val GLANCE_VERSION = "1.1.0"
+    const val GLANCE_VERSION = "1.0.0-alpha05"
     const val GLANCE_APP_WIDGET_VERSION = "1.0.0-alpha05"
     const val GITHUB_BANES_VERSION = "0.51.0"
     const val WEAR_TOOLING_PREVIEW_DEVICES_VERSION = "1.0.0"

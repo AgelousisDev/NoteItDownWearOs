@@ -9,7 +9,7 @@ import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.agelousis.noteitdown.noteItDown.navigation.NoteItDownNavigationScreen
 import com.agelousis.noteitdown.noteItDown.ui.AddNoteScreenLayout
 import com.agelousis.noteitdown.noteItDown.ui.NotesListScreenLayout
-import com.agelousis.noteitdown.noteItDown.ui.ProductsWithQuantityScreenLayout
+import com.agelousis.noteitdown.noteItDown.ui.ProductsWithQuantityScreenView
 import com.agelousis.noteitdown.noteItDown.ui.RuleOfThreeLayout
 import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 
@@ -65,7 +65,7 @@ fun NoteItDownActivityNavigation(
         composable(
             route = NoteItDownNavigationScreen.ProductsWithQuantityScreen.route
         ) {
-            ProductsWithQuantityScreenLayout(
+            ProductsWithQuantityScreenView(
                 viewModel = viewModel,
                 scalingLazyColumnState = scalingLazyColumnState
             )
