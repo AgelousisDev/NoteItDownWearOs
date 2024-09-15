@@ -3,9 +3,6 @@ package com.agelousis.noteitdown.noteItDown.ui
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.gestures.animateScrollBy
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,8 +19,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
@@ -41,7 +36,6 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyListAnchorType
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
-import androidx.wear.compose.foundation.rememberActiveFocusRequester
 import androidx.wear.compose.foundation.rememberRevealState
 import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
@@ -93,8 +87,6 @@ fun ProductsWithQuantityScreenView(
             }
         }
     }
-    val focusRequester = rememberActiveFocusRequester()
-
     AnimatedLayout(
         initialState = isOnPreview,
         enter = scaleIn(),
@@ -106,21 +98,6 @@ fun ProductsWithQuantityScreenView(
                 .background(
                     color = MaterialTheme.colorScheme.background
                 )
-                .onRotaryScrollEvent {
-                    coroutineScope.launch {
-                        scalingLazyColumnState.scrollBy(
-                            value = it.verticalScrollPixels
-                        )
-                        scalingLazyColumnState.animateScrollBy(
-                            value = 0f
-                        )
-                    }
-                    true
-                }
-                .focusRequester(
-                    focusRequester = focusRequester
-                )
-                .focusable()
                 .fillMaxSize(),
             state = scalingLazyColumnState,
             verticalArrangement = Arrangement.spacedBy(
