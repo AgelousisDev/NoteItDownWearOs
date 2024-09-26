@@ -1,8 +1,11 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.material.*
+import androidx.wear.compose.material.Icon
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.models.NoteDataModel
 import com.agelousis.noteitdown.noteItDown.ui.rows.NoteRowLayout
@@ -23,7 +26,7 @@ import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import kotlinx.coroutines.launch
 
 @Composable
-fun NotesListScreenLayout(
+fun NotesListScreenView(
     scalingLazyColumnState: androidx.wear.compose.foundation.lazy.ScalingLazyListState,
     noteDataModelListForPreview: List<NoteDataModel>? = null
 ) {
@@ -52,7 +55,7 @@ fun NotesListScreenLayout(
             item {
                 Icon(
                     imageVector = Icons.Filled.Image,
-                    contentDescription = null,
+                    contentDescription = Icons.Filled.Image.name,
                     modifier = Modifier
                         .size(
                             size = 50.dp
@@ -82,9 +85,9 @@ fun NotesListScreenLayout(
 
 @Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
-fun NotesListScreenLayoutPreview() {
+fun NotesListScreenViewPreview() {
     NoteItDownTheme {
-        NotesListScreenLayout(
+        NotesListScreenView(
             scalingLazyColumnState = androidx.wear.compose.foundation.lazy.rememberScalingLazyListState(),
             noteDataModelListForPreview = listOf(
                 NoteDataModel(

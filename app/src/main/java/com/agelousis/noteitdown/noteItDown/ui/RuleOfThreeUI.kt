@@ -18,8 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,7 +37,7 @@ import com.agelousis.noteitdown.ui.theme.bold
 import com.agelousis.noteitdown.utils.extensions.asIntValue
 
 @Composable
-fun RuleOfThreeLayout(
+fun RuleOfThreeView(
     scalingLazyColumnState: ScalingLazyListState
 ) {
     ScalingLazyColumn(
@@ -63,13 +61,13 @@ fun RuleOfThreeLayout(
             )
         }
         item {
-            RuleOfThreeProcessLayout()
+            RuleOfThreeProcessView()
         }
     }
 }
 
 @Composable
-private fun RuleOfThreeProcessLayout() {
+private fun RuleOfThreeProcessView() {
     var startingPointValue by remember {
         mutableStateOf(value = "100")
     }
@@ -248,7 +246,7 @@ private fun getRuleOfThreeResult(
 @Composable
 fun RuleOfThreeLayoutPreview() {
     NoteItDownTheme {
-        RuleOfThreeLayout(
+        RuleOfThreeView(
             scalingLazyColumnState = rememberScalingLazyListState()
         )
     }

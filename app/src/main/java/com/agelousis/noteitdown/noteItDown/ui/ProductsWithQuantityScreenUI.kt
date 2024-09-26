@@ -97,8 +97,7 @@ fun ProductsWithQuantityScreenView(
                 .fillMaxSize()
                 .background(
                     color = MaterialTheme.colorScheme.background
-                )
-                .fillMaxSize(),
+                ),
             state = scalingLazyColumnState,
             verticalArrangement = Arrangement.spacedBy(
                 space = 8.dp
