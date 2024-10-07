@@ -1,6 +1,8 @@
 package com.agelousis.noteitdown.noteItDown.ui.rows
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -10,11 +12,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -32,7 +37,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material3.FilledTonalIconButton
+import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.compose.material3.MaterialTheme
 import coil.compose.AsyncImage
 import com.agelousis.noteitdown.R
@@ -52,7 +60,8 @@ fun ProductView(
     modifier: Modifier = Modifier,
     viewModel: NoteItDownBaseViewModel,
     productDataModel: ProductDataModel,
-    saveBlock: CompletionBlock<ProductDataModel>
+    saveBlock: CompletionBlock<ProductDataModel>,
+    deleteBlock: CompletionBlock<ProductDataModel>? = null
 ) {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -72,15 +81,16 @@ fun ProductView(
     RequestProductImage(
         viewModel = viewModel,
         productLabel =
-            if (productImageUrl == null
-                && (productQuantity.replace(
-                    oldValue = productDataModel.productQuantityType.code,
-                    newValue = ""
-            ).toDoubleOrNull() ?: 0.0) > 0.0)
-                productLabel
-            else
-                null,
-        successBlock = ProductImageUrl@ {
+        if (productImageUrl == null
+            && (productQuantity.replace(
+                oldValue = productDataModel.productQuantityType.code,
+                newValue = ""
+            ).toDoubleOrNull() ?: 0.0) > 0.0
+        )
+            productLabel
+        else
+            null,
+        successBlock = ProductImageUrl@{
             productDataModel.productImageUrl =
                 this@ProductImageUrl
             onProductImageUrl(
@@ -88,132 +98,164 @@ fun ProductView(
             )
         }
     )
-    Chip(
-        modifier = modifier,
-        onClick = {},
-        label = {
-            BasicTextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = productLabel
-                    ?: "",
-                onValueChange = { value ->
-                    onProductLabel(value)
-                },
-                textStyle = MaterialTheme.typography.bodyLarge.medium
-                        withTextAlign TextAlign.Center
-                        withColor Color.White,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        keyboardController?.hide()
-                    }
-                ),
-                decorationBox = { innerTextField ->
-                    if (productLabel.isNullOrEmpty())
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(
+            space = 8.dp
+        )
+    ) {
+        Chip(
+            modifier = modifier,
+            onClick = {},
+            label = {
+                BasicTextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = productLabel
+                        ?: "",
+                    onValueChange = { value ->
+                        onProductLabel(value)
+                    },
+                    textStyle = MaterialTheme.typography.bodyLarge.medium
+                            withTextAlign TextAlign.Center
+                            withColor Color.White,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide()
+                        }
+                    ),
+                    decorationBox = { innerTextField ->
+                        if (productLabel.isNullOrEmpty())
+                            Text(
+                                text = stringResource(id = R.string.key_product_name_here_label),
+                                style = MaterialTheme.typography.labelSmall
+                                        withTextAlign TextAlign.Center
+                            )
+                        innerTextField()
+                    },
+                    cursorBrush = SolidColor(
+                        value = Color.White
+                    )
+                )
+            },
+            secondaryLabel = {
+                BasicTextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = productQuantity,
+                    onValueChange = { value ->
+                        onProductQuantity(
+                            value
+                        )
+                    },
+                    enabled = !productLabel.isNullOrEmpty(),
+                    textStyle = MaterialTheme.typography.labelMedium
+                            withTextAlign TextAlign.Center
+                            withColor Color.White,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Decimal,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide()
+                            if ((productQuantity.replace(
+                                    oldValue = productDataModel.productQuantityType.code,
+                                    newValue = ""
+                                ).toDoubleOrNull() ?: 0.0) > 0.0
+                            )
+                                saveBlock(
+                                    ProductDataModel(
+                                        id = productDataModel.id,
+                                        productLabel = productLabel,
+                                        productImageUrl = productImageUrl,
+                                        productQuantity = productQuantity.replace(
+                                            oldValue = productDataModel.productQuantityType.code,
+                                            newValue = ""
+                                        ).toDoubleOrNull() ?: 0.0
+                                    )
+                                )
+                        }
+                    ),
+                    decorationBox = { innerTextField ->
                         Text(
-                            text = stringResource(id = R.string.key_product_name_here_label),
+                            modifier = Modifier
+                                .padding(
+                                    top = 16.dp
+                                )
+                                .fillMaxWidth(),
+                            text = productDataModel.productQuantityType.code,
                             style = MaterialTheme.typography.labelSmall
                                     withTextAlign TextAlign.Center
                         )
-                    innerTextField()
-                },
-                cursorBrush = SolidColor(
-                    value = Color.White
-                )
-            )
-        },
-        secondaryLabel = {
-            BasicTextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = productQuantity,
-                onValueChange = { value ->
-                    onProductQuantity(
-                        value
+
+                        innerTextField()
+                    },
+                    cursorBrush = SolidColor(
+                        value = Color.White
                     )
-                },
-                enabled = !productLabel.isNullOrEmpty(),
-                textStyle = MaterialTheme.typography.labelMedium
-                        withTextAlign TextAlign.Center
-                        withColor Color.White,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Decimal,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        keyboardController?.hide()
-                        if ((productQuantity.replace(
-                                oldValue = productDataModel.productQuantityType.code,
-                                newValue = ""
-                            ).toDoubleOrNull() ?: 0.0) > 0.0
-                        )
-                            saveBlock(
-                                ProductDataModel(
-                                    id = productDataModel.id,
-                                    productLabel = productLabel,
-                                    productImageUrl = productImageUrl,
-                                    productQuantity = productQuantity.replace(
-                                        oldValue = productDataModel.productQuantityType.code,
-                                        newValue = ""
-                                    ).toDoubleOrNull() ?: 0.0
-                                )
-                            )
-                    }
-                ),
-                decorationBox = { innerTextField ->
-                    Text(
+                )
+            },
+            icon = {
+                if (!productImageUrl.isNullOrEmpty())
+                    AsyncImage(
                         modifier = Modifier
-                            .padding(
-                                top = 16.dp
+                            .clip(
+                                shape = CircleShape
                             )
-                            .fillMaxWidth(),
-                        text = productDataModel.productQuantityType.code,
-                        style = MaterialTheme.typography.labelSmall
-                                withTextAlign TextAlign.Center
+                            .size(
+                                size = 28.dp
+                            ),
+                        model = context imageRequest productImageUrl,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop
                     )
-                    innerTextField()
-                },
-                cursorBrush = SolidColor(
-                    value = Color.White
-                )
+                else
+                    Image(
+                        modifier = Modifier
+                            .size(
+                                size = 28.dp
+                            ),
+                        painter = painterResource(id = R.drawable.ic_food_drink),
+                        contentDescription = null
+                    )
+            },
+            shape = RoundedCornerShape(
+                size = 16.dp
+            ),
+            colors = ChipDefaults.chipColors(
+                backgroundColor = productDataModel.backgroundColor
             )
-        },
-        icon = {
-            if (!productImageUrl.isNullOrEmpty())
-                AsyncImage(
-                    modifier = Modifier
-                        .clip(
-                            shape = CircleShape
-                        )
-                        .size(
-                            size = 28.dp
-                        ),
-                    model = context imageRequest productImageUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop
-                )
-            else
-                Image(
-                    modifier = Modifier
-                        .size(
-                            size = 28.dp
-                        ),
-                    painter = painterResource(id = R.drawable.ic_food_drink),
-                    contentDescription = null
-                )
-        },
-        shape = RoundedCornerShape(
-            size = 16.dp
-        ),
-        colors = ChipDefaults.chipColors(
-            backgroundColor = productDataModel.backgroundColor
         )
-    )
+        if (deleteBlock !=null)
+            FilledTonalIconButton(
+                modifier = Modifier
+                    .size(
+                        size = 32.dp
+                    ),
+                onClick = {
+                    deleteBlock(
+                        productDataModel
+                    )
+                },
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = productDataModel.backgroundColor
+                )
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(
+                            size = 16.dp
+                        ),
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = Icons.Outlined.Delete.name
+                )
+            }
+    }
 }
 
 @Composable
@@ -249,7 +291,8 @@ fun ProductViewPreview() {
                 productQuantity = 100.0,
                 productQuantityType = ProductQuantityType.GRAM
             ),
-            saveBlock = {}
+            saveBlock = {},
+            deleteBlock = {}
         )
     }
 }

@@ -105,7 +105,9 @@ class PreferencesStoreHelper(private val context: Context) {
 
     val productDataModelList
         get() = context.dataStore.data.map { preferences ->
-            preferences[PRODUCT_DATA_KEY]?.takeIf { it.isNotEmpty() }?.toModelList<ProductDataModel>()
+            preferences[PRODUCT_DATA_KEY]?.takeIf { it.isNotEmpty() }
+                ?.toModelList<ProductDataModel>()
+                ?.toMutableList()
         }
     //endregion
 
