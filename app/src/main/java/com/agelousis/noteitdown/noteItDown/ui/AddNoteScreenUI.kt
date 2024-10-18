@@ -54,7 +54,7 @@ typealias ButtonBlock = () -> Unit
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun AddNoteScreenLayout(
+fun AddNoteScreenView(
     scalingLazyColumnState: ScalingLazyListState,
     notesListBlock: ButtonBlock,
     methodOfThreeBlock: ButtonBlock,
@@ -246,9 +246,9 @@ private fun getRemoteIntentInput(
 
 @Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
-fun AddNoteScreenLayoutPreview() {
+fun AddNoteScreenViewreview() {
     NoteItDownTheme {
-        AddNoteScreenLayout(
+        AddNoteScreenView(
             scalingLazyColumnState = rememberScalingLazyListState(),
             notesListBlock = {},
             methodOfThreeBlock = {},

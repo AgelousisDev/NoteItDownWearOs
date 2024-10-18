@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -32,7 +33,9 @@ import com.agelousis.noteitdown.noteItDown.ui.rows.ProductView
 import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun ProductsWithQuantityScreenView(
@@ -53,15 +56,22 @@ fun ProductsWithQuantityScreenView(
     )
     val productDataModelStateList by remember {
         derivedStateOf {
-            (productDataModelList?.toMutableStateList()
-                ?: mutableStateListOf()).apply ProductDataModelList@{
-                if (productDataModelList.isNullOrEmpty()
-                    || this@ProductDataModelList.none(predicate = ProductDataModel::isEmpty)
-                )
-                    this@ProductDataModelList.add(
-                        element = ProductDataModel.empty
-                    )
-            }
+            productDataModelList?.toMutableStateList()
+                ?: mutableStateListOf()
+        }
+    }
+    LaunchedEffect(
+        key1 = productDataModelList?.size
+    ) {
+        if (productDataModelStateList.isEmpty()
+            || productDataModelStateList.none(predicate = ProductDataModel::isEmpty)
+        ) {
+            delay(
+                duration = 1.seconds
+            )
+            productDataModelStateList.add(
+                element = ProductDataModel.empty
+            )
         }
     }
     //val swipeToDismissBoxState = rememberSwipeToDismissBoxState()

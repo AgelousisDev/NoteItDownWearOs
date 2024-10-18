@@ -18,14 +18,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -65,8 +67,12 @@ fun ProductView(
 ) {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    val focusRequester = remember {
+        FocusRequester()
+    }
+    val focusManager = LocalFocusManager.current
     val (productLabel, onProductLabel) = remember {
-        mutableStateOf(value = productDataModel.productLabel)
+        mutableStateOf(value = productDataModel.productLabel ?: "")
     }
     val (productQuantity, onProductQuantity) = remember {
         mutableStateOf(
@@ -75,7 +81,7 @@ fun ProductView(
             }?.toString() ?: ""
         )
     }
-    val (productImageUrl, onProductImageUrl) = rememberSaveable {
+    val (productImageUrl, onProductImageUrl) = remember {
         mutableStateOf(value = productDataModel.productImageUrl)
     }
     RequestProductImage(
@@ -110,9 +116,11 @@ fun ProductView(
             label = {
                 BasicTextField(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    value = productLabel
-                        ?: "",
+                        .fillMaxWidth()
+                        .focusRequester(
+                            focusRequester = focusRequester
+                        ),
+                    value = productLabel,
                     onValueChange = { value ->
                         onProductLabel(value)
                     },
@@ -125,11 +133,12 @@ fun ProductView(
                     ),
                     keyboardActions = KeyboardActions(
                         onDone = {
+                            focusManager.clearFocus()
                             keyboardController?.hide()
                         }
                     ),
                     decorationBox = { innerTextField ->
-                        if (productLabel.isNullOrEmpty())
+                        if (productLabel.isEmpty())
                             Text(
                                 text = stringResource(id = R.string.key_product_name_here_label),
                                 style = MaterialTheme.typography.labelSmall
@@ -145,14 +154,17 @@ fun ProductView(
             secondaryLabel = {
                 BasicTextField(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .focusRequester(
+                            focusRequester = focusRequester
+                        ),
                     value = productQuantity,
                     onValueChange = { value ->
                         onProductQuantity(
                             value
                         )
                     },
-                    enabled = !productLabel.isNullOrEmpty(),
+                    enabled = productLabel.isNotEmpty(),
                     textStyle = MaterialTheme.typography.labelMedium
                             withTextAlign TextAlign.Center
                             withColor Color.White,
@@ -162,6 +174,7 @@ fun ProductView(
                     ),
                     keyboardActions = KeyboardActions(
                         onDone = {
+                            focusManager.clearFocus()
                             keyboardController?.hide()
                             if ((productQuantity.replace(
                                     oldValue = productDataModel.productQuantityType.code,

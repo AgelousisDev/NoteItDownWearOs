@@ -17,7 +17,7 @@ import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 
 @Composable
-fun NoteItDownActivityLayout() {
+fun NoteItDownActivityView() {
     val viewModel = viewModel<NoteItDownBaseViewModel>()
     val scalingLazyColumnState = rememberScalingLazyListState()
     Scaffold(
@@ -49,8 +49,8 @@ fun NoteItDownActivityLayout() {
 
 @Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
-fun NoteItDownActivityLayoutPreview() {
+fun NoteItDownActivityLayoutView() {
     NoteItDownTheme {
-        NoteItDownActivityLayout()
+        NoteItDownActivityView()
     }
 }
