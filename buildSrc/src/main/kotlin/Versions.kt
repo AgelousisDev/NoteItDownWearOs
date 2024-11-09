@@ -1,15 +1,15 @@
 object Versions {
-    const val GRADLE_PLUGIN = "8.7.1"
+    const val GRADLE_PLUGIN = "8.7.2"
     const val KOTLIN_VERSION = "2.0.20"
-    const val COMPOSE_VERSION = "1.7.3"
-    const val COMPOSE_ACTIVITY_VERSION = "1.9.0"
-    const val CORE_KTX_VERSION = "1.13.1"
-    const val WEAR_COMPOSE_VERSION = "1.4.0"
+    const val COMPOSE_VERSION = "1.7.5"
+    const val COMPOSE_ACTIVITY_VERSION = "1.10.0-alpha03"
+    const val CORE_KTX_VERSION = "1.15.0"
+    const val WEAR_COMPOSE_VERSION = "1.5.0-alpha05"
     const val WEAR_INPUT_VERSION = "1.2.0-alpha02"
-    const val LIVE_DATA_VIEW_MODEL_VERSION = "2.8.5"
+    const val LIVE_DATA_VIEW_MODEL_VERSION = "2.9.0-alpha06"
     const val DATA_STORE_PREFERENCE_VERSION = "1.1.1"
-    const val CONSTRAINT_LAYOUT_COMPOSE_VERSION = "1.0.1"
-    const val LIFECYCLE_RUNTIME_KTX_VERSION = "2.8.5"
+    const val CONSTRAINT_LAYOUT_COMPOSE_VERSION = "1.1.0"
+    const val LIFECYCLE_RUNTIME_KTX_VERSION = "2.9.0-alpha06"
     const val GLANCE_WEAR_TILE_VERSION = "1.0.0-alpha05"
     const val RETROFIT_CONVERTER_GSON_VERSION = "2.11.0"
     const val HTTP_LOGGING_INTERCEPTOR_VERSION = "5.0.0-alpha.14"
@@ -20,12 +20,12 @@ object Versions {
     const val GITHUB_BANES_VERSION = "0.51.0"
     const val WEAR_TOOLING_PREVIEW_DEVICES_VERSION = "1.0.0"
     const val COIL_COMPOSE_VERSION = "2.7.0"
-    const val WEAR_COMPOSE_MATERIAL_YOU_VERSION = "1.0.0-alpha23"
+    const val WEAR_COMPOSE_MATERIAL_YOU_VERSION = "1.0.0-alpha28"
 }
 object ConfigData {
-    const val COMPILE_SDK_VERSION = 34
+    const val COMPILE_SDK_VERSION = 35
     const val MIN_SDK_VERSION = 28
-    const val TARGET_SDK_VERSION = 34
+    const val TARGET_SDK_VERSION = 35
     const val VERSION_CODE = 1
     const val VERSION_NAME = "1.0"
     const val PACKAGE_NAME = "com.agelousis.noteitdown"

@@ -105,13 +105,17 @@ fun ProductView(
         }
     )
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
             space = 8.dp
         )
     ) {
         Chip(
-            modifier = modifier,
+            modifier = Modifier
+                .fillMaxWidth(
+                    fraction = 0.7f
+                ),
             onClick = {},
             label = {
                 BasicTextField(
@@ -300,7 +304,7 @@ fun ProductViewPreview() {
             viewModel = viewModel(),
             productDataModel = ProductDataModel(
                 id = 0,
-                productLabel = "Banana",
+                productLabel = "Brussel sprouts",
                 productQuantity = 100.0,
                 productQuantityType = ProductQuantityType.GRAM
             ),

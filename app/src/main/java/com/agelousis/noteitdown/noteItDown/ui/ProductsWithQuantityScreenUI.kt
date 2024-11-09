@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -33,9 +32,8 @@ import com.agelousis.noteitdown.noteItDown.ui.rows.ProductView
 import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.seconds
+import kotlin.random.Random
 
 @Composable
 fun ProductsWithQuantityScreenView(
@@ -60,20 +58,6 @@ fun ProductsWithQuantityScreenView(
                 ?: mutableStateListOf()
         }
     }
-    LaunchedEffect(
-        key1 = productDataModelList?.size
-    ) {
-        if (productDataModelStateList.isEmpty()
-            || productDataModelStateList.none(predicate = ProductDataModel::isEmpty)
-        ) {
-            delay(
-                duration = 1.seconds
-            )
-            productDataModelStateList.add(
-                element = ProductDataModel.empty
-            )
-        }
-    }
     //val swipeToDismissBoxState = rememberSwipeToDismissBoxState()
     ScalingLazyColumn(
         modifier = Modifier
@@ -92,11 +76,18 @@ fun ProductsWithQuantityScreenView(
         anchorType = ScalingLazyListAnchorType.ItemStart
     ) {
         items(
-            items = if (isOnPreview) (productDataModelListForPreview
-                ?: listOf()) else productDataModelStateList,
+            items = (if (isOnPreview) (productDataModelListForPreview
+                ?: listOf()) else productDataModelStateList).toMutableList().apply ProductList@ {
+                    this@ProductList.add(
+                        element = ProductDataModel.empty
+                    )
+            },
             key = { productDataModel ->
-                productDataModel.id
-                    ?: 0
+                if (productDataModel.isEmpty)
+                    Random.nextInt()
+                else
+                    productDataModel.id
+                        ?: 0
             }
         ) { productDataModel ->
             ProductView(
