@@ -1,7 +1,8 @@
 object Versions {
     const val GRADLE_PLUGIN = "8.7.2"
     const val KOTLIN_VERSION = "2.0.20"
-    const val COMPOSE_VERSION = "1.7.5"
+    const val COMPOSE_VERSION = "1.8.0-alpha05"
+    const val COMPOSE_MATERIAL_ICONS_EXTENDED_VERSION = "1.7.5"
     const val COMPOSE_ACTIVITY_VERSION = "1.10.0-alpha03"
     const val CORE_KTX_VERSION = "1.15.0"
     const val WEAR_COMPOSE_VERSION = "1.5.0-alpha05"
