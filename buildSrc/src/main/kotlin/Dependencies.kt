@@ -5,7 +5,7 @@ object Dependencies {
     val coreKtx by lazy { "androidx.core:core-ktx:${Versions.CORE_KTX_VERSION}" }
     val dataStorePreferences by lazy { "androidx.datastore:datastore-preferences:${Versions.DATA_STORE_PREFERENCE_VERSION}" }
     val compose by lazy { "androidx.compose.ui:ui:${Versions.COMPOSE_VERSION}" }
-    val composeMaterialIconsExtended by lazy { "androidx.compose.material:material-icons-extended:${Versions.COMPOSE_MATERIAL_ICONS_EXTENDED_VERSION}" }
+    val composeMaterialIconsExtended by lazy { "androidx.compose.material:material-icons-extended:${Versions.COMPOSE_VERSION}" }
     val wearComposeMaterial by lazy { "androidx.wear.compose:compose-material:${Versions.WEAR_COMPOSE_VERSION}" }
     val wearComposeMaterialThree by lazy { "androidx.wear.compose:compose-material3:${Versions.WEAR_COMPOSE_MATERIAL_YOU_VERSION}" }
     val wearComposeFoundation by lazy { "androidx.wear.compose:compose-foundation:${Versions.WEAR_COMPOSE_VERSION}" }
