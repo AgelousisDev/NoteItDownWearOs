@@ -24,9 +24,9 @@ object Versions {
     const val WEAR_COMPOSE_MATERIAL_YOU_VERSION = "1.0.0-alpha28"
 }
 object ConfigData {
-    const val COMPILE_SDK_VERSION = 35
+    const val COMPILE_SDK_VERSION = 34
     const val MIN_SDK_VERSION = 28
-    const val TARGET_SDK_VERSION = 35
+    const val TARGET_SDK_VERSION = 34
     const val VERSION_CODE = 1
     const val VERSION_NAME = "1.0"
     const val PACKAGE_NAME = "com.agelousis.noteitdown"
