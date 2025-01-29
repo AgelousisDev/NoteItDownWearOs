@@ -45,7 +45,7 @@ inline fun <reified T: Parcelable> Intent.getParcelable(
 ) = if (isAndroid13)
     extras?.getParcelable(key, T::class.java)
 else
-    extras?.getParcelable(key)
+    extras?.  getParcelable(key)
 
 inline fun <reified T: java.io.Serializable> Intent.getSerializable(
     key: String

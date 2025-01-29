@@ -125,9 +125,7 @@ fun ProductView(
                             focusRequester = focusRequester
                         ),
                     value = productLabel,
-                    onValueChange = { value ->
-                        onProductLabel(value)
-                    },
+                    onValueChange = onProductLabel,
                     textStyle = MaterialTheme.typography.bodyLarge.medium
                             withTextAlign TextAlign.Center
                             withColor Color.White,
