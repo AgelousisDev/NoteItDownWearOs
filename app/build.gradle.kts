@@ -62,6 +62,7 @@ dependencies {
     implementation(Dependencies.coreKtx)
     implementation(Dependencies.dataStorePreferences)
     implementation(Dependencies.compose)
+    implementation(Dependencies.composeMaterialIconsCore)
     implementation(Dependencies.composeMaterialIconsExtended)
     //implementation(Dependencies.wearComposeMaterial)
     implementation(Dependencies.wearComposeMaterialThree)
