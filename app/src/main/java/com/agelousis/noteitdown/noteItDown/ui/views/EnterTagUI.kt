@@ -53,6 +53,10 @@ fun EnterTagView(
         )
     ) {
         Chip(
+            modifier = Modifier
+                .height(
+                    height = 35.dp
+                ),
             label = {
                 Text(
                     text = tagState
@@ -71,13 +75,13 @@ fun EnterTagView(
                         extrasKey = TAG_EXTRAS_KEY
                     )
                 )
-            },
+            }
+        )
+        Chip(
             modifier = Modifier
                 .height(
                     height = 35.dp
-                )
-        )
-        Chip(
+                ),
             label = {
                 Text(
                     text = noteState
@@ -98,11 +102,7 @@ fun EnterTagView(
             },
             colors = ChipDefaults.chipColors(
                 backgroundColor = MaterialTheme.colorScheme.secondary
-            ),
-            modifier = Modifier
-                .height(
-                    height = 35.dp
-                )
+            )
         )
     }
 }
