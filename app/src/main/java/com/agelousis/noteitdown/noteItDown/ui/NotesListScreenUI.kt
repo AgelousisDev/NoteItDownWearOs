@@ -20,7 +20,7 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.Icon
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.models.NoteDataModel
-import com.agelousis.noteitdown.noteItDown.ui.rows.NoteRowLayout
+import com.agelousis.noteitdown.noteItDown.ui.views.NoteRowLayout
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import kotlinx.coroutines.launch

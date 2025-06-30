@@ -11,4 +11,10 @@
     <string name="key_delete_label">Delete</string>
     <string name="key_undo_label">Undo</string>
     <string name="key_products_with_quantity_label">Products with Quantity</string>
+    <string-array name="key_management_chip_labels_array">
+        <item>Save</item>
+        <item>Notes List</item>
+        <item>Rule Of Three</item>
+        <item>Products with Quantity</item>
+    </string-array>
 </resources>

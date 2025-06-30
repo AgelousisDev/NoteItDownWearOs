@@ -1,5 +1,5 @@
 object Versions {
-    const val GRADLE_PLUGIN = "8.10.1"
+    const val GRADLE_PLUGIN = "8.11.0"
     const val KOTLIN_VERSION = "2.2.0-Beta2"
     const val COMPOSE_VERSION = "1.9.0-alpha04"
     const val COMPOSE_ACTIVITY_VERSION = "1.12.0-alpha01"

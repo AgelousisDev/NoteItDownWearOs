@@ -1,4 +1,4 @@
-package com.agelousis.noteitdown.noteItDown.ui.rows
+package com.agelousis.noteitdown.noteItDown.ui.views
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*

@@ -1,0 +1,158 @@
+package com.agelousis.noteitdown.noteItDown.ui.views
+
+import android.app.RemoteInput
+import android.content.Context
+import android.content.Intent
+import android.view.inputmethod.EditorInfo
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.Text
+import androidx.wear.input.RemoteInputIntentHelper
+import androidx.wear.input.wearableExtender
+import com.agelousis.noteitdown.R
+import com.agelousis.noteitdown.network.SuccessBlock
+import com.agelousis.noteitdown.ui.extensions.whiteRoundedBackgroundModifier
+import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
+import com.agelousis.noteitdown.ui.theme.withColor
+
+private const val NOTE_EXTRAS_KEY = "noteKey"
+private const val TAG_EXTRAS_KEY = "tagKey"
+
+@Composable
+fun EnterTagView(
+    modifier: Modifier,
+    tagState: String?,
+    noteState: String?,
+    writingTag: SuccessBlock<String?>,
+    writingNote: SuccessBlock<String?>
+) {
+    val context = LocalContext.current
+    val launcher = tagLauncher(
+        writingNote = writingNote,
+        writingTag = writingTag
+    )
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(
+            space = 8.dp
+        )
+    ) {
+        Chip(
+            label = {
+                Text(
+                    text = tagState
+                        ?: stringResource(
+                            id = R.string.key_add_tag_here
+                        ),
+                    style = MaterialTheme.typography.labelMedium
+                            withColor Color.Black
+                )
+
+            },
+            onClick = {
+                launcher.launch(
+                    getRemoteIntentInput(
+                        context = context,
+                        extrasKey = TAG_EXTRAS_KEY
+                    )
+                )
+            },
+            modifier = Modifier
+                .height(
+                    height = 35.dp
+                )
+        )
+        Chip(
+            label = {
+                Text(
+                    text = noteState
+                        ?: stringResource(
+                            id = R.string.key_add_note_label
+                        ),
+                    style = MaterialTheme.typography.labelMedium
+                            withColor Color.Black
+                )
+            },
+            onClick = {
+                launcher.launch(
+                    getRemoteIntentInput(
+                        context = context,
+                        extrasKey = NOTE_EXTRAS_KEY
+                    )
+                )
+            },
+            colors = ChipDefaults.chipColors(
+                backgroundColor = MaterialTheme.colorScheme.secondary
+            ),
+            modifier = Modifier
+                .height(
+                    height = 35.dp
+                )
+        )
+    }
+}
+
+@Composable
+private fun tagLauncher(
+    writingNote: SuccessBlock<String?>,
+    writingTag: SuccessBlock<String?>
+) = rememberLauncherForActivityResult(
+    contract = ActivityResultContracts.StartActivityForResult()
+) { activityResult ->
+    activityResult.data?.let { data ->
+        val results = RemoteInput.getResultsFromIntent(data)
+        when {
+            results.containsKey(NOTE_EXTRAS_KEY) ->
+                writingNote(results?.getCharSequence(NOTE_EXTRAS_KEY) as? String)
+            results.containsKey(TAG_EXTRAS_KEY) ->
+                writingTag(results?.getCharSequence(TAG_EXTRAS_KEY) as? String)
+        }
+    }
+}
+
+private fun getRemoteIntentInput(
+    context: Context,
+    extrasKey: String
+): Intent {
+    val intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
+    val remoteInputs = listOf(
+        RemoteInput.Builder(extrasKey)
+            .setLabel(context.resources.getString(R.string.key_add_note_label))
+            .wearableExtender {
+                setEmojisAllowed(false)
+                setInputActionType(EditorInfo.IME_ACTION_DONE)
+            }.build()
+    )
+    RemoteInputIntentHelper.putRemoteInputsExtra(intent, remoteInputs)
+    return intent
+}
+
+@Preview
+@Composable
+fun EnterTagViewPreview() {
+    NoteItDownTheme {
+        EnterTagView(
+            modifier = Modifier
+                .whiteRoundedBackgroundModifier,
+            tagState = "Tag",
+            noteState = "Note",
+            writingTag = {},
+            writingNote = {}
+        )
+    }
+}
