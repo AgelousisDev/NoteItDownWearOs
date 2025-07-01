@@ -8,6 +8,7 @@ import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.agelousis.noteitdown.noteItDown.navigation.NoteItDownNavigationScreen
 import com.agelousis.noteitdown.noteItDown.ui.AddNoteScreenView
+import com.agelousis.noteitdown.noteItDown.ui.BasicMenuScreenView
 import com.agelousis.noteitdown.noteItDown.ui.NotesListScreenView
 import com.agelousis.noteitdown.noteItDown.ui.ProductsWithQuantityScreenView
 import com.agelousis.noteitdown.noteItDown.ui.RuleOfThreeView
@@ -24,13 +25,18 @@ fun NoteItDownActivityNavigation(
         navController = navController,
         startDestination = (context as? NoteItDownActivity)?.intent?.extras?.getString(
             NoteItDownActivity.NOTE_IT_DOWN_NAVIGATION_SCREEN_EXTRA
-        ) ?: NoteItDownNavigationScreen.AddNoteScreen.route
+        ) ?: NoteItDownNavigationScreen.BasicMenuScreen.route
     ) {
         composable(
-            route = NoteItDownNavigationScreen.AddNoteScreen.route
+            route = NoteItDownNavigationScreen.BasicMenuScreen.route
         ) {
-            AddNoteScreenView(
+            BasicMenuScreenView(
                 scalingLazyColumnState = scalingLazyColumnState,
+                addNoteBlock = {
+                    navController.navigate(
+                        route = NoteItDownNavigationScreen.AddNoteScreen.route
+                    )
+                },
                 notesListBlock = {
                     navController.navigate(
                         route = NoteItDownNavigationScreen.NotesListScreen.route
@@ -46,6 +52,13 @@ fun NoteItDownActivityNavigation(
                         route = NoteItDownNavigationScreen.ProductsWithQuantityScreen.route
                     )
                 }
+            )
+        }
+        composable(
+            route = NoteItDownNavigationScreen.AddNoteScreen.route
+        ) {
+            AddNoteScreenView(
+                scalingLazyColumnState = scalingLazyColumnState
             )
         }
         composable(

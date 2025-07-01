@@ -1,4 +1,3 @@
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -8,6 +7,7 @@ plugins {
 }
 
 android {
+
     namespace = ConfigData.PACKAGE_NAME
     compileSdk = ConfigData.COMPILE_SDK_VERSION
 
@@ -41,15 +41,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         compose = true
         buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION_VERSION
+    }
+    kotlin {
+        jvmToolchain(
+            jdkVersion = 17
+        )
     }
     packaging {
         resources {

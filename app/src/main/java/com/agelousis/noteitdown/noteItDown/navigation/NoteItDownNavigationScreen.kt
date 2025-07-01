@@ -4,15 +4,9 @@ sealed class NoteItDownNavigationScreen(
     val route: String
 ) {
 
-    companion object {
-
-        infix fun fromRoute(
-            route: String?
-        ) = NoteItDownNavigationScreen::class.sealedSubclasses.firstOrNull { noteItDownNavigationScreen ->
-            noteItDownNavigationScreen.objectInstance?.route == route
-        }?.objectInstance
-
-    }
+    data object BasicMenuScreen: NoteItDownNavigationScreen(
+        route = "BasicMenuScreen"
+    )
 
     data object AddNoteScreen: NoteItDownNavigationScreen(
         route = "AddNoteScreen"

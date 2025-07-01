@@ -6,8 +6,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+typealias ButtonBlock = () -> Unit
+
 val Modifier.whiteRoundedBackgroundModifier
-    get() = background(
+    get() = this.background(
         color = Color.White,
         shape = RoundedCornerShape(
             size = 16.dp

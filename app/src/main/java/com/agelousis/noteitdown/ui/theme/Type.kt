@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.wear.compose.material3.Typography
 import com.agelousis.noteitdown.R
 
@@ -65,6 +66,14 @@ infix fun TextStyle.withColor(
 ) = merge(
     other = TextStyle(
         color = color
+    )
+)
+
+infix fun TextStyle.withSize(
+    textSize: TextUnit
+) = merge(
+    other = TextStyle(
+        fontSize = textSize
     )
 )
 
