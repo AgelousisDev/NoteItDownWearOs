@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,7 +42,7 @@ fun BasicMenuScreenView(
 ) {
     val density = LocalDensity.current
     val screenWidth = LocalWindowInfo.current.containerSize.width
-    val resources = LocalResources.current
+    val context = LocalContext.current
     ScalingLazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -89,7 +89,7 @@ fun BasicMenuScreenView(
                 },
                 label = {
                     Text(
-                        text = noteItDownManagementChip label resources,
+                        text = noteItDownManagementChip label context.resources,
                         style = MaterialTheme.typography.labelMedium
                     )
                 },

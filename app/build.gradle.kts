@@ -1,22 +1,19 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.parcelize")
-    id("com.github.ben-manes.versions") version Versions.GITHUB_BANES_VERSION
-    id("org.jetbrains.kotlin.plugin.compose") version Versions.KOTLIN_VERSION
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
-
-    namespace = ConfigData.PACKAGE_NAME
-    compileSdk = ConfigData.COMPILE_SDK_VERSION
+    namespace = "com.agelousis.noteitdown"
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.agelousis.noteitdown"
-        minSdk = ConfigData.MIN_SDK_VERSION
-        targetSdk = ConfigData.TARGET_SDK_VERSION
-        versionCode = ConfigData.VERSION_CODE
-        versionName = ConfigData.VERSION_NAME
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
 
     }
 
@@ -45,9 +42,6 @@ android {
         compose = true
         buildConfig = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION_VERSION
-    }
     kotlin {
         jvmToolchain(
             jdkVersion = 17
@@ -61,7 +55,33 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.coreKtx)
+    implementation(libs.play.services.wearable)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.ui)
+    implementation(libs.ui.graphics)
+    implementation(libs.ui.tooling.preview)
+    implementation(libs.compose.material)
+    implementation(libs.compose.foundation)
+    implementation(libs.wear.tooling.preview)
+    implementation(libs.activity.compose)
+    implementation(libs.core.splashscreen)
+    implementation(libs.wear.compose.navigation)
+    implementation(libs.wear.compose.materialYou)
+    implementation(libs.compose.material.icons)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.wear.input)
+    implementation(libs.glance)
+    implementation(libs.glance.app.widget)
+    implementation(libs.glance.wear.tiles)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.http3.logging.interceptor)
+    implementation(libs.data.store.preferences)
+    implementation(libs.coil.compose)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.ui.test.junit4)
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
+    /*implementation(Dependencies.coreKtx)
     implementation(Dependencies.dataStorePreferences)
     implementation(Dependencies.compose)
     implementation(Dependencies.composeMaterialIconsCore)
@@ -87,5 +107,5 @@ dependencies {
     androidTestImplementation(Dependencies.composeUiTest)
     debugImplementation(Dependencies.composeUiTooling)
     debugImplementation(Dependencies.composeUiTestManifest)
-    implementation(kotlin("reflect"))
+    implementation(kotlin("reflect"))*/
 }

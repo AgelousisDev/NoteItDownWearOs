@@ -1,0 +1,59 @@
+[versions]
+agp = "8.11.0"
+kotlin = "2.2.0"
+playServicesWearable = "19.0.0"
+composeBom = "2025.06.01"
+composeMaterial = "1.4.1"
+composeFoundation = "1.4.1"
+wearToolingPreview = "1.0.0"
+activityCompose = "1.10.1"
+coreSplashscreen = "1.0.1"
+wearComposeNavigationVersion = "1.4.1"
+wearComposeMaterialYouVersion = "1.0.0-alpha37"
+composeMaterialIconsVersion = "1.7.8"
+retrofit2ConverterGsonVersion = "3.0.0"
+http3LoggingInterceptorVersion = "5.0.0-alpha.17"
+dataStorePreferencesVersion = "1.1.7"
+coilComposeVersion = "2.7.0"
+glanceVersion = "1.0.0-alpha05"
+glanceAppWidgetVersion = "1.0.0-alpha05"
+glanceWearTilesVersion = "1.0.0-alpha05"
+wearInputVersion = "1.2.0-alpha02"
+targetSdk = "36"
+compileSdk = "36"
+minSdk = "30"
+versionName = "1.0"
+versionCode = "1"
+
+[libraries]
+play-services-wearable = { group = "com.google.android.gms", name = "play-services-wearable", version.ref = "playServicesWearable" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+ui = { group = "androidx.compose.ui", name = "ui" }
+ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
+compose-foundation = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeFoundation" }
+wear-tooling-preview = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+wear-compose-navigation = { group = "androidx.wear.compose", name = "compose-navigation", version.ref = "wearComposeNavigationVersion"}
+wear-compose-materialYou = { group = "androidx.wear.compose", name = "compose-material3", version.ref = "wearComposeMaterialYouVersion" }
+compose-material-icons = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "composeMaterialIconsVersion" }
+compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeMaterialIconsVersion" }
+retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2ConverterGsonVersion" }
+http3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "http3LoggingInterceptorVersion" }
+data-store-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStorePreferencesVersion" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilComposeVersion" }
+glance = { group = "androidx.glance", name = "glance", version.ref = "glanceVersion" }
+glance-app-widget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glanceAppWidgetVersion" }
+glance-wear-tiles = { group = "androidx.glance", name = "glance-wear-tiles", version.ref = "glanceWearTilesVersion" }
+wear-input = { group = "androidx.wear", name = "wear-input", version.ref = "wearInputVersion" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
