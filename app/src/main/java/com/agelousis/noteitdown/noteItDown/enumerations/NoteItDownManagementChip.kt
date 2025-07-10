@@ -15,15 +15,9 @@ enum class NoteItDownManagementChip(
     val icon: ImageVector,
     val tint: Color
 ) {
-    ADD_NOTE(
-        icon = Icons.AutoMirrored.Outlined.NoteAdd,
-        tint = Color.Green.copy(
-            alpha = 0.5f
-        )
-    ),
-    NOTES_LIST(
-        icon = Icons.AutoMirrored.Filled.List,
-        tint = Color.Yellow.copy(
+    PRODUCTS_WITH_QUANTITY(
+        icon = Icons.Filled.MonitorWeight,
+        tint = Color.Red.copy(
             alpha = 0.5f
         )
     ),
@@ -33,9 +27,15 @@ enum class NoteItDownManagementChip(
             alpha = 0.5f
         )
     ),
-    PRODUCTS_WITH_QUANTITY(
-        icon = Icons.Filled.MonitorWeight,
-        tint = Color.Red.copy(
+    ADD_NOTE(
+        icon = Icons.AutoMirrored.Outlined.NoteAdd,
+        tint = Color.Green.copy(
+            alpha = 0.5f
+        )
+    ),
+    NOTES_LIST(
+        icon = Icons.AutoMirrored.Filled.List,
+        tint = Color.Yellow.copy(
             alpha = 0.5f
         )
     );

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
@@ -28,8 +27,10 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.noteItDown.enumerations.NoteItDownManagementChip
 import com.agelousis.noteitdown.ui.extensions.ButtonBlock
+import com.agelousis.noteitdown.ui.properties.randomColor
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.ui.theme.bold
+import com.agelousis.noteitdown.ui.theme.medium
 import com.agelousis.noteitdown.ui.theme.withSize
 
 @Composable
@@ -90,7 +91,7 @@ fun BasicMenuScreenView(
                 label = {
                     Text(
                         text = noteItDownManagementChip label context.resources,
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelMedium.medium
                     )
                 },
                 icon = {
@@ -101,9 +102,7 @@ fun BasicMenuScreenView(
                     )
                 },
                 colors = ChipDefaults.chipColors(
-                    backgroundColor = Color.White.copy(
-                        alpha = .2f
-                    )
+                    backgroundColor = randomColor
                 )
             )
         }

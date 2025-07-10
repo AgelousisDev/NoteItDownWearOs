@@ -28,6 +28,7 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.models.ProductDataModel
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
+import com.agelousis.noteitdown.network.SuccessBlock
 import com.agelousis.noteitdown.noteItDown.ui.views.ProductView
 import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
@@ -39,7 +40,8 @@ import kotlin.random.Random
 fun ProductsWithQuantityScreenView(
     viewModel: NoteItDownBaseViewModel,
     scalingLazyColumnState: ScalingLazyListState,
-    productDataModelListForPreview: List<ProductDataModel>? = null
+    productDataModelListForPreview: List<ProductDataModel>? = null,
+    productImagePreviewBlock: SuccessBlock<String>
 ) {
     val context = LocalContext.current
     val isOnPreview = LocalInspectionMode.current
@@ -93,6 +95,7 @@ fun ProductsWithQuantityScreenView(
             ProductView(
                 viewModel = viewModel,
                 productDataModel = productDataModel,
+                productImagePreviewBlock = productImagePreviewBlock,
                 saveBlock = ProductDataModel@ {
                     coroutineScope.launch {
                         saveProductData(
@@ -228,7 +231,8 @@ fun ProductsWithQuantityScreenViewPreview() {
                     productQuantityType = ProductQuantityType.GRAM
                 ),
                 ProductDataModel.empty
-            )
+            ),
+            productImagePreviewBlock = {}
         )
     }
 }

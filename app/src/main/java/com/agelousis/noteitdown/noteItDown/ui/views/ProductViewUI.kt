@@ -41,6 +41,7 @@ import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.FilledTonalIconButton
 import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.compose.material3.MaterialTheme
@@ -49,6 +50,7 @@ import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.ProductDataModel
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
 import com.agelousis.noteitdown.network.SuccessBlock
+import com.agelousis.noteitdown.network.SuccessUnitBlock
 import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.ui.theme.medium
@@ -62,10 +64,10 @@ fun ProductView(
     modifier: Modifier = Modifier,
     viewModel: NoteItDownBaseViewModel,
     productDataModel: ProductDataModel,
+    productImagePreviewBlock: SuccessBlock<String>,
     saveBlock: CompletionBlock<ProductDataModel>,
     deleteBlock: CompletionBlock<ProductDataModel>? = null
 ) {
-    val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember {
         FocusRequester()
@@ -83,6 +85,9 @@ fun ProductView(
     }
     val (productImageUrl, onProductImageUrl) = remember {
         mutableStateOf(value = productDataModel.productImageUrl)
+    }
+    val (productImageErrorState, onProductImageError) = remember {
+        mutableStateOf(value = false)
     }
     RequestProductImage(
         viewModel = viewModel,
@@ -102,6 +107,9 @@ fun ProductView(
             onProductImageUrl(
                 this@ProductImageUrl
             )
+        },
+        failureBlock = {
+            onProductImageError(true)
         }
     )
     Row(
@@ -116,7 +124,12 @@ fun ProductView(
                 .fillMaxWidth(
                     fraction = 0.7f
                 ),
-            onClick = {},
+            onClick = {
+                productImagePreviewBlock(
+                    productImageUrl
+                        ?: return@Chip
+                )
+            },
             label = {
                 BasicTextField(
                     modifier = Modifier
@@ -216,28 +229,11 @@ fun ProductView(
                 )
             },
             icon = {
-                if (!productImageUrl.isNullOrEmpty())
-                    AsyncImage(
-                        modifier = Modifier
-                            .clip(
-                                shape = CircleShape
-                            )
-                            .size(
-                                size = 28.dp
-                            ),
-                        model = context imageRequest productImageUrl,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
-                    )
-                else
-                    Image(
-                        modifier = Modifier
-                            .size(
-                                size = 28.dp
-                            ),
-                        painter = painterResource(id = R.drawable.ic_food_drink),
-                        contentDescription = null
-                    )
+                ProductImageView(
+                    productImageUrl = productImageUrl,
+                    productImageErrorState = productImageErrorState,
+                    emptyProductState = productDataModel == ProductDataModel.empty
+                )
             },
             shape = RoundedCornerShape(
                 size = 16.dp
@@ -274,10 +270,48 @@ fun ProductView(
 }
 
 @Composable
+private fun ProductImageView(
+    productImageUrl: String?,
+    productImageErrorState: Boolean,
+    emptyProductState: Boolean
+) {
+    val context = LocalContext.current
+    when {
+        !productImageUrl.isNullOrEmpty() ->
+            AsyncImage(
+                modifier = Modifier
+                    .clip(
+                        shape = CircleShape
+                    )
+                    .size(
+                        size = 38.dp
+                    ),
+                model = context imageRequest productImageUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                fallback = painterResource(id = R.drawable.ic_food_drink)
+            )
+        productImageErrorState
+                || emptyProductState ->
+            Image(
+                modifier = Modifier
+                    .size(
+                        size = 38.dp
+                    ),
+                painter = painterResource(id = R.drawable.ic_food_drink),
+                contentDescription = null
+            )
+        else ->
+            CircularProgressIndicator()
+    }
+}
+
+@Composable
 private fun RequestProductImage(
     viewModel: NoteItDownBaseViewModel,
     productLabel: String?,
-    successBlock: SuccessBlock<String>
+    successBlock: SuccessBlock<String>,
+    failureBlock: SuccessUnitBlock
 ) {
     LaunchedEffect(
         key1 = productLabel
@@ -285,7 +319,8 @@ private fun RequestProductImage(
         if (!productLabel.isNullOrEmpty())
             viewModel.requestProductImage(
                 product = productLabel,
-                successBlock = successBlock
+                successBlock = successBlock,
+                failureBlock = failureBlock
             )
     }
 }
@@ -306,6 +341,7 @@ fun ProductViewPreview() {
                 productQuantity = 100.0,
                 productQuantityType = ProductQuantityType.GRAM
             ),
+            productImagePreviewBlock = {},
             saveBlock = {},
             deleteBlock = {}
         )

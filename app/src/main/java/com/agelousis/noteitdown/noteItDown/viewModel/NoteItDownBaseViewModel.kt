@@ -3,6 +3,7 @@ package com.agelousis.noteitdown.noteItDown.viewModel
 import androidx.lifecycle.ViewModel
 import com.agelousis.noteitdown.network.GeneralRepository
 import com.agelousis.noteitdown.network.SuccessBlock
+import com.agelousis.noteitdown.network.SuccessUnitBlock
 import com.agelousis.noteitdown.network.apis.WikipediaApi
 import com.agelousis.noteitdown.network.model.WikipediaBatchResponseModel
 import com.agelousis.noteitdown.network.model.WikipediaQueryPageModel
@@ -13,7 +14,8 @@ class NoteItDownBaseViewModel: ViewModel() {
 
     fun requestProductImage(
         product: String,
-        successBlock: SuccessBlock<String>
+        successBlock: SuccessBlock<String>,
+        failureBlock: SuccessUnitBlock
     ) {
         GeneralRepository.request<WikipediaApi, WikipediaBatchResponseModel>(
             requestInitializationBlock = WikipediaApi@ {
@@ -22,12 +24,13 @@ class NoteItDownBaseViewModel: ViewModel() {
                 )
             },
             successModelBlock = WikipediaBatchResponseModel@ {
-                successBlock(
-                    (this@NoteItDownBaseViewModel productImageUrl this@WikipediaBatchResponseModel)
-                        ?: return@WikipediaBatchResponseModel
-                )
+                (this@NoteItDownBaseViewModel productImageUrl this@WikipediaBatchResponseModel)?.let(
+                    block = successBlock
+                ) ?: failureBlock()
             },
-            failureBlock = {}
+            failureBlock = { error ->
+                println(error)
+            }
         )
     }
 

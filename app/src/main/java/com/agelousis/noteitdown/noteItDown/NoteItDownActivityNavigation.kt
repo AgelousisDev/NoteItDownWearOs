@@ -10,6 +10,7 @@ import com.agelousis.noteitdown.noteItDown.navigation.NoteItDownNavigationScreen
 import com.agelousis.noteitdown.noteItDown.ui.AddNoteScreenView
 import com.agelousis.noteitdown.noteItDown.ui.BasicMenuScreenView
 import com.agelousis.noteitdown.noteItDown.ui.NotesListScreenView
+import com.agelousis.noteitdown.noteItDown.ui.ProductImagePreviewScreenView
 import com.agelousis.noteitdown.noteItDown.ui.ProductsWithQuantityScreenView
 import com.agelousis.noteitdown.noteItDown.ui.RuleOfThreeView
 import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
@@ -80,7 +81,25 @@ fun NoteItDownActivityNavigation(
         ) {
             ProductsWithQuantityScreenView(
                 viewModel = viewModel,
-                scalingLazyColumnState = scalingLazyColumnState
+                scalingLazyColumnState = scalingLazyColumnState,
+                productImagePreviewBlock = ProductImageUrl@ {
+                    navController.navigate(
+                        route = NoteItDownNavigationScreen.ProductImagePreviewScreen.route
+                            .replace(
+                                oldValue = "{${NoteItDownNavigationScreen.PRODUCT_IMAGE_URL_KEY}}",
+                                newValue = this@ProductImageUrl
+                            )
+                    )
+                }
+            )
+        }
+        composable(
+            route = NoteItDownNavigationScreen.ProductImagePreviewScreen.route
+        ) { backStackEntry ->
+            ProductImagePreviewScreenView(
+                productImageUrl = backStackEntry.arguments?.getString(
+                    NoteItDownNavigationScreen.PRODUCT_IMAGE_URL_KEY
+                )
             )
         }
     }
