@@ -2,7 +2,6 @@ package com.agelousis.noteitdown.utils.extensions
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Parcelable
 import coil.request.ImageRequest
 import com.agelousis.noteitdown.R
@@ -37,22 +36,13 @@ val <T>T.jsonString
         null
     }
 
-val isAndroid13
-    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-
 inline fun <reified T: Parcelable> Intent.getParcelable(
     key: String
-) = if (isAndroid13)
-    extras?.getParcelable(key, T::class.java)
-else
-    extras?.  getParcelable(key)
+) = extras?.getParcelable(key, T::class.java)
 
 inline fun <reified T: java.io.Serializable> Intent.getSerializable(
     key: String
-) = if (isAndroid13)
-    extras?.getSerializable(key, T::class.java)
-else
-    extras?.getSerializable(key) as? T
+) = extras?.getSerializable(key, T::class.java)
 
 infix fun Context.shareText(
     text: String
