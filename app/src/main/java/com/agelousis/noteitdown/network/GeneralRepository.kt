@@ -28,8 +28,9 @@ object GeneralRepository {
                             successModelBlock(response.body())
                         else
                             failureBlock(
-                                response.errorBody()?.string()?.toModel<ErrorModel>()
-                                    ?: return
+                                ErrorModel(
+                                    message = response.errorBody()?.string()
+                                )
                             )
                     }
 

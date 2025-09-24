@@ -77,6 +77,8 @@ dependencies {
     implementation(libs.http3.logging.interceptor)
     implementation(libs.data.store.preferences)
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+    implementation(libs.coil.core)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)

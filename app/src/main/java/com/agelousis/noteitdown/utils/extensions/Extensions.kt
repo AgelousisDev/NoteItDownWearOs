@@ -3,7 +3,7 @@ package com.agelousis.noteitdown.utils.extensions
 import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
-import coil.request.ImageRequest
+import coil3.request.ImageRequest
 import com.agelousis.noteitdown.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -84,9 +84,6 @@ infix fun Context.imageRequest(
         )
         .data(
             data = it
-        )
-        .crossfade(
-            enable = true
         )
         .build()
 }
