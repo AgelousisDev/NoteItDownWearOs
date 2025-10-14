@@ -16,11 +16,3 @@ val SecondaryContainer = Color(
     color = 0xFF9CDBCC
 )
 val Red400 = Color(0xFFCF6679)
-
-internal val wearColorPalette = ColorScheme(
-    primary = Primary,
-    primaryContainer = PrimaryContainer,
-    secondary = Secondary,
-    secondaryContainer = SecondaryContainer,
-    error = Red400
-)

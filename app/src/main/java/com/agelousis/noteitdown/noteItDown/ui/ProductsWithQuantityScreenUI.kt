@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -14,6 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +46,7 @@ fun ProductsWithQuantityScreenView(
     productImagePreviewBlock: SuccessBlock<String>
 ) {
     val context = LocalContext.current
+    val screenWidth = LocalConfiguration.current.screenWidthDp
     val isOnPreview = LocalInspectionMode.current
     val coroutineScope = rememberCoroutineScope()
     val preferencesStoreHelper = remember {
@@ -93,6 +96,10 @@ fun ProductsWithQuantityScreenView(
             }
         ) { productDataModel ->
             ProductView(
+                modifier = Modifier
+                    .width(
+                        width = screenWidth.dp - 48.dp
+                    ),
                 viewModel = viewModel,
                 productDataModel = productDataModel,
                 productImagePreviewBlock = productImagePreviewBlock,
@@ -206,6 +213,30 @@ fun ProductsWithQuantityScreenViewPreview() {
             viewModel = viewModel(),
             scalingLazyColumnState = rememberScalingLazyListState(),
             productDataModelListForPreview = listOf(
+                ProductDataModel(
+                    id = 0,
+                    productLabel = "Banana",
+                    productQuantity = 100.0,
+                    productQuantityType = ProductQuantityType.GRAM
+                ),
+                ProductDataModel(
+                    id = 1,
+                    productLabel = "Carrot",
+                    productQuantity = 76.5,
+                    productQuantityType = ProductQuantityType.GRAM
+                ),
+                ProductDataModel(
+                    id = 2,
+                    productLabel = "Avocado",
+                    productQuantity = 120.0,
+                    productQuantityType = ProductQuantityType.GRAM
+                ),
+                ProductDataModel(
+                    id = 3,
+                    productLabel = "Bread",
+                    productQuantity = 40.0,
+                    productQuantityType = ProductQuantityType.GRAM
+                ),
                 ProductDataModel(
                     id = 0,
                     productLabel = "Banana",
