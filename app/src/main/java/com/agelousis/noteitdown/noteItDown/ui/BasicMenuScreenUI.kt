@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,7 +19,6 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.Chip
-import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
@@ -27,7 +26,6 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.noteItDown.enumerations.NoteItDownManagementChip
 import com.agelousis.noteitdown.ui.extensions.ButtonBlock
-import com.agelousis.noteitdown.ui.properties.randomColor
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.ui.theme.bold
 import com.agelousis.noteitdown.ui.theme.medium
@@ -43,7 +41,7 @@ fun BasicMenuScreenView(
 ) {
     val density = LocalDensity.current
     val screenWidth = LocalWindowInfo.current.containerSize.width
-    val context = LocalContext.current
+    val resources = LocalResources.current
     ScalingLazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -90,7 +88,7 @@ fun BasicMenuScreenView(
                 },
                 label = {
                     Text(
-                        text = noteItDownManagementChip label context.resources,
+                        text = noteItDownManagementChip label resources,
                         style = MaterialTheme.typography.labelMedium.medium
                     )
                 },
@@ -100,10 +98,7 @@ fun BasicMenuScreenView(
                         contentDescription = noteItDownManagementChip.name,
                         tint = noteItDownManagementChip.tint
                     )
-                },
-                colors = ChipDefaults.chipColors(
-                    backgroundColor = randomColor
-                )
+                }
             )
         }
     }

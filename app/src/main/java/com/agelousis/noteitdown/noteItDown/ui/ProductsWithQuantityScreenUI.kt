@@ -1,6 +1,5 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +25,6 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyListAnchorType
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
-import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.models.ProductDataModel
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
@@ -66,10 +64,7 @@ fun ProductsWithQuantityScreenView(
     //val swipeToDismissBoxState = rememberSwipeToDismissBoxState()
     ScalingLazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .background(
-                color = MaterialTheme.colorScheme.background
-            ),
+            .fillMaxSize(),
         state = scalingLazyColumnState,
         verticalArrangement = Arrangement.spacedBy(
             space = 8.dp

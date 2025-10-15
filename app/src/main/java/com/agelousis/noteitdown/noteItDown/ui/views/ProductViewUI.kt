@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -32,19 +31,19 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.wear.compose.material.Icon
-import androidx.wear.compose.material.Text
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.FilledTonalIconButton
-import androidx.wear.compose.material3.IconButtonDefaults
+import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.Text
 import coil3.compose.AsyncImage
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.ProductDataModel
@@ -53,9 +52,6 @@ import com.agelousis.noteitdown.network.SuccessBlock
 import com.agelousis.noteitdown.network.SuccessUnitBlock
 import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
-import com.agelousis.noteitdown.ui.theme.medium
-import com.agelousis.noteitdown.ui.theme.withColor
-import com.agelousis.noteitdown.ui.theme.withTextAlign
 import com.agelousis.noteitdown.utils.extensions.CompletionBlock
 import com.agelousis.noteitdown.utils.extensions.imageRequest
 
@@ -148,9 +144,11 @@ fun ProductView(
                             ),
                         value = productLabel,
                         onValueChange = onProductLabel,
-                        textStyle = MaterialTheme.typography.bodyLarge.medium
-                                withTextAlign TextAlign.Center
-                                withColor Color.White,
+                        textStyle = MaterialTheme.typography.bodyLarge.copy(
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.primary
+                        ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Done
@@ -165,14 +163,15 @@ fun ProductView(
                             if (productLabel.isEmpty())
                                 Text(
                                     text = stringResource(id = R.string.key_product_name_here_label),
-                                    style = MaterialTheme.typography.labelSmall
-                                            withTextAlign TextAlign.Center
+                                    style = MaterialTheme.typography.labelSmall.copy(
+                                        textAlign = TextAlign.Center
+                                    )
                                 )
                             innerTextField()
                         },
                         cursorBrush = SolidColor(
-                            value = Color.White
-                        )
+                            value = MaterialTheme.colorScheme.primary
+                        ) // Use a theme color
                     )
                     BasicTextField(
                         modifier = Modifier
@@ -187,9 +186,10 @@ fun ProductView(
                             )
                         },
                         enabled = productLabel.isNotEmpty(),
-                        textStyle = MaterialTheme.typography.labelMedium
-                                withTextAlign TextAlign.Center
-                                withColor Color.White,
+                        textStyle = MaterialTheme.typography.labelMedium.copy(
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.secondary
+                        ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Decimal,
                             imeAction = ImeAction.Done
@@ -224,15 +224,16 @@ fun ProductView(
                                     )
                                     .fillMaxWidth(),
                                 text = productDataModel.productQuantityType.code,
-                                style = MaterialTheme.typography.labelSmall
-                                        withTextAlign TextAlign.Center
+                                style = MaterialTheme.typography.labelSmall.copy(
+                                    textAlign = TextAlign.Center
+                                )
                             )
 
                             innerTextField()
                         },
                         cursorBrush = SolidColor(
-                            value = Color.White
-                        )
+                            value = MaterialTheme.colorScheme.primary
+                        ) // Use a theme color
                     )
                 }
             }
