@@ -2,10 +2,12 @@ package com.agelousis.noteitdown.noteItDown.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalResources
@@ -18,7 +20,7 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
-import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
@@ -29,6 +31,7 @@ import com.agelousis.noteitdown.ui.extensions.ButtonBlock
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.ui.theme.bold
 import com.agelousis.noteitdown.ui.theme.medium
+import com.agelousis.noteitdown.ui.theme.withColor
 import com.agelousis.noteitdown.ui.theme.withSize
 
 @Composable
@@ -69,14 +72,15 @@ fun BasicMenuScreenView(
         items(
             items = NoteItDownManagementChip.entries
         ) { noteItDownManagementChip ->
-            Chip(
+            Card(
                 modifier = Modifier
-                    .width(
+                    .size(
                         width = with(
                             receiver = density
                         ) {
-                            (screenWidth / 1.5).toInt().toDp()
-                        }
+                            screenWidth.toDp() - 96.dp
+                        },
+                        height = 40.dp
                     ),
                 onClick = {
                     noteItDownManagementChip.action(
@@ -85,21 +89,25 @@ fun BasicMenuScreenView(
                         methodOfThreeBlock = methodOfThreeBlock,
                         productsWithQuantityBlock = productsWithQuantityBlock
                     )
-                },
-                label = {
+                }
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(
+                        space = 8.dp
+                    )
+                ) {
+                    Icon(
+                        imageVector = noteItDownManagementChip.icon,
+                        contentDescription = noteItDownManagementChip.name,
+                        tint = MaterialTheme.colorScheme.primaryDim
+                    )
                     Text(
                         text = noteItDownManagementChip label resources,
                         style = MaterialTheme.typography.labelMedium.medium
                     )
-                },
-                icon = {
-                    Icon(
-                        imageVector = noteItDownManagementChip.icon,
-                        contentDescription = noteItDownManagementChip.name,
-                        tint = noteItDownManagementChip.tint
-                    )
                 }
-            )
+            }
         }
     }
 }
