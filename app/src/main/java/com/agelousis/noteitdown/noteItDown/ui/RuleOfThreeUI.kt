@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -21,13 +20,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
-import androidx.wear.compose.foundation.lazy.ScalingLazyListState
-import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.SurfaceTransformation
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.ui.composableView.BorderedTextField
@@ -38,27 +41,34 @@ import com.agelousis.noteitdown.utils.extensions.asIntValue
 
 @Composable
 fun RuleOfThreeView(
-    scalingLazyColumnState: ScalingLazyListState
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues,
+    transformingLazyColumnState: TransformingLazyColumnState
 ) {
-    ScalingLazyColumn(
-        modifier = Modifier
-            .fillMaxSize(),
-        contentPadding = PaddingValues(
-            vertical = 16.dp,
-            horizontal = 8.dp
-        ),
-        verticalArrangement = Arrangement.spacedBy(
-            space = 8.dp
-        ),
-        state = scalingLazyColumnState,
+    val transformationSpec = rememberTransformationSpec()
+    TransformingLazyColumn(
+        modifier = modifier,
+        state = transformingLazyColumnState,
+        contentPadding = contentPadding
     ) {
         item {
-            Text(
-                text = stringResource(
-                    id = R.string.key_rule_of_three_label
-                ),
-                style = MaterialTheme.typography.bodyLarge
-            )
+            ListHeader(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .transformedHeight(
+                        scope = this,
+                        transformationSpec = transformationSpec
+                    ),
+                transformation = SurfaceTransformation(
+                    spec = transformationSpec
+                )
+            ) {
+                Text(
+                    text = stringResource(
+                        id = R.string.key_rule_of_three_label
+                    )
+                )
+            }
         }
         item {
             RuleOfThreeProcessView()
@@ -247,7 +257,10 @@ private fun getRuleOfThreeResult(
 fun RuleOfThreeLayoutPreview() {
     NoteItDownTheme {
         RuleOfThreeView(
-            scalingLazyColumnState = rememberScalingLazyListState()
+            contentPadding = PaddingValues(
+                all = 24.dp
+            ),
+            transformingLazyColumnState = rememberTransformingLazyColumnState()
         )
     }
 }

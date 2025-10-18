@@ -1,10 +1,8 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -12,19 +10,17 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
-import androidx.wear.compose.foundation.lazy.ScalingLazyListAnchorType
-import androidx.wear.compose.foundation.lazy.ScalingLazyListState
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.models.ProductDataModel
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
@@ -34,17 +30,17 @@ import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 @Composable
 fun ProductsWithQuantityScreenView(
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues,
+    transformingLazyColumnState: TransformingLazyColumnState,
     viewModel: NoteItDownBaseViewModel,
-    scalingLazyColumnState: ScalingLazyListState,
     productDataModelListForPreview: List<ProductDataModel>? = null,
     productImagePreviewBlock: SuccessBlock<String>
 ) {
     val context = LocalContext.current
-    val screenWidth = LocalConfiguration.current.screenWidthDp
     val isOnPreview = LocalInspectionMode.current
     val coroutineScope = rememberCoroutineScope()
     val preferencesStoreHelper = remember {
@@ -61,19 +57,19 @@ fun ProductsWithQuantityScreenView(
                 ?: mutableStateListOf()
         }
     }
+    val transformationSpec = rememberTransformationSpec()
+    LaunchedEffect(
+        key1 = Unit
+    ) {
+        transformingLazyColumnState.animateScrollToItem(
+            index = 0
+        )
+    }
     //val swipeToDismissBoxState = rememberSwipeToDismissBoxState()
-    ScalingLazyColumn(
-        modifier = Modifier
-            .fillMaxSize(),
-        state = scalingLazyColumnState,
-        verticalArrangement = Arrangement.spacedBy(
-            space = 8.dp
-        ),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        contentPadding = PaddingValues(
-            vertical = 16.dp,
-        ),
-        anchorType = ScalingLazyListAnchorType.ItemStart
+    TransformingLazyColumn(
+        modifier = modifier,
+        state = transformingLazyColumnState,
+        contentPadding = contentPadding
     ) {
         items(
             items = (if (isOnPreview) (productDataModelListForPreview
@@ -83,18 +79,12 @@ fun ProductsWithQuantityScreenView(
                     )
             },
             key = { productDataModel ->
-                if (productDataModel.isEmpty)
-                    Random.nextInt()
-                else
-                    productDataModel.id
-                        ?: 0
+                productDataModel.productLabel ?: ""
             }
         ) { productDataModel ->
             ProductView(
-                modifier = Modifier
-                    .width(
-                        width = screenWidth.dp - 48.dp
-                    ),
+                transformingLazyColumnItemScope = this,
+                transformationSpec = transformationSpec,
                 viewModel = viewModel,
                 productDataModel = productDataModel,
                 productImagePreviewBlock = productImagePreviewBlock,
@@ -205,8 +195,11 @@ private suspend fun removeProductData(
 fun ProductsWithQuantityScreenViewPreview() {
     NoteItDownTheme {
         ProductsWithQuantityScreenView(
+            contentPadding = PaddingValues(
+                all = 24.dp
+            ),
+            transformingLazyColumnState = rememberTransformingLazyColumnState(),
             viewModel = viewModel(),
-            scalingLazyColumnState = rememberScalingLazyListState(),
             productDataModelListForPreview = listOf(
                 ProductDataModel(
                     id = 0,

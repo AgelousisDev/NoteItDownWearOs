@@ -1,8 +1,9 @@
 package com.agelousis.noteitdown.noteItDown
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.wear.compose.foundation.lazy.ScalingLazyListState
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
@@ -17,8 +18,9 @@ import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
 
 @Composable
 fun NoteItDownActivityNavigation(
+    contentPadding: PaddingValues,
     viewModel: NoteItDownBaseViewModel,
-    scalingLazyColumnState: ScalingLazyListState
+    transformingLazyColumnState: TransformingLazyColumnState
 ) {
     val context = LocalContext.current
     val navController = rememberSwipeDismissableNavController()
@@ -32,7 +34,8 @@ fun NoteItDownActivityNavigation(
             route = NoteItDownNavigationScreen.BasicMenuScreen.route
         ) {
             BasicMenuScreenView(
-                scalingLazyColumnState = scalingLazyColumnState,
+                contentPadding = contentPadding,
+                transformingLazyColumnState = transformingLazyColumnState,
                 addNoteBlock = {
                     navController.navigate(
                         route = NoteItDownNavigationScreen.AddNoteScreen.route
@@ -59,29 +62,33 @@ fun NoteItDownActivityNavigation(
             route = NoteItDownNavigationScreen.AddNoteScreen.route
         ) {
             AddNoteScreenView(
-                scalingLazyColumnState = scalingLazyColumnState
+                contentPadding = contentPadding,
+                transformingLazyColumnState = transformingLazyColumnState
             )
         }
         composable(
             route = NoteItDownNavigationScreen.NotesListScreen.route
         ) {
             NotesListScreenView(
-                scalingLazyColumnState = scalingLazyColumnState
+                contentPadding = contentPadding,
+                transformingLazyColumnState = transformingLazyColumnState
             )
         }
         composable(
             route = NoteItDownNavigationScreen.RuleOfThreeScreen.route
         ) {
             RuleOfThreeView(
-                scalingLazyColumnState = scalingLazyColumnState
+                contentPadding = contentPadding,
+                transformingLazyColumnState = transformingLazyColumnState
             )
         }
         composable(
             route = NoteItDownNavigationScreen.ProductsWithQuantityScreen.route
         ) {
             ProductsWithQuantityScreenView(
+                contentPadding = contentPadding,
                 viewModel = viewModel,
-                scalingLazyColumnState = scalingLazyColumnState,
+                transformingLazyColumnState = transformingLazyColumnState,
                 productImagePreviewBlock = ProductImageUrl@ {
                     navController.navigate(
                         route = NoteItDownNavigationScreen.ProductImagePreviewScreen.route

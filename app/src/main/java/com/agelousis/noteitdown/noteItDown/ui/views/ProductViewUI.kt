@@ -38,12 +38,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.FilledTonalIconButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.TransformationSpec
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import coil3.compose.AsyncImage
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.ProductDataModel
@@ -58,6 +63,8 @@ import com.agelousis.noteitdown.utils.extensions.imageRequest
 @Composable
 fun ProductView(
     modifier: Modifier = Modifier,
+    transformingLazyColumnItemScope: TransformingLazyColumnItemScope,
+    transformationSpec: TransformationSpec,
     viewModel: NoteItDownBaseViewModel,
     productDataModel: ProductDataModel,
     productImagePreviewBlock: SuccessBlock<String>,
@@ -115,126 +122,131 @@ fun ProductView(
             space = 8.dp
         )
     ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth(
-                    fraction = .75f
-                ),
-            onClick = {
-                productImagePreviewBlock(
-                    productImageUrl
-                        ?: return@Card
+        transformingLazyColumnItemScope.apply {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth(
+                        fraction = .75f
+                    ),
+                onClick = {
+                    productImagePreviewBlock(
+                        productImageUrl
+                            ?: return@Card
+                    )
+                },
+                transformation = SurfaceTransformation(
+                    spec = transformationSpec
                 )
-            }
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
             ) {
-                ProductImageView(
-                    productImageUrl = productImageUrl,
-                    productImageErrorState = productImageErrorState,
-                    emptyProductState = productDataModel == ProductDataModel.empty
-                )
-                Column {
-                    BasicTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .focusRequester(
-                                focusRequester = focusRequester
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    ProductImageView(
+                        productImageUrl = productImageUrl,
+                        productImageErrorState = productImageErrorState,
+                        emptyProductState = productDataModel == ProductDataModel.empty
+                    )
+                    Column {
+                        BasicTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusRequester(
+                                    focusRequester = focusRequester
+                                ),
+                            value = productLabel,
+                            onValueChange = onProductLabel,
+                            textStyle = MaterialTheme.typography.bodyLarge.copy(
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.Medium,
+                                color = MaterialTheme.colorScheme.primary
                             ),
-                        value = productLabel,
-                        onValueChange = onProductLabel,
-                        textStyle = MaterialTheme.typography.bodyLarge.copy(
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Medium,
-                            color = MaterialTheme.colorScheme.primary
-                        ),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
-                        ),
-                        keyboardActions = KeyboardActions(
-                            onDone = {
-                                focusManager.clearFocus()
-                                keyboardController?.hide()
-                            }
-                        ),
-                        decorationBox = { innerTextField ->
-                            if (productLabel.isEmpty())
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Done
+                            ),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    focusManager.clearFocus()
+                                    keyboardController?.hide()
+                                }
+                            ),
+                            decorationBox = { innerTextField ->
+                                if (productLabel.isEmpty())
+                                    Text(
+                                        text = stringResource(id = R.string.key_product_name_here_label),
+                                        style = MaterialTheme.typography.labelSmall.copy(
+                                            textAlign = TextAlign.Center
+                                        )
+                                    )
+                                innerTextField()
+                            },
+                            cursorBrush = SolidColor(
+                                value = MaterialTheme.colorScheme.primary
+                            ) // Use a theme color
+                        )
+                        BasicTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusRequester(
+                                    focusRequester = focusRequester
+                                ),
+                            value = productQuantity,
+                            onValueChange = { value ->
+                                onProductQuantity(
+                                    value
+                                )
+                            },
+                            enabled = productLabel.isNotEmpty(),
+                            textStyle = MaterialTheme.typography.labelMedium.copy(
+                                textAlign = TextAlign.Center,
+                                color = MaterialTheme.colorScheme.secondary
+                            ),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Decimal,
+                                imeAction = ImeAction.Done
+                            ),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    focusManager.clearFocus()
+                                    keyboardController?.hide()
+                                    if ((productQuantity.replace(
+                                            oldValue = productDataModel.productQuantityType.code,
+                                            newValue = ""
+                                        ).toDoubleOrNull() ?: 0.0) > 0.0
+                                    )
+                                        saveBlock(
+                                            ProductDataModel(
+                                                id = productDataModel.id,
+                                                productLabel = productLabel,
+                                                productImageUrl = productImageUrl,
+                                                productQuantity = productQuantity.replace(
+                                                    oldValue = productDataModel.productQuantityType.code,
+                                                    newValue = ""
+                                                ).toDoubleOrNull() ?: 0.0
+                                            )
+                                        )
+                                }
+                            ),
+                            decorationBox = { innerTextField ->
                                 Text(
-                                    text = stringResource(id = R.string.key_product_name_here_label),
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 16.dp
+                                        )
+                                        .fillMaxWidth(),
+                                    text = productDataModel.productQuantityType.code,
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         textAlign = TextAlign.Center
                                     )
                                 )
-                            innerTextField()
-                        },
-                        cursorBrush = SolidColor(
-                            value = MaterialTheme.colorScheme.primary
-                        ) // Use a theme color
-                    )
-                    BasicTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .focusRequester(
-                                focusRequester = focusRequester
-                            ),
-                        value = productQuantity,
-                        onValueChange = { value ->
-                            onProductQuantity(
-                                value
-                            )
-                        },
-                        enabled = productLabel.isNotEmpty(),
-                        textStyle = MaterialTheme.typography.labelMedium.copy(
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.secondary
-                        ),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Decimal,
-                            imeAction = ImeAction.Done
-                        ),
-                        keyboardActions = KeyboardActions(
-                            onDone = {
-                                focusManager.clearFocus()
-                                keyboardController?.hide()
-                                if ((productQuantity.replace(
-                                        oldValue = productDataModel.productQuantityType.code,
-                                        newValue = ""
-                                    ).toDoubleOrNull() ?: 0.0) > 0.0
-                                )
-                                    saveBlock(
-                                        ProductDataModel(
-                                            id = productDataModel.id,
-                                            productLabel = productLabel,
-                                            productImageUrl = productImageUrl,
-                                            productQuantity = productQuantity.replace(
-                                                oldValue = productDataModel.productQuantityType.code,
-                                                newValue = ""
-                                            ).toDoubleOrNull() ?: 0.0
-                                        )
-                                    )
-                            }
-                        ),
-                        decorationBox = { innerTextField ->
-                            Text(
-                                modifier = Modifier
-                                    .padding(
-                                        top = 16.dp
-                                    )
-                                    .fillMaxWidth(),
-                                text = productDataModel.productQuantityType.code,
-                                style = MaterialTheme.typography.labelSmall.copy(
-                                    textAlign = TextAlign.Center
-                                )
-                            )
 
-                            innerTextField()
-                        },
-                        cursorBrush = SolidColor(
-                            value = MaterialTheme.colorScheme.primary
-                        ) // Use a theme color
-                    )
+                                innerTextField()
+                            },
+                            cursorBrush = SolidColor(
+                                value = MaterialTheme.colorScheme.primary
+                            ) // Use a theme color
+                        )
+                    }
                 }
             }
         }
@@ -324,21 +336,27 @@ private fun RequestProductImage(
 @Composable
 fun ProductViewPreview() {
     NoteItDownTheme {
-        ProductView(
-            modifier = Modifier
-                .width(
-                    width = 200.dp
-                ),
-            viewModel = viewModel(),
-            productDataModel = ProductDataModel(
-                id = 0,
-                productLabel = "Product",
-                productQuantity = 100.0,
-                productQuantityType = ProductQuantityType.GRAM
-            ),
-            productImagePreviewBlock = {},
-            saveBlock = {},
-            deleteBlock = {}
-        )
+        TransformingLazyColumn {
+            item {
+                ProductView(
+                    modifier = Modifier
+                        .width(
+                            width = 200.dp
+                        ),
+                    transformingLazyColumnItemScope = this,
+                    transformationSpec = rememberTransformationSpec(),
+                    viewModel = viewModel(),
+                    productDataModel = ProductDataModel(
+                        id = 0,
+                        productLabel = "Product",
+                        productQuantity = 100.0,
+                        productQuantityType = ProductQuantityType.GRAM
+                    ),
+                    productImagePreviewBlock = {},
+                    saveBlock = {},
+                    deleteBlock = {}
+                )
+            }
+        }
     }
 }

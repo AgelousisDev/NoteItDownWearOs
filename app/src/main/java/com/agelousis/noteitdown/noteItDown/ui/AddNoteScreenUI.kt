@@ -1,8 +1,6 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
@@ -10,19 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
-import androidx.wear.compose.foundation.lazy.ScalingLazyListState
-import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
-import androidx.wear.compose.material.Button
-import androidx.wear.compose.material.ButtonDefaults
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material3.IconButton
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.models.NoteDataModel
 import com.agelousis.noteitdown.noteItDown.ui.views.EnterTagView
@@ -33,7 +28,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddNoteScreenView(
     modifier: Modifier = Modifier,
-    scalingLazyColumnState: ScalingLazyListState
+    contentPadding: PaddingValues,
+    transformingLazyColumnState: TransformingLazyColumnState
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -46,17 +42,10 @@ fun AddNoteScreenView(
     val (tagState, writingTag) = remember {
         mutableStateOf<String?>(value = null)
     }
-    ScalingLazyColumn(
-        modifier = modifier
-            .fillMaxSize(),
-        contentPadding = PaddingValues(
-            horizontal = 8.dp
-        ),
-        verticalArrangement = Arrangement.spacedBy(
-            space = 8.dp,
-            alignment = Alignment.CenterVertically
-        ),
-        state = scalingLazyColumnState
+    TransformingLazyColumn(
+        modifier = modifier,
+        state = transformingLazyColumnState,
+        contentPadding = contentPadding
     ) {
         item {
             EnterTagView(
@@ -71,7 +60,7 @@ fun AddNoteScreenView(
             )
         }
         item {
-            Button(
+            IconButton(
                 onClick = {
                     coroutineScope.launch {
                         preferencesStorageHelper addNote NoteDataModel(
@@ -81,10 +70,7 @@ fun AddNoteScreenView(
                         writingTag(null)
                         writingNote(null)
                     }
-                },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Transparent
-                )
+                }
             ) {
                 Icon(
                     imageVector = Icons.Filled.Save,
@@ -101,7 +87,10 @@ fun AddNoteScreenView(
 fun AddNoteScreenViewPreview() {
     NoteItDownTheme {
         AddNoteScreenView(
-            scalingLazyColumnState = rememberScalingLazyListState()
+            contentPadding = PaddingValues(
+                all = 24.dp
+            ),
+            transformingLazyColumnState = rememberTransformingLazyColumnState()
         )
     }
 }

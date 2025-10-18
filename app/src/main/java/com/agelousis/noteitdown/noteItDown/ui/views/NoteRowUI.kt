@@ -26,7 +26,7 @@ import com.agelousis.noteitdown.utils.extensions.shareText
 typealias NoteDataModelBlock = (NoteDataModel) -> Unit
 
 @Composable
-fun NoteRowLayout(
+fun NoteRowView(
     modifier: Modifier = Modifier,
     noteDataModel: NoteDataModel,
     noteDataModelBlock: NoteDataModelBlock,
@@ -146,13 +146,13 @@ fun NoteRowLayout(
 
 @Preview
 @Composable
-fun NoteRowLayoutPreview() {
+fun NoteRowViewPreview() {
     NoteItDownTheme {
         Box(
             modifier = Modifier
                 .whiteRoundedBackgroundModifier
         ) {
-            NoteRowLayout(
+            NoteRowView(
                 modifier = Modifier
                     .padding(
                         all = 16.dp
