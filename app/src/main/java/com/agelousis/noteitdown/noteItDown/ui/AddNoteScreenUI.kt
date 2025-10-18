@@ -1,7 +1,6 @@
 package com.agelousis.noteitdown.noteItDown.ui
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.runtime.Composable
@@ -49,10 +48,6 @@ fun AddNoteScreenView(
     ) {
         item {
             EnterTagView(
-                modifier = Modifier
-                    .padding(
-                        top = 24.dp
-                    ),
                 tagState = tagState,
                 noteState = noteState,
                 writingTag = writingTag,

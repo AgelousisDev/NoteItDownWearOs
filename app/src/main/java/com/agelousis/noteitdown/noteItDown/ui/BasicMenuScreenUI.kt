@@ -109,7 +109,7 @@ fun BasicMenuScreenView(
                     Icon(
                         imageVector = noteItDownManagementChip.icon,
                         contentDescription = noteItDownManagementChip.name,
-                        tint = MaterialTheme.colorScheme.primaryDim
+                        tint = MaterialTheme.colorScheme.primaryContainer
                     )
                     Text(
                         text = noteItDownManagementChip label resources,

@@ -6,68 +6,64 @@ import android.content.Intent
 import android.view.inputmethod.EditorInfo
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.Chip
-import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material3.CompactButton
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import androidx.wear.input.RemoteInputIntentHelper
 import androidx.wear.input.wearableExtender
+import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.network.SuccessBlock
-import com.agelousis.noteitdown.ui.extensions.whiteRoundedBackgroundModifier
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
-import com.agelousis.noteitdown.ui.theme.withColor
+import com.agelousis.noteitdown.ui.theme.withTextAlign
 
 private const val NOTE_EXTRAS_KEY = "noteKey"
 private const val TAG_EXTRAS_KEY = "tagKey"
 
 @Composable
 fun EnterTagView(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     tagState: String?,
     noteState: String?,
     writingTag: SuccessBlock<String?>,
     writingNote: SuccessBlock<String?>
 ) {
     val context = LocalContext.current
+    val density = LocalDensity.current
+    val screenWidth = LocalWindowInfo.current.containerSize.width
     val launcher = tagLauncher(
         writingNote = writingNote,
         writingTag = writingTag
     )
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(
-            space = 8.dp
-        )
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Chip(
+        CompactButton(
             modifier = Modifier
-                .height(
-                    height = 35.dp
+                .size(
+                    width = with(
+                        receiver = density
+                    ) {
+                        screenWidth.toDp() / 2
+                    },
+                    height = 50.dp
                 ),
-            label = {
-                Text(
-                    text = tagState
-                        ?: stringResource(
-                            id = R.string.key_add_tag_here
-                        ),
-                    style = MaterialTheme.typography.labelMedium
-                            withColor Color.Black
-                )
-
-            },
             onClick = {
                 launcher.launch(
                     getRemoteIntentInput(
@@ -76,22 +72,28 @@ fun EnterTagView(
                     )
                 )
             }
-        )
-        Chip(
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = tagState
+                    ?: stringResource(
+                        id = R.string.key_add_tag_here
+                    ),
+                style = MaterialTheme.typography.labelMedium
+                    withTextAlign TextAlign.Center
+            )
+        }
+        CompactButton(
             modifier = Modifier
-                .height(
-                    height = 35.dp
+                .size(
+                    width = with(
+                        receiver = density
+                    ) {
+                        screenWidth.toDp() / 2
+                    },
+                    height = 50.dp
                 ),
-            label = {
-                Text(
-                    text = noteState
-                        ?: stringResource(
-                            id = R.string.key_add_note_label
-                        ),
-                    style = MaterialTheme.typography.labelMedium
-                            withColor Color.Black
-                )
-            },
             onClick = {
                 launcher.launch(
                     getRemoteIntentInput(
@@ -99,11 +101,19 @@ fun EnterTagView(
                         extrasKey = NOTE_EXTRAS_KEY
                     )
                 )
-            },
-            colors = ChipDefaults.chipColors(
-                backgroundColor = MaterialTheme.colorScheme.secondary
+            }
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = noteState
+                    ?: stringResource(
+                        id = R.string.key_add_note_label
+                    ),
+                style = MaterialTheme.typography.labelMedium
+                    withTextAlign TextAlign.Center
             )
-        )
+        }
     }
 }
 
@@ -142,17 +152,21 @@ private fun getRemoteIntentInput(
     return intent
 }
 
-@Preview
+@Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
 fun EnterTagViewPreview() {
     NoteItDownTheme {
-        EnterTagView(
+        Box(
             modifier = Modifier
-                .whiteRoundedBackgroundModifier,
-            tagState = "Tag",
-            noteState = "Note",
-            writingTag = {},
-            writingNote = {}
-        )
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            EnterTagView(
+                tagState = "Tag",
+                noteState = "Note",
+                writingTag = {},
+                writingNote = {}
+            )
+        }
     }
 }

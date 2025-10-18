@@ -72,15 +72,10 @@ fun ProductsWithQuantityScreenView(
         contentPadding = contentPadding
     ) {
         items(
-            items = (if (isOnPreview) (productDataModelListForPreview
-                ?: listOf()) else productDataModelStateList).toMutableList().apply ProductList@ {
-                    this@ProductList.add(
-                        element = ProductDataModel.empty
-                    )
-            },
-            key = { productDataModel ->
-                productDataModel.productLabel ?: ""
-            }
+            items = if (isOnPreview)
+                (productDataModelListForPreview ?: listOf())
+            else
+                productDataModelStateList
         ) { productDataModel ->
             ProductView(
                 transformingLazyColumnItemScope = this,
@@ -173,6 +168,24 @@ fun ProductsWithQuantityScreenView(
                 }
             }*/
         }
+        //region Add product item
+        item {
+            ProductView(
+                transformingLazyColumnItemScope = this,
+                transformationSpec = transformationSpec,
+                viewModel = viewModel,
+                productDataModel = ProductDataModel.empty,
+                saveBlock = ProductDataModel@ {
+                    coroutineScope.launch {
+                        saveProductData(
+                            preferencesStoreHelper = preferencesStoreHelper,
+                            productDataModel = this@ProductDataModel
+                        )
+                    }
+                }
+            )
+        }
+        //endregion
     }
 }
 

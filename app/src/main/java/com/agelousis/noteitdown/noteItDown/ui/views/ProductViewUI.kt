@@ -67,7 +67,7 @@ fun ProductView(
     transformationSpec: TransformationSpec,
     viewModel: NoteItDownBaseViewModel,
     productDataModel: ProductDataModel,
-    productImagePreviewBlock: SuccessBlock<String>,
+    productImagePreviewBlock: SuccessBlock<String>? = null,
     saveBlock: CompletionBlock<ProductDataModel>,
     deleteBlock: CompletionBlock<ProductDataModel>? = null
 ) {
@@ -129,7 +129,7 @@ fun ProductView(
                         fraction = .75f
                     ),
                 onClick = {
-                    productImagePreviewBlock(
+                    productImagePreviewBlock?.invoke(
                         productImageUrl
                             ?: return@Card
                     )
@@ -268,7 +268,8 @@ fun ProductView(
                             size = 16.dp
                         ),
                     imageVector = Icons.Outlined.Delete,
-                    contentDescription = Icons.Outlined.Delete.name
+                    contentDescription = Icons.Outlined.Delete.name,
+                    tint = MaterialTheme.colorScheme.primaryContainer
                 )
             }
     }
