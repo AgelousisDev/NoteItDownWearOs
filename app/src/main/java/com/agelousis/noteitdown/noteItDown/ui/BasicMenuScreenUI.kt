@@ -80,7 +80,7 @@ fun BasicMenuScreenView(
                         width = with(
                             receiver = density
                         ) {
-                            screenWidth.toDp() - 96.dp
+                            screenWidth.toDp() - 48.dp
                         },
                         height = 40.dp
                     )
