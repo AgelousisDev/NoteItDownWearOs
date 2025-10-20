@@ -159,7 +159,7 @@ fun ProductView(
                             textStyle = MaterialTheme.typography.bodyLarge.copy(
                                 textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.Medium,
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.tertiaryDim
                             ),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
@@ -183,7 +183,7 @@ fun ProductView(
                                 innerTextField()
                             },
                             cursorBrush = SolidColor(
-                                value = MaterialTheme.colorScheme.primary
+                                value = MaterialTheme.colorScheme.tertiaryDim
                             ) // Use a theme color
                         )
                         BasicTextField(
@@ -272,7 +272,7 @@ fun ProductView(
                         ),
                     imageVector = Icons.Outlined.Delete,
                     contentDescription = Icons.Outlined.Delete.name,
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.tertiaryDim
                 )
             }
     }
