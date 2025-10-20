@@ -14,9 +14,9 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
-import androidx.wear.compose.material.Icon
-import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material3.IconButton
+import androidx.wear.compose.material3.FilledIconButton
+import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.models.NoteDataModel
 import com.agelousis.noteitdown.noteItDown.ui.views.EnterTagView
@@ -55,7 +55,7 @@ fun AddNoteScreenView(
             )
         }
         item {
-            IconButton(
+            FilledIconButton(
                 onClick = {
                     coroutineScope.launch {
                         preferencesStorageHelper addNote NoteDataModel(
@@ -65,12 +65,12 @@ fun AddNoteScreenView(
                         writingTag(null)
                         writingNote(null)
                     }
-                }
+                },
+                shapes = IconButtonDefaults.animatedShapes()
             ) {
                 Icon(
                     imageVector = Icons.Filled.Save,
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.primary
+                    contentDescription = Icons.Filled.Save.name
                 )
             }
         }

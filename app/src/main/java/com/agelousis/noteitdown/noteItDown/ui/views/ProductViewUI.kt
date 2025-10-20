@@ -49,6 +49,7 @@ import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.tooling.preview.devices.WearDevices
 import coil3.compose.AsyncImage
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.models.ProductDataModel
@@ -175,7 +176,8 @@ fun ProductView(
                                     Text(
                                         text = stringResource(id = R.string.key_product_name_here_label),
                                         style = MaterialTheme.typography.labelSmall.copy(
-                                            textAlign = TextAlign.Center
+                                            textAlign = TextAlign.Center,
+                                            color = MaterialTheme.colorScheme.tertiaryDim
                                         )
                                     )
                                 innerTextField()
@@ -199,7 +201,7 @@ fun ProductView(
                             enabled = productLabel.isNotEmpty(),
                             textStyle = MaterialTheme.typography.labelMedium.copy(
                                 textAlign = TextAlign.Center,
-                                color = MaterialTheme.colorScheme.secondary
+                                color = MaterialTheme.colorScheme.primary
                             ),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Decimal,
@@ -236,7 +238,8 @@ fun ProductView(
                                         .fillMaxWidth(),
                                     text = productDataModel.productQuantityType.code,
                                     style = MaterialTheme.typography.labelSmall.copy(
-                                        textAlign = TextAlign.Center
+                                        textAlign = TextAlign.Center,
+                                        color = MaterialTheme.colorScheme.primary
                                     )
                                 )
 
@@ -269,7 +272,7 @@ fun ProductView(
                         ),
                     imageVector = Icons.Outlined.Delete,
                     contentDescription = Icons.Outlined.Delete.name,
-                    tint = MaterialTheme.colorScheme.primaryContainer
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
     }
@@ -333,7 +336,7 @@ private fun RequestProductImage(
     }
 }
 
-@Preview
+@Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
 fun ProductViewPreview() {
     NoteItDownTheme {
