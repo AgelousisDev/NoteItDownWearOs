@@ -1,7 +1,6 @@
 package com.agelousis.noteitdown.noteItDown.ui.views
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,8 +11,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -42,8 +39,6 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CircularProgressIndicator
-import androidx.wear.compose.material3.FilledTonalIconButton
-import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
@@ -69,8 +64,7 @@ fun ProductView(
     viewModel: NoteItDownBaseViewModel,
     productDataModel: ProductDataModel,
     productImagePreviewBlock: SuccessBlock<String>? = null,
-    saveBlock: CompletionBlock<ProductDataModel>,
-    deleteBlock: CompletionBlock<ProductDataModel>? = null
+    saveBlock: CompletionBlock<ProductDataModel>
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember {
@@ -96,15 +90,15 @@ fun ProductView(
     RequestProductImage(
         viewModel = viewModel,
         productLabel =
-        if (productImageUrl == null
-            && (productQuantity.replace(
-                oldValue = productDataModel.productQuantityType.code,
-                newValue = ""
-            ).toDoubleOrNull() ?: 0.0) > 0.0
-        )
-            productLabel
-        else
-            null,
+            if (productImageUrl == null
+                && (productQuantity.replace(
+                    oldValue = productDataModel.productQuantityType.code,
+                    newValue = ""
+                ).toDoubleOrNull() ?: 0.0) > 0.0
+            )
+                productLabel
+            else
+                null,
         successBlock = ProductImageUrl@{
             productDataModel.productImageUrl =
                 this@ProductImageUrl
@@ -116,165 +110,132 @@ fun ProductView(
             onProductImageError(true)
         }
     )
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(
-            space = 8.dp
-        )
-    ) {
-        transformingLazyColumnItemScope.apply {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth(
-                        fraction = .75f
-                    ),
-                onClick = {
-                    productImagePreviewBlock?.invoke(
-                        productImageUrl
-                            ?: return@Card
-                    )
-                },
-                transformation = SurfaceTransformation(
-                    spec = transformationSpec
+    transformingLazyColumnItemScope.apply {
+        Card(
+            modifier = modifier,
+            onClick = {
+                productImagePreviewBlock?.invoke(
+                    productImageUrl
+                        ?: return@Card
                 )
+            },
+            transformation = SurfaceTransformation(
+                spec = transformationSpec
+            )
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    ProductImageView(
-                        productImageUrl = productImageUrl,
-                        productImageErrorState = productImageErrorState,
-                        emptyProductState = productDataModel == ProductDataModel.empty
-                    )
-                    Column {
-                        BasicTextField(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .focusRequester(
-                                    focusRequester = focusRequester
-                                ),
-                            value = productLabel,
-                            onValueChange = onProductLabel,
-                            textStyle = MaterialTheme.typography.bodyLarge.copy(
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Medium,
-                                color = MaterialTheme.colorScheme.tertiaryDim
+                ProductImageView(
+                    productImageUrl = productImageUrl,
+                    productImageErrorState = productImageErrorState,
+                    emptyProductState = productDataModel == ProductDataModel.empty
+                )
+                Column {
+                    BasicTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(
+                                focusRequester = focusRequester
                             ),
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Text,
-                                imeAction = ImeAction.Done
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onDone = {
-                                    focusManager.clearFocus()
-                                    keyboardController?.hide()
-                                }
-                            ),
-                            decorationBox = { innerTextField ->
-                                if (productLabel.isEmpty())
-                                    Text(
-                                        text = stringResource(id = R.string.key_product_name_here_label),
-                                        style = MaterialTheme.typography.labelSmall.copy(
-                                            textAlign = TextAlign.Center,
-                                            color = MaterialTheme.colorScheme.tertiaryDim
-                                        )
-                                    )
-                                innerTextField()
-                            },
-                            cursorBrush = SolidColor(
-                                value = MaterialTheme.colorScheme.tertiaryDim
-                            ) // Use a theme color
-                        )
-                        BasicTextField(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .focusRequester(
-                                    focusRequester = focusRequester
-                                ),
-                            value = productQuantity,
-                            onValueChange = { value ->
-                                onProductQuantity(
-                                    value
-                                )
-                            },
-                            enabled = productLabel.isNotEmpty(),
-                            textStyle = MaterialTheme.typography.labelMedium.copy(
-                                textAlign = TextAlign.Center,
-                                color = MaterialTheme.colorScheme.primary
-                            ),
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Decimal,
-                                imeAction = ImeAction.Done
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onDone = {
-                                    focusManager.clearFocus()
-                                    keyboardController?.hide()
-                                    if ((productQuantity.replace(
-                                            oldValue = productDataModel.productQuantityType.code,
-                                            newValue = ""
-                                        ).toDoubleOrNull() ?: 0.0) > 0.0
-                                    )
-                                        saveBlock(
-                                            ProductDataModel(
-                                                id = productDataModel.id,
-                                                productLabel = productLabel,
-                                                productImageUrl = productImageUrl,
-                                                productQuantity = productQuantity.replace(
-                                                    oldValue = productDataModel.productQuantityType.code,
-                                                    newValue = ""
-                                                ).toDoubleOrNull() ?: 0.0
-                                            )
-                                        )
-                                }
-                            ),
-                            decorationBox = { innerTextField ->
+                        value = productLabel,
+                        onValueChange = onProductLabel,
+                        textStyle = MaterialTheme.typography.bodyLarge.copy(
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.tertiaryDim
+                        ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                focusManager.clearFocus()
+                                keyboardController?.hide()
+                            }
+                        ),
+                        decorationBox = { innerTextField ->
+                            if (productLabel.isEmpty())
                                 Text(
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp
-                                        )
-                                        .fillMaxWidth(),
-                                    text = productDataModel.productQuantityType.code,
+                                    text = stringResource(id = R.string.key_product_name_here_label),
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         textAlign = TextAlign.Center,
-                                        color = MaterialTheme.colorScheme.primary
+                                        color = MaterialTheme.colorScheme.tertiaryDim
                                     )
                                 )
+                            innerTextField()
+                        },
+                        cursorBrush = SolidColor(
+                            value = MaterialTheme.colorScheme.tertiaryDim
+                        ) // Use a theme color
+                    )
+                    BasicTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(
+                                focusRequester = focusRequester
+                            ),
+                        value = productQuantity,
+                        onValueChange = { value ->
+                            onProductQuantity(
+                                value
+                            )
+                        },
+                        enabled = productLabel.isNotEmpty(),
+                        textStyle = MaterialTheme.typography.labelMedium.copy(
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.primary
+                        ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Decimal,
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                focusManager.clearFocus()
+                                keyboardController?.hide()
+                                if ((productQuantity.replace(
+                                        oldValue = productDataModel.productQuantityType.code,
+                                        newValue = ""
+                                    ).toDoubleOrNull() ?: 0.0) > 0.0
+                                )
+                                    saveBlock(
+                                        ProductDataModel(
+                                            id = productDataModel.id,
+                                            productLabel = productLabel,
+                                            productImageUrl = productImageUrl,
+                                            productQuantity = productQuantity.replace(
+                                                oldValue = productDataModel.productQuantityType.code,
+                                                newValue = ""
+                                            ).toDoubleOrNull() ?: 0.0
+                                        )
+                                    )
+                            }
+                        ),
+                        decorationBox = { innerTextField ->
+                            Text(
+                                modifier = Modifier
+                                    .padding(
+                                        top = 16.dp
+                                    )
+                                    .fillMaxWidth(),
+                                text = productDataModel.productQuantityType.code,
+                                style = MaterialTheme.typography.labelSmall.copy(
+                                    textAlign = TextAlign.Center,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            )
 
-                                innerTextField()
-                            },
-                            cursorBrush = SolidColor(
-                                value = MaterialTheme.colorScheme.primary
-                            ) // Use a theme color
-                        )
-                    }
+                            innerTextField()
+                        },
+                        cursorBrush = SolidColor(
+                            value = MaterialTheme.colorScheme.primary
+                        ) // Use a theme color
+                    )
                 }
             }
         }
-        if (deleteBlock != null)
-            FilledTonalIconButton(
-                modifier = Modifier
-                    .size(
-                        size = 32.dp
-                    ),
-                onClick = {
-                    deleteBlock(
-                        productDataModel
-                    )
-                }
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(
-                            size = 16.dp
-                        ),
-                    imageVector = Icons.Outlined.Delete,
-                    contentDescription = Icons.Outlined.Delete.name,
-                    tint = MaterialTheme.colorScheme.tertiaryDim
-                )
-            }
     }
 }
 
@@ -301,9 +262,10 @@ private fun ProductImageView(
                 contentScale = ContentScale.Crop,
                 fallback = painterResource(id = R.drawable.ic_food_drink)
             )
+
         productImageErrorState
                 || emptyProductState
-                || isOnPreview->
+                || isOnPreview ->
             Image(
                 modifier = Modifier
                     .size(
@@ -312,6 +274,7 @@ private fun ProductImageView(
                 painter = painterResource(id = R.drawable.ic_food_drink),
                 contentDescription = null
             )
+
         else ->
             CircularProgressIndicator()
     }
@@ -357,8 +320,7 @@ fun ProductViewPreview() {
                         productQuantityType = ProductQuantityType.GRAM
                     ),
                     productImagePreviewBlock = {},
-                    saveBlock = {},
-                    deleteBlock = {}
+                    saveBlock = {}
                 )
             }
         }

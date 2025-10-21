@@ -20,13 +20,18 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.RevealState
+import androidx.wear.compose.material3.SwipeToReveal
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.rememberRevealState
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.agelousis.noteitdown.models.ProductDataModel
 import com.agelousis.noteitdown.models.enumerations.ProductQuantityType
 import com.agelousis.noteitdown.network.SuccessBlock
 import com.agelousis.noteitdown.noteItDown.ui.views.ProductView
 import com.agelousis.noteitdown.noteItDown.viewModel.NoteItDownBaseViewModel
+import com.agelousis.noteitdown.ui.composableView.SwipeToRevealActionView
+import com.agelousis.noteitdown.ui.enumerations.SwipeToRevealAction
 import com.agelousis.noteitdown.ui.theme.NoteItDownTheme
 import com.agelousis.noteitdown.utils.helpers.PreferencesStoreHelper
 import kotlinx.coroutines.launch
@@ -75,98 +80,47 @@ fun ProductsWithQuantityScreenView(
             items = if (isOnPreview)
                 (productDataModelListForPreview ?: listOf())
             else
-                productDataModelStateList
+                productDataModelStateList,
+            key = { productDataModel ->
+                productDataModel.productLabel
+                    ?: ""
+            }
         ) { productDataModel ->
-            ProductView(
-                transformingLazyColumnItemScope = this,
-                transformationSpec = transformationSpec,
-                viewModel = viewModel,
-                productDataModel = productDataModel,
-                productImagePreviewBlock = productImagePreviewBlock,
-                saveBlock = ProductDataModel@ {
-                    coroutineScope.launch {
-                        saveProductData(
-                            preferencesStoreHelper = preferencesStoreHelper,
-                            productDataModel = this@ProductDataModel
-                        )
-                    }
+            val swipeToRevealState = rememberRevealState()
+            SwipeToReveal(
+                revealState = swipeToRevealState,
+                primaryAction = {
+                    ProductViewDeleteAction(
+                        swipeToRevealState = swipeToRevealState,
+                        preferencesStoreHelper = preferencesStoreHelper,
+                        productDataModel = productDataModel
+                    )
                 },
-                deleteBlock =
-                    if (!productDataModel.isEmpty) {
-                        ProductDataModel@ {
-                            coroutineScope.launch {
-                                removeProductData(
-                                    preferencesStoreHelper = preferencesStoreHelper,
-                                    productDataModel = this@ProductDataModel
-                                )
-                            }
-                        }
+                onSwipePrimaryAction = {
+                    coroutineScope.launch {
+                        removeProductData(
+                            preferencesStoreHelper = preferencesStoreHelper,
+                            productDataModel = productDataModel
+                        )
                     }
-                    else
-                        null
-            )
-            /*val revealState = rememberRevealState()
-            BasicSwipeToDismissBox(
-                state = swipeToDismissBoxState,
-                userSwipeEnabled = false,
-                contentKey = productDataModel
+                }
             ) {
-                SwipeToRevealChip(
-                    //revealState = revealState,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(
-                            align = Alignment.CenterHorizontally
-                        )
-                        // Use edgeSwipeToDismiss to allow SwipeToDismissBox to capture swipe events
-                        .edgeSwipeToDismiss(
-                            swipeToDismissBoxState = swipeToDismissBoxState
-                        )
-                        .semantics {
-                            // Use custom actions to make the primary and secondary actions accessible
-                            customActions = listOf(
-                                CustomAccessibilityAction(
-                                    label = context.resources.getString(R.string.key_delete_label),
-                                    action = { true }
-                        )
-                     )
-                    },
-                    primaryAction = {
-                        SwipeToRevealPrimaryAction(
-                            revealState = revealState,
-                            icon = {
-                                Icon(
-                                    imageVector = SwipeToRevealDefaults.Delete,
-                                    contentDescription = null
-                                )
-                            },
-                            label = {
-                                Text(
-                                    text = stringResource(id = R.string.key_delete_label)
-                                )
-                            },
-                            onClick = {
-                                coroutineScope.launch {
-                                    removeProductData(
-                                        preferencesStoreHelper = preferencesStoreHelper,
-                                        productDataModel = productDataModel
-                                    )
-                                }
-                            }
-                        )
-                    },
-                    onFullSwipe = {
+                ProductView(
+                    transformingLazyColumnItemScope = this@items,
+                    transformationSpec = transformationSpec,
+                    viewModel = viewModel,
+                    productDataModel = productDataModel,
+                    productImagePreviewBlock = productImagePreviewBlock,
+                    saveBlock = ProductDataModel@ {
                         coroutineScope.launch {
-                            removeProductData(
+                            saveProductData(
                                 preferencesStoreHelper = preferencesStoreHelper,
-                                productDataModel = productDataModel
+                                productDataModel = this@ProductDataModel
                             )
                         }
                     }
-                ) {
-
-                }
-            }*/
+                )
+            }
         }
         //region Add product item
         item {
@@ -187,6 +141,27 @@ fun ProductsWithQuantityScreenView(
         }
         //endregion
     }
+}
+
+@Composable
+private fun ProductViewDeleteAction(
+    swipeToRevealState: RevealState,
+    preferencesStoreHelper: PreferencesStoreHelper,
+    productDataModel: ProductDataModel
+) {
+    val coroutineScope = rememberCoroutineScope()
+    SwipeToRevealActionView(
+        revealState = swipeToRevealState,
+        swipeToRevealAction = SwipeToRevealAction.DELETE,
+        swipeToRevealActionBlock = {
+            coroutineScope.launch {
+                removeProductData(
+                    preferencesStoreHelper = preferencesStoreHelper,
+                    productDataModel = productDataModel
+                )
+            }
+        }
+    )
 }
 
 private suspend fun saveProductData(
