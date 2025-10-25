@@ -4,6 +4,7 @@ kotlin = "2.2.20"
 playServicesWearable = "19.0.0"
 composeBom = "2025.10.00"
 composeFoundation = "1.6.0-alpha03"
+composeMaterialYouVersion = "1.5.0-alpha07"
 wearToolingPreview = "1.0.0"
 activityCompose = "1.11.0"
 coreSplashscreen = "1.0.1"
@@ -51,6 +52,7 @@ glance = { group = "androidx.glance", name = "glance", version.ref = "glanceVers
 glance-app-widget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glanceAppWidgetVersion" }
 glance-wear-tiles = { group = "androidx.glance", name = "glance-wear-tiles", version.ref = "glanceWearTilesVersion" }
 wear-input = { group = "androidx.wear", name = "wear-input", version.ref = "wearInputVersion" }
+compose-material-you = { group = "androidx.compose.material3", name = "material3", version.ref = "composeMaterialYouVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -6,38 +6,33 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.outlined.NoteAdd
 import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.MonitorWeight
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialShapes
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.graphics.shapes.RoundedPolygon
 import com.agelousis.noteitdown.R
 import com.agelousis.noteitdown.ui.extensions.ButtonBlock
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 enum class NoteItDownManagementChip(
     val icon: ImageVector,
-    val tint: Color
+    val shape: RoundedPolygon
 ) {
     PRODUCTS_WITH_QUANTITY(
         icon = Icons.Filled.MonitorWeight,
-        tint = Color.Red.copy(
-            alpha = 0.5f
-        )
+        shape = MaterialShapes.Oval
     ),
     RULE_OF_THREE(
         icon = Icons.Filled.Calculate,
-        tint = Color.Cyan.copy(
-            alpha = 0.5f
-        )
+        shape = MaterialShapes.Arrow
     ),
     ADD_NOTE(
         icon = Icons.AutoMirrored.Outlined.NoteAdd,
-        tint = Color.Green.copy(
-            alpha = 0.5f
-        )
+        shape = MaterialShapes.Burst
     ),
     NOTES_LIST(
         icon = Icons.AutoMirrored.Filled.List,
-        tint = Color.Yellow.copy(
-            alpha = 0.5f
-        )
+        shape = MaterialShapes.ClamShell
     );
 
     infix fun label(
