@@ -45,7 +45,7 @@ class NoteItDownBaseViewModel: ViewModel() {
             this@WikipediaQueryPageData
         )
         with(
-            receiver = jsonObject.keys().asSequence().toList().firstOrNull()?.toString()
+            receiver = jsonObject.keys().asSequence().toList().firstOrNull()
                 ?: return@WikipediaQueryPageData null
         ) Key@ {
             jsonObject.getJSONObject(this@Key).toString().toModel<WikipediaQueryPageModel>()?.thumbnail?.source
